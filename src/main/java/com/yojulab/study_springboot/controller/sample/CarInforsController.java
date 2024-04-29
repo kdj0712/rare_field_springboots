@@ -1,4 +1,4 @@
-package com.yojulab.study_springboot.controller;
+package com.yojulab.study_springboot.controller.sample;
 
 import java.util.Map;
 
@@ -44,7 +44,7 @@ public class CarInforsController {
         modelAndView.addObject("params", params);
         modelAndView.addObject("result", result);
         
-        modelAndView.setViewName("/WEB-INF/views/carinfor/list.jsp");
+        modelAndView.setViewName("/WEB-INF/sample/views/carinfor/list.jsp");
         return modelAndView;
     }
 
@@ -67,7 +67,7 @@ public class CarInforsController {
         Object result = carInforsService.delete(params);
         modelAndView.addObject("params", params);
 
-        modelAndView.setViewName("/WEB-INF/views/carinfor/list.jsp");
+        modelAndView.setViewName("/WEB-INF/sample/views/carinfor/list.jsp");
         return modelAndView;
     }
 

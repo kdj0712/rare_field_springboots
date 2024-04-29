@@ -1,4 +1,4 @@
-package com.yojulab.study_springboot.controller;
+package com.yojulab.study_springboot.controller.sample;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,7 +45,7 @@ public class ChartsController {
 
         // Convert the ArrayList to a JSON string
         modelAndView.addObject("barDataJson", gson.toJson(barData));
-        String viewName = "/WEB-INF/views/charts/charts_google_various.jsp";
+        String viewName = "/WEB-INF/sample/views/charts/charts_google_various.jsp";
         modelAndView.setViewName(viewName);
         return modelAndView;
     }

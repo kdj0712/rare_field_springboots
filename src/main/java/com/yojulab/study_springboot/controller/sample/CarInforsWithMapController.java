@@ -1,4 +1,4 @@
-package com.yojulab.study_springboot.controller;
+package com.yojulab.study_springboot.controller.sample;
 
 import java.util.Map;
 
@@ -34,7 +34,7 @@ public class CarInforsWithMapController {
         modelAndView.addObject("params", params);
         modelAndView.addObject("result", result);
         
-        modelAndView.setViewName("/WEB-INF/views/carinfor/list_map.jsp");
+        modelAndView.setViewName("/WEB-INF/sample/views/carinfor/list_map.jsp");
         return modelAndView;
     }
 
@@ -46,7 +46,7 @@ public class CarInforsWithMapController {
         modelAndView.addObject("params", params);
         modelAndView.addObject("result", result);
 
-        modelAndView.setViewName("/WEB-INF/views/carinfor/list_map.jsp");
+        modelAndView.setViewName("/WEB-INF/sample/views/carinfor/list_map.jsp");
         return modelAndView;
     }
 
@@ -57,7 +57,7 @@ public class CarInforsWithMapController {
         Object result = carInforsService.selectDetail(UNIQUE_ID, params);
         modelAndView.addObject("params", params);
 
-        modelAndView.setViewName("/WEB-INF/views/carinfor/list_map.jsp");
+        modelAndView.setViewName("/WEB-INF/sample/views/carinfor/list_map.jsp");
         return modelAndView;
     }
 }

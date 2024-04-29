@@ -1,4 +1,4 @@
-package com.yojulab.study_springboot.controller;
+package com.yojulab.study_springboot.controller.sample;
 
 import java.util.Map;
 
@@ -20,7 +20,7 @@ public class UsersController {
 
     @RequestMapping(value = "/joinForm", method = RequestMethod.GET)
     public ModelAndView joinForm(ModelAndView modelAndView){
-        String viewName = "/WEB-INF/views/member/joinForm.jsp";
+        String viewName = "/WEB-INF/sample/views/member/joinForm.jsp";
 
         modelAndView.setViewName(viewName);
         return modelAndView;
@@ -29,7 +29,7 @@ public class UsersController {
     @RequestMapping(value = "/joinProc", method = RequestMethod.POST)
     public ModelAndView joinProc(@RequestParam Map params, ModelAndView modelAndView){
         Object result = usersService.insertWithAuths(params);
-        String viewName = "/WEB-INF/views/main.jsp";
+        String viewName = "/WEB-INF/sample/views/main.jsp";
         modelAndView.setViewName(viewName);
         return modelAndView;
     }

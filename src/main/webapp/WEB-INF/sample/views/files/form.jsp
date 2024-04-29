@@ -12,7 +12,7 @@
 
 <body>
     <!-- Menu -->
-    <%@ include file="/WEB-INF/views/commons/header.jsp" %>
+    <%@ include file="/WEB-INF/sample/views/commons/header.jsp" %>
 
     <!-- Main Content -->
 
@@ -51,7 +51,7 @@
 
 
     <!-- Footer -->
-    <%@ include file="/WEB-INF/views/commons/footer.jsp" %>
+    <%@ include file="/WEB-INF/sample/views/commons/footer.jsp" %>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>

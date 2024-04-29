@@ -1,4 +1,4 @@
-package com.yojulab.study_springboot.controller;
+package com.yojulab.study_springboot.controller.sample;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class FilesController {
     //http://127.0.0.1:8081/files/form
     @RequestMapping(value = { "/form" }, method = RequestMethod.GET)
     public ModelAndView form(@RequestParam Map<String, Object> params, ModelAndView modelAndView) {
-        String viewName = "/WEB-INF/views/files/form.jsp";
+        String viewName = "/WEB-INF/sample/views/files/form.jsp";
         modelAndView.setViewName(viewName);
         return modelAndView;
     }
@@ -77,7 +77,7 @@ public class FilesController {
         modelAndView.addObject("storePath", storePath);
         modelAndView.addObject("attachfile", attachfile);
 
-        String viewName = "/WEB-INF/views/files/update.jsp";
+        String viewName = "/WEB-INF/sample/views/files/update.jsp";
         modelAndView.setViewName(viewName);
         return modelAndView;
     }
@@ -113,7 +113,7 @@ public class FilesController {
         modelAndView.addObject("storePath", storePath);
         modelAndView.addObject("attachfile", attachfile);
 
-        String viewName = "/WEB-INF/views/files/read.jsp";
+        String viewName = "/WEB-INF/sample/views/files/read.jsp";
         modelAndView.setViewName(viewName);
         return modelAndView;
     }

@@ -42,20 +42,20 @@ public class MainController {
         modelAndView.addObject("remoteServerUrl", remoteServerUrl);
         modelAndView.addObject("myimage", "thermometer.png");
 
-        modelAndView.setViewName("/WEB-INF/views/main.jsp");
+        modelAndView.setViewName("/WEB-INF/rarefield/views/mainpage.jsp");
         return modelAndView;
     }
 
     @GetMapping({ "/admin" }) // 관리자 접속하는 곳
     public ModelAndView admin(ModelAndView modelAndView) {
-        String viewName = "/WEB-INF/views/admin.jsp";
+        String viewName = "/WEB-INF/sample/views/admin.jsp";
         modelAndView.setViewName(viewName);
         return modelAndView;
     }
 
     @GetMapping({ "/manager/read" }) // 관리자 접속하는 곳
     public ModelAndView manager(ModelAndView modelAndView) {
-        String viewName = "/WEB-INF/views/manager/read.jsp";
+        String viewName = "/WEB-INF/sample/views/manager/read.jsp";
         modelAndView.setViewName(viewName);
         return modelAndView;
     }

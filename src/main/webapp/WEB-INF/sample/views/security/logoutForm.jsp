@@ -11,7 +11,7 @@
 
 <body>
     <!-- Menu -->
-    <%@ include file="/WEB-INF/views/commons/header.jsp" %>
+    <%@ include file="/WEB-INF/sample/views/commons/header.jsp" %>
 
     <div class="container row">
         <div class="col-md-6 mx-auto">

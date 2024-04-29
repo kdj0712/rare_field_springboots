@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <%@ include file="/WEB-INF/views/commons/header.jsp" %>
+    <%@ include file="/WEB-INF/sample/views/commons/header.jsp" %>
 
         <form class="form-signin" method="post" action="/joinProc">
             <div class="container row">
