@@ -55,10 +55,9 @@
 
     <%@ include file="/WEB-INF/rarefield/views/commons/mainpage_main.jsp" %> 
     
-   
+    <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %> 
 
 </body>
-<%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %> 
 <script type="text/javascript">
 
     function search() {
