@@ -97,12 +97,12 @@
                                 <div id="field">공지마당</div>
 
                                 <li class="menu_li dropdown-item">
-                                    <a href="/other/other_notice" target="_self" title="">
+                                    <a href="/other_notice" target="_self" title="">
                                         공지사항</a>
                                 </li>
                                 <li class=" th2_in dropdown-item">
 
-                                    <a href="/other/other_QnA_main" target="_self" title="">
+                                    <a href="/other_QnA_main" target="_self" title="">
                                         QnA</a>
                                 </li>
                             </ul>
