@@ -1,14 +1,12 @@
-<%@ include file="/WEB-INF/rarefield/views/maintemplate.jsp" %>
+<%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
 
-<%@ block wordcloud %>
+
 <div class="text-center container-fluid">
     <img src="/data/img/unnamed.png" alt="">
 </div>
 
-<%@ endblock %>
 
-
-<%@ include file="/WEB-INF/rarefield/views/maintemplate.jsp" block mainpage_main %>
+<%@ include file="/WEB-INF/rarefield/views/maintemplate.jsp" %>
 
 <div class="container">
 
@@ -83,9 +81,7 @@
         </div>
     </div>
 
-    {% endblock mainpage_main %}
-
-
+    <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
 
     <script type="text/javascript">
 
