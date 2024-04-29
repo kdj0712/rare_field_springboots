@@ -13,7 +13,7 @@
                 <span class="fs-4"><img width="200" src="/data/img/RDS_logo.png" alt=""></span>
             </a>
             <ul class="nav nav-pills">
-                <li class="nav-item"><a href="/user/user_login" class="nav-link fw-bold text-secondary"
+                <li class="nav-item"><a href="/user_login" class="nav-link fw-bold text-secondary"
                         aria-current="page">로그인/로그아웃</a>
                 </li>
                 <li class="nav-item"><a href="/user/user_mypage" class="nav-link text-secondary fw-bold">마이페이지</a>
@@ -33,7 +33,7 @@
                     <div class="aside in dropdown-menu container" aria-labelledby="dropdownMenuLink"
                         id="m_menu_aside" style="width: 1920px;">
                         <nav id="m_nav" role="navigation" class="row justify-content-center">
-                            <ul class="th1 col-2 text-decoration-none">
+                            <!-- <ul class="th1 col-2 text-decoration-none">
                                 <div id="field">최신마당</div>
                                 <li class="menu_li dropdown-item ">
                                     <a href="/trend/trend_news" target="_self" title="" width="100px">
@@ -50,19 +50,12 @@
                                         고시, 지침</a>
                                 </li>
 
-
-                                <!-- <li class=" th2_in dropdown-item">
-
-                                    <a href="/trend/trend_document" target="_self" title="">
-                                        민원서식</a>
-                                </li> -->
-
                                 <li class=" th2_in dropdown-item">
 
                                     <a href="/trend/trend_site" target="_self" title="">
                                         관련사이트</a>
                                 </li>
-                            </ul>
+                            </ul> -->
                             <ul class="th1 col-2">
                                 <div id="field">정보마당</div>
                                 <li class="menu_li dropdown-item">
