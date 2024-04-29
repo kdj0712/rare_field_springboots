@@ -1,4 +1,4 @@
-{% extends "maintemplate.html" %}
+<%@ include file="/WEB-INF/rarefield/views/maintemplate.jsp" %>
 {% block main_container %}
 <main class="container">
   <form action="" method="POST" id="myForm">

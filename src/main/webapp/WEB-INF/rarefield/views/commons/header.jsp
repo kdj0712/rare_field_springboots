@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <header>
     <div class="container-fluid">
         <div
@@ -65,17 +66,17 @@
                             <ul class="th1 col-2">
                                 <div id="field">정보마당</div>
                                 <li class="menu_li dropdown-item">
-                                    <a href="/info/info_raredisease" target="_self" title="">
+                                    <a href="/info_raredisease" target="_self" title="">
                                         희귀질환정보검색</a>
                                 </li>
                                 <li class=" th2_in dropdown-item">
 
-                                    <a href="/info/info_institution" target="_self" title="">
+                                    <a href="/info_institution" target="_self" title="">
                                         의료기관검색</a>
                                 </li>
                                 <li class=" th2_in dropdown-item">
 
-                                    <a href="/info/info_academicinfo" target="_self" title="">
+                                    <a href="/info_academicinfo" target="_self" title="">
                                         학술정보</a>
                                 </li>
                             </ul>
