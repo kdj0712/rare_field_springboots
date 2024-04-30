@@ -46,17 +46,17 @@ public class MainController {
         return modelAndView;
     }
 
-    @GetMapping({ "/admin" }) // 관리자 접속하는 곳
-    public ModelAndView admin(ModelAndView modelAndView) {
-        String viewName = "/WEB-INF/sample/views/admin.jsp";
-        modelAndView.setViewName(viewName);
-        return modelAndView;
-    }
+    // @GetMapping({ "/admin" }) // 관리자 접속하는 곳
+    // public ModelAndView admin(ModelAndView modelAndView) {
+    //     String viewName = "/WEB-INF/sample/views/admin.jsp";
+    //     modelAndView.setViewName(viewName);
+    //     return modelAndView;
+    // }
 
-    @GetMapping({ "/manager/read" }) // 관리자 접속하는 곳
-    public ModelAndView manager(ModelAndView modelAndView) {
-        String viewName = "/WEB-INF/sample/views/manager/read.jsp";
-        modelAndView.setViewName(viewName);
-        return modelAndView;
-    }
+    // @GetMapping({ "/manager/read" }) // 관리자 접속하는 곳
+    // public ModelAndView manager(ModelAndView modelAndView) {
+    //     String viewName = "/WEB-INF/sample/views/manager/read.jsp";
+    //     modelAndView.setViewName(viewName);
+    //     return modelAndView;
+    // }
 }

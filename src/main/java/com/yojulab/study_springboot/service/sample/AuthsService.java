@@ -1,4 +1,4 @@
-package com.yojulab.study_springboot.service;
+package com.yojulab.study_springboot.service.sample;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

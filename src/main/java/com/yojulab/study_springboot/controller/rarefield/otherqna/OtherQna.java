@@ -1,4 +1,4 @@
-package com.yojulab.study_springboot.controller.sample;
+package com.yojulab.study_springboot.controller.rarefield.otherqna;
 
 import java.util.Map;
 
@@ -13,24 +13,21 @@ import com.yojulab.study_springboot.service.sample.UsersService;
 
 
 @Controller
-public class UsersController {
-
-    @Autowired
-    UsersService usersService;
-
-    @RequestMapping(value = "/joinForm", method = RequestMethod.GET)
-    public ModelAndView joinForm(ModelAndView modelAndView){
-        String viewName = "/WEB-INF/sample/views/member/joinForm.jsp";
+public class OtherQna {
+    @RequestMapping(value = "/other_QnA_main", method = RequestMethod.GET)
+    public ModelAndView otherQnaMain(ModelAndView modelAndView){
+        String viewName = "/WEB-INF/rarefield/views/otherqna/other_QnA_main.jsp";
 
         modelAndView.setViewName(viewName);
         return modelAndView;
     }
 
-    @RequestMapping(value = "/joinProc", method = RequestMethod.POST)
-    public ModelAndView joinProc(@RequestParam Map params, ModelAndView modelAndView){
-        Object result = usersService.insertWithAuths(params);
-        String viewName = "/WEB-INF/sample/views/main.jsp";
+    @RequestMapping(value = "/other_notice", method = RequestMethod.GET)
+    public ModelAndView otherQnaNotice(ModelAndView modelAndView){
+        String viewName = "/WEB-INF/rarefield/views/otherqna/other_notice.jsp";
+
         modelAndView.setViewName(viewName);
         return modelAndView;
     }
+
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yojulab.study_springboot.service.CarInforsService;
+import com.yojulab.study_springboot.service.sample.CarInforsService;
 
 @RestController
 @RequestMapping("/r/commonsCode")

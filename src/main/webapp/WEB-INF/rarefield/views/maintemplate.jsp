@@ -47,15 +47,15 @@
             overflow: hidden;
         } */
     </style>
-
 </head>
 
 <body>
 
-    <%@ include file="/WEB-INF/rarefield/views/commons/main.jsp" %>
+    <%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
 
-<hr>
-
+    <%@ include file="/WEB-INF/rarefield/views/commons/mainpage_main.jsp" %> 
+    
+    <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %> 
 
 </body>
 <script type="text/javascript">
@@ -87,7 +87,10 @@
         }
     }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+{% block js %}
+{% endblock js %}
 
 </html>

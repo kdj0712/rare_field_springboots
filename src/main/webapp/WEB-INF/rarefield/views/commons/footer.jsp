@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <footer class=" container">
 
-
-
     <div class="row justify-content-between">
         <div class="col-2">
             <h5>고객센터</h5>
@@ -51,9 +49,4 @@
                     </svg></a></li>
         </ul>
     </div>
-</footer>
-</div>
-
-
-
 </footer>

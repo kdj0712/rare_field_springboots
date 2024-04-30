@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import org.springframework.stereotype.Service;
 
-import com.yojulab.study_springboot.service.UsersService;
+import com.yojulab.study_springboot.service.sample.UsersService;
 
 @Service
 public class PrincipalUserService implements UserDetailsService {
