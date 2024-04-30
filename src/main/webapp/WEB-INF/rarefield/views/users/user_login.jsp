@@ -87,9 +87,9 @@
             </button>
 
             <div class="fs-10">
-                <a href="/user/user_privacypolicy">회원가입</a>
+                <a href="/user_join">회원가입</a>
                 <span> | </span>
-                <a href="/user/user_infosearch">아이디 찾기/비밀번호 찾기</a>
+                <a href="/user_infosearch">아이디 찾기/비밀번호 찾기</a>
             </div>
 
             </button>

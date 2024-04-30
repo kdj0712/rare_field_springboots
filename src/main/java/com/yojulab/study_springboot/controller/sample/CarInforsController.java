@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.yojulab.study_springboot.service.CarInforsService;
+import com.yojulab.study_springboot.service.sample.CarInforsService;
 
 @Controller
 @RequestMapping("/carInfor")

@@ -90,16 +90,6 @@
                                 <%
                                 }
                                 %>
-                                <!--li class="page-item">
-                                    <a class="page-link" href="/carInfor/map/selectSearch?currentPage=1">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="/carInfor/map/selectSearch?currentPage=2">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="/carInfor/map/selectSearch?currentPage=3">3</a>
-                                </li-->
-
                                 <li class="page-item">
                                     <a class="page-link" href="/carInfor/map/selectSearch?currentPage=<%= paginations.getNextPage() %>">Next</a>
                                 </li>
