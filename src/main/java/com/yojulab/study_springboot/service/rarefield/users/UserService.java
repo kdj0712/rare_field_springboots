@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yojulab.study_springboot.dao.RareSharedDao;
 import com.yojulab.study_springboot.dao.SharedDao;
 import com.yojulab.study_springboot.service.sample.AuthsService;
 import com.yojulab.study_springboot.utils.Commons;
@@ -17,22 +18,31 @@ import com.yojulab.study_springboot.utils.Commons;
 public class UserService {
 
     @Autowired
-    SharedDao sharedDao;
+    RareSharedDao rareSharedDao;
 
     @Autowired
     Commons commonUtils;
 
     @Autowired
     AuthsService AUTHSService;
+    
+    @Autowired
+    BCryptPasswordEncoder bcryptPasswordEncoder;
 
     // user에 대한 insert, 
     public Object insert(Map dataMap){
-        return 0;
+        String password = (String)dataMap.get("password");
+        dataMap.put("password",bcryptPasswordEncoder.encode(password));
+
+        String sqlMapId = "";
+        Object result = rareSharedDao.insert(sqlMapId, dataMap);
+        return result;
     }
 
     // user에 대한 insert 및 auth 부분
     public Object insertWithAuth(Map dataMap){
         Object result = this.insert(dataMap);
-        return 0;
+        result = AUTHSService.insert(dataMap);
+        return result;
     }
 }

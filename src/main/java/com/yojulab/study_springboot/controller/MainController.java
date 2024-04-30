@@ -42,7 +42,7 @@ public class MainController {
         modelAndView.addObject("remoteServerUrl", remoteServerUrl);
         modelAndView.addObject("myimage", "thermometer.png");
 
-        modelAndView.setViewName("/WEB-INF/rarefield/views/maintemplate.jsp");
+        modelAndView.setViewName("/WEB-INF/rarefield/views/mainpage.jsp");
         return modelAndView;
     }
 
