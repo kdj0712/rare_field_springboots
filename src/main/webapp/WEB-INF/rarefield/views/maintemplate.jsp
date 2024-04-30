@@ -72,7 +72,7 @@
                     <li class="nav-item"><a href="/user_login" class="nav-link fw-bold text-secondary"
                             aria-current="page">로그인/로그아웃</a>
                     </li>
-                    <li class="nav-item"><a href="/user/user_mypage" class="nav-link text-secondary fw-bold">마이페이지</a>
+                    <li class="nav-item"><a href="/user_mypage" class="nav-link text-secondary fw-bold">마이페이지</a>
                     </li>
 
                     <div class="dropdown-start dropstart">
