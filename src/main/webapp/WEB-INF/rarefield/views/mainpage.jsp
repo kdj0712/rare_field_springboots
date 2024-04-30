@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,6 +46,8 @@
             overflow: hidden;
         } */
     </style>
+
+<%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
 
 {% block wordcloud %}
 <div class="text-center container-fluid">
@@ -197,6 +199,7 @@
             </a>
         </div>
     </main>
+    <hr>
     <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
 
 

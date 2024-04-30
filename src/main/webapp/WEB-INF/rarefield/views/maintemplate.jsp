@@ -1,41 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
 
-    {% block css %}
-
-
-    {% endblock css %}
-
-</head>
-
-<body>
-
-   
-    {% block wordcloud %}
-    {% endblock %}
-
-    {% block mainpage_main %}
-    <main class="row justify-content-between">
-       
-
-        <div class="col-8 row">
-            {% block main_container %}
-
-
-            {% endblock main_container%}
-        </div>
-       
-
-    </main>
-    {% endblock mainpage_main %}
-
-<hr>
-
-   
-
-</body>
 <script type="text/javascript">
 
 
