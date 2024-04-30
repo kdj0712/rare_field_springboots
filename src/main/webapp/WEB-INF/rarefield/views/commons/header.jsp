@@ -1,4 +1,52 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>희귀질환정보 공유 플랫폼 Rare Field</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/data/img/favicon.ico">
+    <style>
+        #maps >*{
+            border-style: dotted 1px black;
+        }
+        * {
+            
+            font-family: "Noto Sans KR", sans-serif;
+            font-optical-sizing: auto;
+            list-style-type: none;
+            text-decoration: none;
+            color: black;
+            text-decoration-line: none;
+
+        }
+
+        #field {
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+            text-decoration-line: none;
+        }
+
+        /* #float_banner1 {
+            position: fixed;
+
+            overflow: hidden;
+        }
+        #float_banner2 {
+            position: fixed;
+            overflow: hidden;
+        } */
+    </style>
+</head>
+
 <header>
     <div class="container-fluid">
         <div
@@ -19,7 +67,7 @@
                 </li>
 
                 <div class="dropdown-start dropstart">
-                    <a class="btn  dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                    <div class="btn  dropdown-toggle" role="button" id="dropdownMenuLink"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <svg width="30" height="20" viewBox="0 0 30 20" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -28,7 +76,7 @@
                             <path d="M0 19H30" stroke="#CCCCCC" />
                         </svg>
 
-                    </a>
+                    </div>
                     <div class="aside in dropdown-menu container" aria-labelledby="dropdownMenuLink"
                         id="m_menu_aside" style="width: 1920px;">
                         <nav id="m_nav" role="navigation" class="row justify-content-center">
