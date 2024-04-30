@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
 
-{% block main_container %}
-<main class="container">
+<main class="row justify-content-between">
+    <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
     <h2>news</h2>
     <div class="justify-content-center row">
         <div class="row col-7">
@@ -68,5 +69,7 @@
             </li>
         </ul>
     </nav>
+    <%@ include file="/WEB-INF/rarefield/views/commons/side_right_banner.jsp" %>
 </main>
-{% endblock %}
+<hr>
+    <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>

@@ -18,19 +18,18 @@
       <form action="">
         <div class="row justify-content-between" >
           <div class="col-1 fw-bold fs-2 text-start">QnA</div>
-          <div class="col-3">
-            <select class="form-control" name="key_name">
-              <option value="ques_title" {{ 'selected' if request._query_params.key_name=='ques_title' else '' }}>제목
-              </option>
-            </select>
-          </div>
-          <div class="col-6">
-            <input class="form-control" placeholder="Enter Search!" name="search_word" value="{{request._query_params.word}}">
-          </div>
-          <div class="col-2">
-            <button type="submit" class="btn btn-primary" formaction="/other/other_QnA" formmethod="get">검색</button>
-          </div>
-        </div>
+            <div class="col-3">
+              <select class="form-control" name="key_name">
+                <option value="ques_title" {{ 'selected' if request._query_params.key_name=='ques_title' else '' }}>제목
+                </option>
+              </select>
+            </div>
+            <div class="col-6">
+              <input class="form-control" placeholder="Enter Search!" name="search_word" value="{{request._query_params.word}}">
+            </div>
+            <div class="col-2">
+              <button type="submit" class="btn btn-primary" formaction="/other/other_QnA" formmethod="get">검색</button>
+            </div>
         </div>
         <hr>
         <div style="text-align: end;">
@@ -102,7 +101,7 @@
     <%@ include file="/WEB-INF/rarefield/views/commons/side_right_banner.jsp" %>
 
       
-    </main>
+  </main>
     <hr>
     <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
 
