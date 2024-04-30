@@ -11,14 +11,14 @@
         <insert id="insert" parameterType="Map">
         insert into user_member 
         (user_ID, user_pswd, user_email, user_name, user_phone, 
-        user_birth, user_postcode,user_address,
-        user_detailed_address, user_sex, path_select, user_who, ralated_diseases, hope_info, 
-        user_info_aggree, user_auth) 
+         user_birth, user_postcode,user_address,
+         user_detailed_address, user_sex, path_select, user_who, ralated_diseases, hope_info, 
+         user_info_aggree, user_auth) 
         values 
         (#{user_ID}, #{user_pswd}, #{user_email}, #{user_name}, #{user_phone},
-        #{user_birth}, #{user_postcode}, #{user_address}, 
-        #{user_detailed_address}, #{user_sex}, #{path_select}, #{user_who}, #{ralated_diseases}, #{hope_info}, 
-        #{user_info_aggree}, #{user_auth});
+         #{user_birth}, #{user_postcode}, #{user_address}, 
+         #{user_detailed_address}, #{user_sex}, #{path_select}, #{user_who}, #{ralated_diseases}, #{hope_info}, 
+         #{user_info_aggree}, #{user_auth});
         </insert>
 
 </mapper>

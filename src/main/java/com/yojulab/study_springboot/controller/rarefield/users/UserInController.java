@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yojulab.study_springboot.service.rarefield.users.UserService;
-import com.yojulab.study_springboot.service.sample.UsersService;
 
 @Controller
 public class UserInController {

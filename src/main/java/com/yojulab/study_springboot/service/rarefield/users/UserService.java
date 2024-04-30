@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yojulab.study_springboot.dao.RareSharedDao;
-import com.yojulab.study_springboot.dao.SharedDao;
 import com.yojulab.study_springboot.service.sample.AuthsService;
 import com.yojulab.study_springboot.utils.Commons;
 
