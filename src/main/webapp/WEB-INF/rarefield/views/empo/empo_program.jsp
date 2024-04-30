@@ -1,4 +1,3 @@
-<%@ include file="/WEB-INF/rarefield/views/maintemplate.jsp" %>
 {% block main_container %}
 
 <div class="container">
