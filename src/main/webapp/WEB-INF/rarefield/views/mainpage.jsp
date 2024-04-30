@@ -3,13 +3,37 @@
 
 <%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
 
-{% block wordcloud %}
-<div class="text-center container-fluid">
-    <img src="/data/img/unnamed.png" alt="">
+<style>
+
+    .image-container {
+        position: relative;
+        width: 100%; /* 이미지의 너비에 맞춰 조정하세요 */
+        height: 450px; /* 이미지의 높이에 맞춰 조정하세요 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+      }
+      
+      .image-container img {
+        position: absolute;
+        margin: auto;
+      }
+      
+      .top-image {
+        z-index: 1; /* 이 값이 더 크면 해당 이미지가 위에 표시됩니다 */
+      }
+      
+      .bottom-image {
+        z-index: 0;
+      }
+</style>
+
+<div class="image-container mb-5">
+    <img class="container-fluid" src="/data/img/wordcloud.png" alt="" class="bottom-image">
+    <img class="container-fluid" src="/data/img/logo_in_cloud.png" alt="" class="top-image">
 </div>
 
-
-{% endblock %}
 <main class="row justify-content-between">
 
     <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>

@@ -1,7 +1,21 @@
-<%@ include file="/WEB-INF/rarefield/views/maintemplate.jsp" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-{% block main_container %}
 
+<%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
+
+<style>
+
+
+</style>
+
+
+
+<main class="row justify-content-between">
+
+    <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
+
+    <div class="col-8 row">
+        
 <form action="" class="p-5">
 
   <div class="justify-content-start text-start">
@@ -54,5 +68,20 @@
 <button class="btn btn-danger" type="submit" formaction="/other/other_delete/{{QnAs.id}}" formmethod="post">글 삭제</button>
 </div> -->
 </form>
+    </div>
 
-{% endblock main_container%}
+    <%@ include file="/WEB-INF/rarefield/views/commons/side_right_banner.jsp" %>
+
+      
+    </main>
+    <hr>
+    <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
+
+    <script>
+    
+
+      
+    </script>
+    
+
+    </html>

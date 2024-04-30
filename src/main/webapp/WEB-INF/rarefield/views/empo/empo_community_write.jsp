@@ -1,7 +1,8 @@
-<%@ include file="/WEB-INF/rarefield/views/maintemplate.jsp" %>
-{% block main_container %}
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-{% block css %}
+
+<%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
+
 <!-- Quill의 CSS 파일 링크 -->
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0-beta.0/dist/quill.snow.css" rel="stylesheet" />
 <!-- Quill 편집기의 스타일 지정 -->
@@ -11,66 +12,80 @@
         font-size: 1.1rem;
     }
 </style>
-{% endblock css %}
 
-<main class="col-md-9 col-lg-10 px-md-4 p-5">
-    <form action="" method="get" id="myForm">
-        <div class="mb-3">
-            <div class="row p-1">
-                <div class="col-2">
-                    <label class="" for="community_title">제목</label>
-                </div>
-                <div class="col-10">
-                    <input type="" class="form-control" name="community_title" id="community_title" value="" required>
-                </div>
-            </div>
 
-            <div class="row p-1">
-                <div class="col-2">
-                    <label for="notice_type">커뮤니티 유형</label>
-                </div>
-                <div class="col-2">
-                    <select class="form-control" name="community_type" id="community_type" required>
-                        <option value="none" style="text-align: center;" selected hidden>=====선택=====</option>
-                        <option value="궁금해요">궁금해요</option>
-                        <option value="추천해요">추천해요</option>
-                        <option value="자랑해요">자랑해요</option>
-                        <option value="찾아요">찾아요</option>
-                    </select>
-                </div>
-            </div>
 
-            <div class="row p-1">
-                <div class="col-2">
-                    <label for=" notice_type">유형별 항목</label>
-                </div>
-                <div class="col-2">
-                    <select class="form-control" name="community_subject" id="community_subject" required>
-                        <option value="none" style="text-align: center;" selected hidden>=====선택=====</option>
-                        <!-- 여기는 JavaScript를 통해 동적으로 변경될 예정 -->
-                    </select>
-                </div>
-            </div>
+<main class="row justify-content-between">
 
-            <div class="row p-1">
-                <div class="col-2">
-                    <label>프로그램 내용</label>
+    <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
+
+    <div class="col-8 row">
+        <div class="col-md-9 col-lg-10 px-md-4 p-5">
+            <form action="" method="get" id="myForm">
+                <div class="mb-3">
+                    <div class="row p-1">
+                        <div class="col-2">
+                            <label class="" for="community_title">제목</label>
+                        </div>
+                        <div class="col-10">
+                            <input type="" class="form-control" name="community_title" id="community_title" value="" required>
+                        </div>
+                    </div>
+        
+                    <div class="row p-1">
+                        <div class="col-2">
+                            <label for="notice_type">커뮤니티 유형</label>
+                        </div>
+                        <div class="col-2">
+                            <select class="form-control" name="community_type" id="community_type" required>
+                                <option value="none" style="text-align: center;" selected hidden>=====선택=====</option>
+                                <option value="궁금해요">궁금해요</option>
+                                <option value="추천해요">추천해요</option>
+                                <option value="자랑해요">자랑해요</option>
+                                <option value="찾아요">찾아요</option>
+                            </select>
+                        </div>
+                    </div>
+        
+                    <div class="row p-1">
+                        <div class="col-2">
+                            <label for=" notice_type">유형별 항목</label>
+                        </div>
+                        <div class="col-2">
+                            <select class="form-control" name="community_subject" id="community_subject" required>
+                                <option value="none" style="text-align: center;" selected hidden>=====선택=====</option>
+                                <!-- 여기는 JavaScript를 통해 동적으로 변경될 예정 -->
+                            </select>
+                        </div>
+                    </div>
+        
+                    <div class="row p-1">
+                        <div class="col-2">
+                            <label>프로그램 내용</label>
+                        </div>
+                        <div class="col-10">
+                            <!-- Quill 편집기를 적용할 div 요소 -->
+                            <input type="hidden" name="editorContent" id="editorContent" value="" required>
+                            <div id="editor"></div>
+                        </div>
+                    </div>
+                    <div style="text-align: end;" class="p-2">
+                        <button class="btn btn-primary" type="submit" formaction="/empo/empo_community"
+                            formmethod="post">글쓰기</button>
+                        <button class="btn btn-primary" type="submit" formaction="/empo/empo_community"
+                            formmethod="get">목록</button>
+                    </div>
                 </div>
-                <div class="col-10">
-                    <!-- Quill 편집기를 적용할 div 요소 -->
-                    <input type="hidden" name="editorContent" id="editorContent" value="" required>
-                    <div id="editor"></div>
-                </div>
-            </div>
-            <div style="text-align: end;" class="p-2">
-                <button class="btn btn-primary" type="submit" formaction="/empo/empo_community"
-                    formmethod="post">글쓰기</button>
-                <button class="btn btn-primary" type="submit" formaction="/empo/empo_community"
-                    formmethod="get">목록</button>
-            </div>
+            </form>
         </div>
-    </form>
-</main>
+    </div>
+
+    <%@ include file="/WEB-INF/rarefield/views/commons/side_right_banner.jsp" %>
+
+      
+    </main>
+    <hr>
+    <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
 
 <!-- Quill의 JavaScript 파일 링크 -->
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-beta.0/dist/quill.js"></script>
@@ -112,5 +127,6 @@
     };
 
 </script>
+    
 
-{% endblock %}
+    </html>

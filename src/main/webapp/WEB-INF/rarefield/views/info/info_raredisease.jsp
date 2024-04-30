@@ -327,7 +327,6 @@
 
 
                 </a>
-                <!-- <button formaction={{dise.dise_url}}>read</button> -->
               </td>
             </tr>
             {% endfor %}
