@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Users">
+<mapper namespace="RarefieldUsers">
 	<select id="selectByUID" parameterType="Map" resultType="Map">
         SELECT * 
         FROM USERS
@@ -9,17 +9,16 @@
 
     <!-- 입력 -->
         <insert id="insert" parameterType="Map">
-        insert into USERS
-        (UNIQUE_ID, NAME, EMAIL, JOB, PASSWORD)
-        values
-        (#{user_ID}, #{NAME}, #{EMAIL}, #{JOB}, #{password})
-        ;
-
         insert into user_member 
-        (user_ID, user_pswd, user_email, user_name, user_phone, user_resident_registration_num1, user_resident_registration_num2, user_postcode,user_address,
-        user_detailed_address, user_sex, path_select, user_who, ralated_diseases, hope_info, join_date, user_info_aggree, user_auth) 
+        (user_ID, user_pswd, user_email, user_name, user_phone, 
+        user_birth, user_postcode,user_address,
+        user_detailed_address, user_sex, path_select, user_who, ralated_diseases, hope_info, 
+        user_info_aggree, user_auth) 
         values 
-        (#{user_ID}, '1234', 'testaaa', 'tester', '010-1234-5678','111111', '2222222', '1234', 'guro', 'dong123', 'man', 'sns', 'parent', 'rare', 'aaa', '2024-1-1', 'ok', 'members');
+        (#{user_ID}, #{user_pswd}, #{user_email}, #{user_name}, #{user_phone},
+        #{user_birth}, #{user_postcode}, #{user_address}, 
+        #{user_detailed_address}, #{user_sex}, #{path_select}, #{user_who}, #{ralated_diseases}, #{hope_info}, 
+        #{user_info_aggree}, #{user_auth});
         </insert>
 
 </mapper>

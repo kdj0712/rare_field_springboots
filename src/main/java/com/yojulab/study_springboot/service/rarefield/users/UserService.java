@@ -31,10 +31,10 @@ public class UserService {
 
     // user에 대한 insert, 
     public Object insert(Map dataMap){
-        String password = (String)dataMap.get("password");
-        dataMap.put("password",bcryptPasswordEncoder.encode(password));
+        String password = (String)dataMap.get("user_pswd");
+        dataMap.put("user_pswd",bcryptPasswordEncoder.encode(password));
 
-        String sqlMapId = "";
+        String sqlMapId = "RarefieldUsers.insert";
         Object result = rareSharedDao.insert(sqlMapId, dataMap);
         return result;
     }
@@ -42,7 +42,7 @@ public class UserService {
     // user에 대한 insert 및 auth 부분
     public Object insertWithAuth(Map dataMap){
         Object result = this.insert(dataMap);
-        result = AUTHSService.insert(dataMap);
+        // result = AUTHSService.insert(dataMap);
         return result;
     }
 }

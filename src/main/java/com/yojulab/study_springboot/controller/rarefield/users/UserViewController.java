@@ -12,7 +12,7 @@ import com.yojulab.study_springboot.service.sample.UsersService;
 
 
 @Controller
-public class UserController {
+public class UserViewController {
     @RequestMapping(value = "/user_login", method = RequestMethod.GET)
     public ModelAndView userLogin(ModelAndView modelAndView){
         String viewName = "/WEB-INF/rarefield/views/users/user_login.jsp";

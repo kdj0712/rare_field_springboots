@@ -48,7 +48,7 @@
         <div class="container input-form-backgroud row" id="section">
             <div class="col" style="display: grid; place-items: center;">
         
-                <form name="registerForm" class="validation-form " onsubmit="return validateForm()">
+                <form name="registerForm" class="validation-form " method="post" action="/joinUser">
                     <div class="input-form col-md-12 mx-auto">
                         <h4 class="mb-3">회원가입</h4>
         
@@ -87,10 +87,10 @@
                             <div style="font-size: 70%; color:#9747FF">영소문자, 숫자 혼용하여 4~12글자 입력</div>
                         </div>
                         <div class="mb-3">
-                            <label for="user_pswd_check">Password 확인</label>
+                            <!-- <label for="user_pswd_check">Password 확인</label>
                             <input type="password" class="form-control" name="user_pswd_check" id="user_pswd_check"
                                 placeholder="비밀번호를 입력해주세요">
-                            <div style="font-size: 70%; color:#9747FF">비밀번호 틀릴 경우 재입력</div>
+                            <div style="font-size: 70%; color:#9747FF">비밀번호 틀릴 경우 재입력</div> -->
                         </div>
                         <div class="mb-3">
                             <label for="user_email">이메일</label>
@@ -193,20 +193,37 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="mb-3">
+                            <div>
+                                <label for="auth">권한</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="user_auth" id="admin" value="admin">
+                                <label class="form-check-label" for="ROLE_ADMIN">Admin</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="user_auth" id="manager" value="manager">
+                                <label class="form-check-label" for="ROLE_MANAGER">Menager</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="user_auth" id="user" value="user" checked>
+                                <label class="form-check-label" for="USER">Member</label>
+                            </div>
+                        </div>
                     </div>
         
                     <hr class="mb-4">
         
                     <div class="custom-control custom-checkbox">
         
-                        <input type="checkbox" class="custom-control-input required-agreement" id="aggrement">
+                        <input type="checkbox" class="custom-control-input required-agreement" name="user_info_aggree" id="user_info_aggree">
                         <label class="custom-control-label" for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
                     </div>
         
         
                     <div class="mb-4">
                         <button class="btn btn-lg " style="background-color: #00CBFE; color: #ffffff; width: 100%; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);"
-                            type="submit" formaction="/user/user_login" formmethod="post">회원가입하기</button>
+                            type="submit">회원가입하기</button>
                     </div>
                 </form>
             </div>
