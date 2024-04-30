@@ -16,7 +16,7 @@ import com.yojulab.study_springboot.service.sample.UsersService;
 public class OtherQna {
     @RequestMapping(value = "/other_QnA_main", method = RequestMethod.GET)
     public ModelAndView otherQnaMain(ModelAndView modelAndView){
-        String viewName = "/WEB-INF/rarefield/views/otherqna/other_QnA_main.jsp";
+        String viewName = "/WEB-INF/rarefield/views/other/other_QnA_main.jsp";
 
         modelAndView.setViewName(viewName);
         return modelAndView;
@@ -24,7 +24,7 @@ public class OtherQna {
 
     @RequestMapping(value = "/other_notice", method = RequestMethod.GET)
     public ModelAndView otherQnaNotice(ModelAndView modelAndView){
-        String viewName = "/WEB-INF/rarefield/views/otherqna/other_notice.jsp";
+        String viewName = "/WEB-INF/rarefield/views/other/other_notice.jsp";
 
         modelAndView.setViewName(viewName);
         return modelAndView;

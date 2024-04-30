@@ -16,7 +16,7 @@ public class RarediseaseInfo {
 
     @RequestMapping(value = "/info_raredisease", method = RequestMethod.GET)
     public ModelAndView rareDiseaseInfo(ModelAndView modelAndView){
-        String viewName = "/WEB-INF/rarefield/views/rarediseaseinfo/info_raredisease.jsp";
+        String viewName = "/WEB-INF/rarefield/views/info/info_raredisease.jsp";
 
         modelAndView.setViewName(viewName);
         return modelAndView;
@@ -24,7 +24,7 @@ public class RarediseaseInfo {
 
     @RequestMapping(value = "/info_institution", method = RequestMethod.GET)
     public ModelAndView rareDiseaseInstitutions(ModelAndView modelAndView){
-        String viewName = "/WEB-INF/rarefield/views/rarediseaseinfo/info_institution.jsp";
+        String viewName = "/WEB-INF/rarefield/views/info/info_institution.jsp";
 
         modelAndView.setViewName(viewName);
         return modelAndView;
@@ -32,7 +32,7 @@ public class RarediseaseInfo {
 
     @RequestMapping(value = "/info_academicinfo", method = RequestMethod.GET)
     public ModelAndView rareDiseaseAcademicinfo(ModelAndView modelAndView){
-        String viewName = "/WEB-INF/rarefield/views/rarediseaseinfo/info_academicinfo.jsp";
+        String viewName = "/WEB-INF/rarefield/views/info/info_academicinfo.jsp";
 
         modelAndView.setViewName(viewName);
         return modelAndView;

@@ -36,5 +36,12 @@ public class UserController {
         modelAndView.setViewName(viewName);
         return modelAndView;
     }
+
+    @RequestMapping(value = "/user_mypage", method = RequestMethod.GET)
+    public ModelAndView userMypage(ModelAndView modelAndView){
+        String viewName = "/WEB-INF/rarefield/views/users/user_mypage.jsp";
+        modelAndView.setViewName(viewName);
+        return modelAndView;
+    }
     
 }
