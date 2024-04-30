@@ -57,18 +57,18 @@
                     <div style="display: flex;">
                         <input type="text" class="form-control me-2" name="user_phone" id="user_phonenumber"
                             placeholder="ex) 010-1234-1234" value="">
-                        <button type="button"
+                        <!-- <button type="button"
                             onclick="window.open('/(인증경로넣기)', 'certify확인창', 'width=430, height=500, location=no, status=no, scrollbars=yes');"
-                            style="border:none; width: 100px;background-color: #00CBFE; color: #ffffff;">인증하기</button>
+                            style="border:none; width: 100px;background-color: #00CBFE; color: #ffffff;">인증하기</button> -->
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="user_ID">ID</label>
                     <div style="display: flex;">
                         <input type="text" class="form-control me-2" name="user_ID" id="id" placeholder="ID를 입력해주세요">
-                        <button type="button"
+                        <!-- <button type="button"
                             onclick="window.open('/user/user_joincheck_ID', 'ID확인창', 'width=430, height=500, location=no, status=no, scrollbars=yes');"
-                            style="border:none; width: 100px; background-color: #00CBFE; color: #ffffff;">중복확인</button>
+                            style="border:none; width: 100px; background-color: #00CBFE; color: #ffffff;">중복확인</button> -->
                     </div>
                     <div style="font-size: 70%; color:#9747FF;">영소문자, 숫자 혼용하여 4~12글자 입력</div>
                 </div>
@@ -89,9 +89,9 @@
                     <div style="display: flex;">
                         <input type="email" class="form-control me-2" name="user_email" id="user_email"
                             placeholder="you@example.com">
-                        <button type="button"
+                        <!-- <button type="button"
                             onclick="window.open('/user/user_joincheck_email', 'email확인창', 'width=430, height=500, location=no, status=no, scrollbars=yes');"
-                            style="border:none; width: 100px; background-color: #00CBFE; color: #ffffff;">중복확인</button>
+                            style="border:none; width: 100px; background-color: #00CBFE; color: #ffffff;">중복확인</button> -->
                     </div>
                 </div>
                 <div>
