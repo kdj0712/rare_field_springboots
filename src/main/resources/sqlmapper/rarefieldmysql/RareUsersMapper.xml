@@ -14,6 +14,12 @@
         values
         (#{user_ID}, #{NAME}, #{EMAIL}, #{JOB}, #{password})
         ;
+
+        insert into user_member 
+        (user_ID, user_pswd, user_email, user_name, user_phone, user_resident_registration_num1, user_resident_registration_num2, user_postcode,user_address,
+        user_detailed_address, user_sex, path_select, user_who, ralated_diseases, hope_info, join_date, user_info_aggree, user_auth) 
+        values 
+        (#{user_ID}, '1234', 'testaaa', 'tester', '010-1234-5678','111111', '2222222', '1234', 'guro', 'dong123', 'man', 'sns', 'parent', 'rare', 'aaa', '2024-1-1', 'ok', 'members');
         </insert>
 
 </mapper>

@@ -1,60 +1,18 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+{% extends "maintemplate.html"%}
 
+{% block wordcloud %}
 <div class="text-center container-fluid">
     <img src="/data/img/unnamed.png" alt="">
 </div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>희귀질환정보 공유 플랫폼 Rare Field</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="/data/img/favicon.ico">
-    <style>
-        #maps >*{
-            border-style: dotted 1px black;
-        }
-        * {
-            
-            font-family: "Noto Sans KR", sans-serif;
-            font-optical-sizing: auto;
-            list-style-type: none;
-            text-decoration: none;
-            color: black;
-            text-decoration-line: none;
+{% endblock %}
 
-        }
 
-        #field {
-            font-size: larger;
-            font-weight: bold;
-        }
+{% block mainpage_main %}
 
-        a {
-            text-decoration: none;
-            color: black;
-            text-decoration-line: none;
-        }
-
-        /* #float_banner1 {
-            position: fixed;
-
-            overflow: hidden;
-        }
-        #float_banner2 {
-            position: fixed;
-            overflow: hidden;
-        } */
-    </style>
-</head>
-<body>
-    <%@ include file="/WEB-INF/rarefield/views/maintemplate.jsp" %>
-</body>
 <div class="container">
+
 
     <form class="">
         <div class="row justify-content-center" style="align-items: center;">
@@ -125,6 +83,10 @@
             {% endfor %}
         </div>
     </div>
+
+    {% endblock mainpage_main %}
+
+
 
     <script type="text/javascript">
 
