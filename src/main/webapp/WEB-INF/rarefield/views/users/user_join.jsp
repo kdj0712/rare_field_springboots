@@ -37,7 +37,6 @@
     </style>
 {% endblock css %}
 {% block main_container %}
-<%@ include file="/WEB-INF/rarefield/views/maintemplate.jsp" %>
 <div class="container input-form-backgroud row" id="section">
     <div class="col" style="display: grid; place-items: center;">
 
