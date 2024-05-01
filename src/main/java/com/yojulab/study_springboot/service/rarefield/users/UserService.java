@@ -41,7 +41,7 @@ public class UserService {
     // user에 대한 insert 및 auth 부분
     public Object insertWithAuth(Map dataMap){
         Object result = this.insert(dataMap);
-        // result = AUTHSService.insert(dataMap);
+        result = AUTHSService.insert(dataMap);
         return result;
     }
 }
