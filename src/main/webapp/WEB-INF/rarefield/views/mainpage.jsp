@@ -29,14 +29,15 @@
       }
 </style>
 
-<div class="image-container mb-5">
+<!-- <div class="image-container mb-5">
     <img class="container-fluid" src="/data/img/wordcloud.png" alt="" class="bottom-image">
     <img class="container-fluid" src="/data/img/logo_in_cloud.png" alt="" class="top-image">
-</div>
+</div> -->
 
 <main class="row justify-content-between">
 
     <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
+
 
     <div class="col-8 row">
         <div class="container">
@@ -112,6 +113,7 @@
         </div>
     </div>
 
+        
     <%@ include file="/WEB-INF/rarefield/views/commons/side_right_banner.jsp" %>
 
       
