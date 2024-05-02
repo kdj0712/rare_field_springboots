@@ -198,15 +198,7 @@
                                 <label for="auth">권한</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="user_auth" id="admin" value="admin">
-                                <label class="form-check-label" for="ROLE_ADMIN">Admin</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="user_auth" id="manager" value="manager">
-                                <label class="form-check-label" for="ROLE_MANAGER">Menager</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="user_auth" id="user" value="user" checked>
+                                <input class="form-check-input" type="radio" name="user_auth" id="user" value="user_auth" checked>
                                 <label class="form-check-label" for="USER">Member</label>
                             </div>
                         </div>
