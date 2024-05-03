@@ -37,10 +37,10 @@ public class MainController {
                 String authorities = authentication.getAuthorities().toString();
             }
         }
-        modelAndView.addObject("name", "Yojulab!");
+        // modelAndView.addObject("name", "Yojulab!");
 
         modelAndView.addObject("remoteServerUrl", remoteServerUrl);
-        modelAndView.addObject("myimage", "thermometer.png");
+        // modelAndView.addObject("myimage", "thermometer.png");
 
         modelAndView.setViewName("/WEB-INF/rarefield/views/mainpage.jsp");
         return modelAndView;

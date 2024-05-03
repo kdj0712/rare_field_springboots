@@ -21,14 +21,14 @@
                         <button class="nav-link" formaction="/charts/statistics">various Charts</button>
                     </li>
                     <sec:authorize access="isAnonymous()">
-                    <li class="nav-item">
-                        <button class="nav-link" type="button">Needs Auths ROLE_ADMIN or ROLE_MANAGER</button>
-                    </li>
+                        <li class="nav-item">
+                            <button class="nav-link" type="button">Needs Auths ROLE_ADMIN or ROLE_MANAGER</button>
+                        </li>
                     </sec:authorize>                                     
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
-                    <li class="nav-item">
-                        <button class="nav-link" formaction="/admin">role Admin</button>
-                    </li>
+                        <li class="nav-item">
+                            <button class="nav-link" formaction="/admin">role Admin</button>
+                        </li>
                     </sec:authorize>   
                     <sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')">
                         <li class="nav-item">
@@ -41,21 +41,21 @@
                 <%-- 로그인이 필요한 상태 --%>
                 <sec:authorize access="isAnonymous()">
            
-                <li>
-                    <button class="nav-link" formaction="/joinForm">joinForm</button>
-                </li>
-                <li>
-                    <button class="nav-link" formaction="/loginForm">login Form</button>
-                </li>
+                    <li>
+                        <button class="nav-link" formaction="/joinForm">joinForm</button>
+                    </li>
+                    <li>
+                        <button class="nav-link" formaction="/loginForm">login Form</button>
+                    </li>
                 </sec:authorize>
                 <%-- 로그인이 된 상태 --%>
                 <sec:authorize access="isAuthenticated()">
-                <li class="nav-link">
-                    ID : ${userDetailsBean.username}, Name : ${userDetailsBean.memberName}, 
-                </li>
-                <li>
-                    <button class="nav-link" formaction="/logoutForm">logout Form</button>
-                </li>
+                    <li class="nav-link">
+                        ID : ${userDetailsBean.username}, Name : ${userDetailsBean.memberName}, 
+                    </li>
+                    <li>
+                        <button class="nav-link" formaction="/logoutForm">logout Form</button>
+                    </li>
                 </sec:authorize>
             </ul>
         </nav>

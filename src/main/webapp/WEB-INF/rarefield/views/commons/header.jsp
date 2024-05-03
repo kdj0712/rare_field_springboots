@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 
 <head>
@@ -49,6 +50,7 @@
 </head>
 
 <header>
+    <sec:authentication property="principal" var="userDetailsBean" />
     <div class="container-fluid">
         <div
             class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom navbar navbar-expand-lg bd-navbar sticky-top justify-content-center">
@@ -60,13 +62,15 @@
                 </svg>
                 <span class="fs-4"><img width="200" src="/data/img/RDS_logo.png" alt=""></span>
             </a>
-            <ul class="nav nav-pills">
 
+            <ul class="nav nav-pills">
+            
+                <%-- 로그인이 안된상태 --%>
                 <sec:authorize access="isAnonymous()">
            
-                <li class="nav-item"><a href="/user_login" class="nav-link fw-bold text-secondary"
-                    aria-current="page">로그인/로그아웃</a>
-                </li>
+                    <li class="nav-item"><a href="/user_login" class="nav-link fw-bold text-secondary"
+                        aria-current="page">로그인</a>
+                    </li>
                 </sec:authorize>
                 
                 <%-- 로그인이 된 상태 --%>
@@ -76,12 +80,11 @@
                     </li>
                     <li class="nav-item"><a href="/user_mypage" class="nav-link text-secondary fw-bold">마이페이지</a>
                     </li>
+                    <li class="nav-item"><a href="/logout" class="nav-link fw-bold text-secondary"
+                        aria-current="page">로그아웃</a>
+                    </li>
                 </sec:authorize>
-
-                
-
-               
-
+            
                 <div class="dropdown-start dropstart">
                     <div class="btn  dropdown-toggle" role="button" id="dropdownMenuLink"
                         data-bs-toggle="dropdown" aria-expanded="false">
