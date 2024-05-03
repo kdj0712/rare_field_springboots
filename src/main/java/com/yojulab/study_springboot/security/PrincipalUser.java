@@ -14,7 +14,7 @@ public class PrincipalUser implements UserDetails {
     private Map userInfo;
 
     public String getMemberName() {
-        return (String) userInfo.get("NAME");
+        return (String) userInfo.get("user_ID");
     }
 
     public PrincipalUser(Map userInfo) {
@@ -35,13 +35,13 @@ public class PrincipalUser implements UserDetails {
     @Override
     public String getPassword() {
         // password
-        return (String) userInfo.get("PASSWORD");
+        return (String) userInfo.get("user_pswd");
     }
 
     @Override
     public String getUsername() {
         // ID
-        return (String) userInfo.get("UNIQUE_ID");
+        return (String) userInfo.get("user_ID");
     }
 
     @Override

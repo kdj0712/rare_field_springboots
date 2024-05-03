@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                         .anyRequest().permitAll()
                 ;
                 httpSecurity.formLogin(login -> login.loginPage("/loginForm")
-                                .failureUrl("/loginForm?fail=true")
+                                .failureUrl("/login?fail=true")
                                 .loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/"));
                 httpSecurity.logout(logout -> logout

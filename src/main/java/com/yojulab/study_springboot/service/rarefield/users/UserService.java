@@ -44,4 +44,18 @@ public class UserService {
         result = AUTHSService.insert(dataMap);
         return result;
     }
+
+    public Object selectByUID(Map dataMap) {
+        String sqlMapId = "RarefieldUsers.selectByUID";
+
+        Object result = rareSharedDao.getOne(sqlMapId, dataMap);
+        return result;
+    }
+
+    public Object selectByUIDWithAuths(Map dataMap) {
+        Map result = (Map) this.selectByUID(dataMap);
+        result.putAll(AUTHSService.selectWithUSERNAME(dataMap));
+        return result;
+    }
+
 }

@@ -4,20 +4,18 @@
         <select id="selectWithUSERNAME" parameterType="Map" resultType="Map">
         SELECT AUTH_NAMES.AUTH_NAME, AUTH_NAMES.UNIQUE_ID
         FROM AUTHS
-                inner JOIN AUTH_NAMES
-        ON AUTHS.UNIQUE_ID_AUTH_NAMES = AUTH_NAMES.UNIQUE_ID
-        AND AUTHS.UNIQUE_ID_USERS = #{USERNAME}
-        ;
+        inner JOIN AUTH_NAMES ON AUTHS.UNIQUE_ID = AUTH_NAMES.UNIQUE_ID
+        AND AUTHS.user_ID = #{user_ID};
         </select>
 
         <!-- 입력 -->
         <insert id="insert" parameterType="Map">
         insert into AUTHS 
-        (UNIQUE_ID_USERS,UNIQUE_ID_AUTH_NAMES)
+        (UNIQUE_ID, user_ID)
         values
         <foreach item="auth" collection="authList"
             separator="," nullable="true">
-        (#{USERNAME},#{auth})
+        (#{auth},#{user_ID})
         </foreach>        
         ;
     </insert>

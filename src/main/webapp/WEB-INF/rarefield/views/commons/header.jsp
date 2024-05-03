@@ -61,11 +61,26 @@
                 <span class="fs-4"><img width="200" src="/data/img/RDS_logo.png" alt=""></span>
             </a>
             <ul class="nav nav-pills">
+
+                <sec:authorize access="isAnonymous()">
+           
                 <li class="nav-item"><a href="/user_login" class="nav-link fw-bold text-secondary"
-                        aria-current="page">로그인/로그아웃</a>
+                    aria-current="page">로그인/로그아웃</a>
                 </li>
-                <li class="nav-item"><a href="/user_mypage" class="nav-link text-secondary fw-bold">마이페이지</a>
-                </li>
+                </sec:authorize>
+                
+                <%-- 로그인이 된 상태 --%>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-link">
+                        ID : ${userDetailsBean.username}
+                    </li>
+                    <li class="nav-item"><a href="/user_mypage" class="nav-link text-secondary fw-bold">마이페이지</a>
+                    </li>
+                </sec:authorize>
+
+                
+
+               
 
                 <div class="dropdown-start dropstart">
                     <div class="btn  dropdown-toggle" role="button" id="dropdownMenuLink"

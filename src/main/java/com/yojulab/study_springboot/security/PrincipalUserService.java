@@ -10,13 +10,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import org.springframework.stereotype.Service;
 
+import com.yojulab.study_springboot.service.rarefield.users.UserService;
 import com.yojulab.study_springboot.service.sample.UsersService;
 
 @Service
 public class PrincipalUserService implements UserDetailsService {
 
     @Autowired
-    UsersService usersService;
+    UserService userService;
 
 
     @Override
@@ -24,9 +25,9 @@ public class PrincipalUserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // query select with ID
         Map dataMap = new HashMap<>();
-        dataMap.put("USERNAME", username);
+        dataMap.put("user_ID", username);
         Object usernameObj = username;
-        Map resultMap = (Map) usersService.selectByUIDWithAuths(dataMap);
+        Map resultMap = (Map) userService.selectByUIDWithAuths(dataMap);
 
         // session 등록
         PrincipalUser principalUser = new PrincipalUser(resultMap);

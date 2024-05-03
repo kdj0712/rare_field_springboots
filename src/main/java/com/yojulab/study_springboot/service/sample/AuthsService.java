@@ -24,7 +24,7 @@ public class AuthsService {
 
     public Object insert(Map<String, Object> dataMap) {
         List<String> authList = new ArrayList<>();
-        if (!"members".equals((String) dataMap.get("auth"))){
+        if (!"ROLE_MEMBER".equals((String) dataMap.get("auth"))){
             authList.add("ROLE_MEMBER");  // default auth
         }
         authList.add((String) dataMap.get("auth"));  // choosed auth
