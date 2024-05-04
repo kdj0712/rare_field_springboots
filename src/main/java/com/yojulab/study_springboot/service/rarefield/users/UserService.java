@@ -38,6 +38,22 @@ public class UserService {
         return result;
     }
 
+    public boolean checkDupUser(Map dataMap){
+
+        String sqlMapId = "RarefieldUsers.checkUID";
+
+        Object result = rareSharedDao.getOne(sqlMapId, dataMap);
+
+        if(result == null){
+            return false;
+        }
+        else{
+            return true;
+        }
+        // return result==null;
+
+    }
+
     // user에 대한 insert 및 auth 부분
     public Object insertWithAuth(Map dataMap){
         Object result = this.insert(dataMap);

@@ -19,9 +19,20 @@ public class UserInController {
 
     @RequestMapping(value = "/joinUser", method = RequestMethod.POST)
     public ModelAndView joinUser(@RequestParam Map params, ModelAndView modelAndView){
-        Object result = userService.insertWithAuth(params);
-        String viewName = "/WEB-INF/rarefield/views/mainpage.jsp";
-        modelAndView.setViewName(viewName);
-        return modelAndView;
+        // 1. 해당 ID 있는지 체크
+        boolean isDup = userService.checkDupUser(params);
+        if(isDup){
+            String viewName = "/WEB-INF/rarefield/views/users/user_join_fail.jsp";
+            modelAndView.setViewName(viewName);
+            return modelAndView;
+        }
+        else{
+            Object result = userService.insertWithAuth(params);
+            String viewName = "/WEB-INF/rarefield/views/mainpage.jsp";
+            modelAndView.setViewName(viewName);
+            return modelAndView;
+        }
+
+        
     }
 }

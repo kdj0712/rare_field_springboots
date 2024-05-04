@@ -21,4 +21,10 @@
          #{user_info_aggree}, #{auth});
         </insert>
 
+        <select id="checkUID" parameterType="Map" resultType="Map">
+        SELECT *
+        FROM user_member
+        WHERE user_ID = #{user_ID};
+	</select>
+
 </mapper>

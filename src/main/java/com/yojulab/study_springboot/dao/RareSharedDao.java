@@ -38,4 +38,5 @@ public class RareSharedDao {
         Object result = sqlSessionTemplate.delete(sqlMapId, dataMap);
         return result;
     }    
+
 }
