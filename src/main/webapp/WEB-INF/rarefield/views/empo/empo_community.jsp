@@ -28,7 +28,7 @@
         <form action="">
             <main class="container">
                 <div>
-                    <h2 class="text-center  fw-bold"> <a href="/empo/empo_community">커뮤니티</a></h2>
+                    <h2 class="text-center  fw-bold"> <a href="empo_community">커뮤니티</a></h2>
                 </div>
                 <div style="height: 20px;"></div>
         
@@ -49,7 +49,7 @@
                         </div>
                         <div class="col-2">
                             <button style="border: none; background: none;" type="submit" style="border:none; background: none;"
-                                formaction="/empo/empo_community" formmethod="get"></button>
+                                formaction="" formmethod="get"></button>
                         </div>
                     </div>
                 </div>
@@ -78,39 +78,41 @@
                     {% for community in communitys %}
                     <div class=" container" style="width: 80%;" onclick="location.href='/empo/empo_community_read/{{community.id}}'" style="cursor: pointer;">
                         <h7 class="tab-pane fade show active">
-                            <a href="/empo/empo_community_read/{{community.id}}" style="color: #4b4b4b;" class="">
-                                {{community.community_type}} > {{community.community_subject}}
+                            <a href="/empo_community/read" style="color: #4b4b4b;" class="">
+                                
                             </a>
                         </h7>
                         <div class="tit">
-                            <h5 class=""><a href="/empo/empo_community_read/{{community.id}}" class="">
-                                    {{community.community_title}}
+                            <h5 class=""><a href="/empo_community/read" class="">
+                                    
                                 </a></h5>
                         </div>
                         <div class="row justify-content-between">
                             <h7 class="category col-3">
-                                <a href="/empo/empo_community_read/{{community.id}}" style="color: #4b4b4b;" class="">
-                                    관련 질환명 : {{community.community_related_disease}}
+                                <a href="/empo_community/read" style="color: #4b4b4b;" class="">
+                                    관련 질환명 : 
                                 </a>
                             </h7>
                             <h7 class="category col-3">
-                                <a href="/empo/empo_community_read/{{community.id}}" style="color: #4b4b4b;" class="">
-                                    작성자 : {{community.community_writer}}
+                                <a href="/empo_community/read" style="color: #4b4b4b;" class="">
+                                    작성자 : 
                                 </a>
                             </h7>
                             <h7 class="category col-3">
-                                <a href="/empo/empo_community_read/{{community.id}}" style="color: #4b4b4b;" class="">
-                                    작성일 : {{community.community_date.date()}}
+                                <a href="/empo_community/read" style="color: #4b4b4b;" class="">
+                                    작성일 : 
                                 </a>
                             </h7>
                         </div>
                     </div>
+                    
                     <hr>
         
                     {% endfor %}
         
                 </div>
-        
+            
+            
                 <div style="height: 20px;"></div>
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
@@ -162,6 +164,13 @@
                 <div style="height: 20px;"></div>
             </main>
         </form> 
+        <a href="/write" target="_self" title="">
+            <div class="mb-4">
+                <button class="btn btn-lg " style="background-color: #00CBFE; color: #ffffff; width: 100%; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);"
+                    type="submit">글쓰기</button>
+            </div>
+        </a>
+        
     </div>
 
     <%@ include file="/WEB-INF/rarefield/views/commons/side_right_banner.jsp" %>

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +16,7 @@ import com.yojulab.study_springboot.service.sample.UsersService;
 public class EmpoCommunity {
     
     @RequestMapping(value = "/empo_community", method = RequestMethod.GET)
-    public ModelAndView rareDiseaseInfo(ModelAndView modelAndView){
+    public ModelAndView empoCommunity(ModelAndView modelAndView){
         String viewName = "/WEB-INF/rarefield/views/empo/empo_community.jsp";
         
         modelAndView.setViewName(viewName);
@@ -23,8 +24,24 @@ public class EmpoCommunity {
     }
 
     @RequestMapping(value = "/empo_program", method = RequestMethod.GET)
-    public ModelAndView rareDiseaseInstitutions(ModelAndView modelAndView){
+    public ModelAndView empoProgram(ModelAndView modelAndView){
         String viewName = "/WEB-INF/rarefield/views/empo/empo_program.jsp";
+
+        modelAndView.setViewName(viewName);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/read", method = RequestMethod.GET)
+    public ModelAndView empoCommunityRead(ModelAndView modelAndView){
+        String viewName = "/WEB-INF/rarefield/views/empo/empo_community_read.jsp";
+
+        modelAndView.setViewName(viewName);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/write",method = RequestMethod.GET)
+    public ModelAndView empoCommunityWrite(ModelAndView modelAndView){
+        String viewName = "/WEB-INF/rarefield/views/empo/empo_community_write.jsp";
 
         modelAndView.setViewName(viewName);
         return modelAndView;

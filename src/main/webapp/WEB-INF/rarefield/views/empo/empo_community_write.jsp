@@ -21,7 +21,7 @@
 
     <div class="col-8 row">
         <div class="col-md-9 col-lg-10 px-md-4 p-5">
-            <form action="" method="get" id="myForm">
+            <form action="" method="post" id="myForm">
                 <div class="mb-3">
                     <div class="row p-1">
                         <div class="col-2">
@@ -37,7 +37,7 @@
                             <label for="notice_type">커뮤니티 유형</label>
                         </div>
                         <div class="col-2">
-                            <select class="form-control" name="community_type" id="community_type" required>
+                            <select class="form-control" name="community_choice" id="community_choice" required>
                                 <option value="none" style="text-align: center;" selected hidden>=====선택=====</option>
                                 <option value="궁금해요">궁금해요</option>
                                 <option value="추천해요">추천해요</option>
@@ -65,18 +65,19 @@
                         </div>
                         <div class="col-10">
                             <!-- Quill 편집기를 적용할 div 요소 -->
-                            <input type="hidden" name="editorContent" id="editorContent" value="" required>
+                            <input type="hidden" name="community_content" id="community_content" value="" required>
                             <div id="editor"></div>
                         </div>
                     </div>
                     <div style="text-align: end;" class="p-2">
-                        <button class="btn btn-primary" type="submit" formaction="/empo/empo_community"
+                        <button class="btn btn-primary" type="submit" formaction="/empo_community/insert"
                             formmethod="post">글쓰기</button>
-                        <button class="btn btn-primary" type="submit" formaction="/empo/empo_community"
+                        <button class="btn btn-primary" type="submit" formaction="/empo_community"
                             formmethod="get">목록</button>
                     </div>
                 </div>
             </form>
+           
         </div>
     </div>
 
