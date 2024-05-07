@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ page import="java.util.HashMap, java.util.ArrayList, com.yojulab.study_springboot.utils.Paginations" %>
 
 <%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
 <style>
@@ -118,7 +118,7 @@
                     <ul class="pagination justify-content-center">
                         <li class="page-item {{ '' if pagination.has_previous_block else 'disabled' }}">
                             <button style="border: none; background: none;" type="submit" class="page-link"
-                                formaction="/empo/empo_community/{{pagination.first_page}}">
+                                formaction="/empo_community/{{pagination.first_page}}">
                                 <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M18 3L12 9L18 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                                     <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
@@ -127,22 +127,22 @@
                         </li>
                         <li class="page-item {{ '' if pagination.has_previous_page else 'disabled' }}">
                             <button style="border: none; background: none;" type="submit" class="page-link"
-                                formaction="/empo/empo_community/{{pagination.previous_page}}"><svg width="13" height="18"
+                                formaction="/empo_community/{{pagination.previous_page}}"><svg width="13" height="18"
                                     viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                                 </svg></button>
                         </li>
-                        {% for page_num in pagination.current_page_range %}
+                        
                         <li class=" page-item {{ 'active' if page_num == pagination.current_page else '' }}" id="pages">
                             <button style="border: none; background: none; color: black;" type=" submit" class="page-link"
-                                formaction="/empo/empo_community/{{ page_num }}">
-                                {{page_num}}
+                                formaction="/empo_community/{{ page_num }}">
+                                page_num
                             </button>
                         </li>
-                        {% endfor %}
+                       
                         <li class=" page-item {{ '' if pagination.has_next_page else 'disabled' }}">
                             <button style="border: none; background: none;" type=" submit" class="page-link"
-                                formaction="/empo/empo_community/{{ pagination.next_page }}"><svg width="13" height="18"
+                                formaction="/empo_community/{{ pagination.next_page }}"><svg width="13" height="18"
                                     viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                                 </svg>
@@ -152,7 +152,7 @@
                         </li>
                         <li class=" page-item {{ '' if pagination.has_next_block else ' disabled' }}">
                             <button style="border: none; background: none;" type=" submit" class="page-link"
-                                formaction="/empo/empo_community/{{ pagination.last_page }}">
+                                formaction="/empo_community/{{ pagination.last_page }}">
                                 <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                                     <path d="M11 15L17 9L11 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />

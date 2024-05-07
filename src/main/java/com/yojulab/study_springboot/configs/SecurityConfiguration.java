@@ -25,11 +25,11 @@ public class SecurityConfiguration {
                 httpSecurity.authorizeHttpRequests() // 로그인
                         .requestMatchers("/manager*").hasAnyRole("ADMIN", "MANAGER")
                         .requestMatchers("/admin*").hasRole("ADMIN")
-                        .requestMatchers("/carInfor/map/selectSearch").authenticated()
+                        .requestMatchers("/write").authenticated()
                         .requestMatchers("/carInfor/map/*").hasRole("USER")
                         .anyRequest().permitAll()
                 ;
-                httpSecurity.formLogin(login -> login.loginPage("/loginForm")
+                httpSecurity.formLogin(login -> login.loginPage("/user_login")
                                 .failureUrl("/login?fail=true")
                                 .loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/"));
