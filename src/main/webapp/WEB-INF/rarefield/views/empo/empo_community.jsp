@@ -19,7 +19,7 @@
 </style>
 
 
-
+<sec:authentication property="principal" var="userDetailsBean" />
 <main class="row justify-content-between">
 
     <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
@@ -28,7 +28,7 @@
         <form action="">
             <main class="container">
                 <div>
-                    <h2 class="text-center  fw-bold"> <a href="empo_community">커뮤니티</a></h2>
+                    <h2 class="text-center  fw-bold"> <a href="/empo_community">커뮤니티</a></h2>
                 </div>
                 <div style="height: 20px;"></div>
         
@@ -167,7 +167,9 @@
         <a href="/write" target="_self" title="">
             <div class="mb-4">
                 <button class="btn btn-lg " style="background-color: #00CBFE; color: #ffffff; width: 100%; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);"
-                    type="submit">글쓰기</button>
+                    type="submit">글쓰기
+                    
+                </button>
             </div>
         </a>
         

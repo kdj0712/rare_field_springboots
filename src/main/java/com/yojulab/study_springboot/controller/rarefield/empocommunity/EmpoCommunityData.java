@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yojulab.study_springboot.service.rarefield.empocommunity.EmpoCommunityService;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @Controller
 @RequestMapping("/empo_community")
@@ -24,4 +26,6 @@ public class EmpoCommunityData {
         Object result = empoCommunity.insert(paramMap);
         return ResponseEntity.ok().body(result);
     }
+
+
 }

@@ -9,11 +9,11 @@
 
     <!-- 입력 -->
     <insert id="insert" parameterType="Map">
-        insert into empo_community
-        (community_ID, user_ID, community_choice, community_subject, community_title, community_content, community_date, community_comment)
-        values
-        (#{community_ID}, #{user_ID}, #{community_choice}, #{community_subject} #{community_title}, #{community_content}, #{community_date}, #{community_comment})
-        ;
+        INSERT INTO empo_community 
+        (community_ID, user_ID, community_choice, community_title, community_content, community_date, community_comment) 
+        SELECT LENGTH(#{community_ID})+1, #{user_ID}, #{community_choice}, #{community_title}, #{community_content}, #{community_date}, #{community_comment} 
+        FROM empo_community ORDER BY community_ID DESC LIMIT 1;
+
     </insert>
 
     <select id="checkUID" parameterType="Map" resultType="Map">

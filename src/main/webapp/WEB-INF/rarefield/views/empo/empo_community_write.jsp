@@ -46,18 +46,7 @@
                             </select>
                         </div>
                     </div>
-        
-                    <div class="row p-1">
-                        <div class="col-2">
-                            <label for=" notice_type">유형별 항목</label>
-                        </div>
-                        <div class="col-2">
-                            <select class="form-control" name="community_subject" id="community_subject" required>
-                                <option value="none" style="text-align: center;" selected hidden>=====선택=====</option>
-                                <!-- 여기는 JavaScript를 통해 동적으로 변경될 예정 -->
-                            </select>
-                        </div>
-                    </div>
+    
         
                     <div class="row p-1">
                         <div class="col-2">
@@ -65,7 +54,7 @@
                         </div>
                         <div class="col-10">
                             <!-- Quill 편집기를 적용할 div 요소 -->
-                            <input type="hidden" name="community_content" id="community_content" value="" required>
+                            <input type="hidden" name="community_content" id="editorContent" value="" required>
                             <div id="editor"></div>
                         </div>
                     </div>
@@ -120,12 +109,14 @@
     var quill = new Quill('#editor', {
         theme: 'snow'
     });
-    let form = document.querySelector('#form_first');
+    let form = document.querySelector('#myForm');
     form.onsubmit = function (event) {
         let editorContentInput = document.querySelector('#editorContent');
         editorContentInput.value = quill.root.innerHTML;
 
     };
+
+   
 
 </script>
     
