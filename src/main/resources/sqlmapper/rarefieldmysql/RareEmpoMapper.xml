@@ -7,12 +7,16 @@
         where user_ID = #{user_ID}
 	</select>
 
+    <select id="selectByOneUID" parameterType="Map" resultType="Map">
+        
+    </select>
+
     <!-- 입력 -->
     <insert id="insert" parameterType="Map">
-        INSERT INTO empo_community 
+       INSERT INTO empo_community 
         (community_ID, user_ID, community_choice, community_title, community_content, community_date, community_comment) 
-        SELECT LENGTH(#{community_ID})+1, #{user_ID}, #{community_choice}, #{community_title}, #{community_content}, #{community_date}, #{community_comment} 
-        FROM empo_community ORDER BY community_ID DESC LIMIT 1;
+        values
+        (#{community_ID}, #{user_ID}, #{community_choice}, #{community_title}, #{community_content}, NOW(),#{community_comment});
 
     </insert>
 
