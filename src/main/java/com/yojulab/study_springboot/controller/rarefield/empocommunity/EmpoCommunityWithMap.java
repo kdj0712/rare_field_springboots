@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yojulab.study_springboot.service.rarefield.empocommunity.EmpoCommunityService;
 
@@ -26,12 +27,9 @@ public class EmpoCommunityWithMap {
     // pagination controller 만들기, select, delete, update
 
     @Autowired
-    EmpoCommunityService empoCommunityService;
-
-    @Autowired
     EmpoCommunityService empoCommunity;
 
-    @PostMapping("/insert")
+    @PostMapping("/list_pagination")
     public ModelAndView listPagination(ModelAndView modelAndView
                                     , @RequestParam HashMap<String, Object> dataMap 
                                     , @RequestParam(name = "deleteIds", required = false) ArrayList<String> deleteIds) {
@@ -51,7 +49,26 @@ public class EmpoCommunityWithMap {
         modelAndView.addObject("dataMap", dataMap);
 
         return modelAndView;
-    }    
+    }
+
+    @GetMapping("/insert")
+    public ModelAndView empoCommunityWrite(ModelAndView modelAndView, @RequestParam HashMap<String, Object> dataMap) {
+        Object result = empoCommunity.read(dataMap);
+
+        String viewPath = "/WEB-INF/rarefield/views/empo/empo_community_write.jsp";
+        modelAndView.setViewName(viewPath);
+        modelAndView.addObject("result", result);
+        modelAndView.addObject("dataMap", dataMap);
+
+        return modelAndView;
+    } 
+
+    // @PostMapping("/insert")
+    // public ResponseEntity insert(@RequestParam Map paramMap) {
+    //     Object result = empoCommunity.insert(paramMap);
+    //     return ResponseEntity.ok().body(result);
+    // }
+   
 
     // /selectSearch?search=YEAR&words=2020
     // /selectSearch/CAR_NAME/소

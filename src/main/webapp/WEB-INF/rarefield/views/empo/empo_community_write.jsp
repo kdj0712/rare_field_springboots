@@ -60,9 +60,9 @@
                         </div>
                     </div>
                     <div style="text-align: end;" class="p-2">
-                        <button class="btn btn-primary" type="submit" formaction="/empo_community/insert" name="btn_type"
+                        <button class="btn btn-primary" type="submit" formaction="/empo_community/list_pagination" name="btn_type" value ="insert"
                             formmethod="post">글쓰기</button>
-                        <button class="btn btn-primary" type="submit" formaction="/empo_community"
+                        <button class="btn btn-primary" type="submit" formaction="/empo_community/list_pagination"
                             formmethod="get">목록</button>
                     </div>
                 </div>

@@ -35,12 +35,12 @@ public class EmpoCommunity {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/write",method = RequestMethod.GET)
-    public ModelAndView empoCommunityWrite(ModelAndView modelAndView){
-        String viewName = "/WEB-INF/rarefield/views/empo/empo_community_write.jsp";
+    // @RequestMapping(value = "/write",method = RequestMethod.GET)
+    // public ModelAndView empoCommunityWrite(ModelAndView modelAndView){
+    //     String viewName = "/WEB-INF/rarefield/views/empo/empo_community_write.jsp";
 
-        modelAndView.setViewName(viewName);
-        return modelAndView;
-    }
+    //     modelAndView.setViewName(viewName);
+    //     return modelAndView;
+    // }
 
 }
