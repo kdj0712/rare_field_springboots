@@ -56,10 +56,11 @@
                             <!-- Quill 편집기를 적용할 div 요소 -->
                             <input type="hidden" name="community_content" id="editorContent" value="" required>
                             <div id="editor"></div>
+                            <input type="hidden" name="community_comment" id="community_comment" value=null required>
                         </div>
                     </div>
                     <div style="text-align: end;" class="p-2">
-                        <button class="btn btn-primary" type="submit" formaction="/empo_community/insert"
+                        <button class="btn btn-primary" type="submit" formaction="/empo_community/insert" name="btn_type"
                             formmethod="post">글쓰기</button>
                         <button class="btn btn-primary" type="submit" formaction="/empo_community"
                             formmethod="get">목록</button>

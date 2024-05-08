@@ -31,21 +31,34 @@
                     <h2 class="text-center  fw-bold"> <a href="/empo_community">커뮤니티</a></h2>
                 </div>
                 <div style="height: 20px;"></div>
-        
+                <% HashMap dataMap=(HashMap) request.getAttribute("dataMap"); String search=(String)
+                dataMap.getOrDefault("search", "" ); String searchType=(String)
+                dataMap.getOrDefault("searchType", "" ); %>
+
                 <div class="row justify-content-center text-center">
                     <div class="row col-7 justify-content-center">
-                        <div class="col-3">
-                            <select style="border-radius: 25px;" class="form-control" name="key_name">
-                                <option value=""> 전체 </option>
-                                <option value=""> 제목 </option>
-                                <option value=""> 관련질환명 </option>
-                                <option value=""> 지역 </option>
-                                <option value=""> 작성날짜 </option>
+                        <div class="col-3">          
+                            <select style="border-radius: 25px;" class="form-control" id="searchType" name="searchType">
+                                <% if(searchType.equals("TITLE")){ %>
+                                    <option selected value="TITLE"> 제목 </option>
+                                    <option value="RELATEDDISEASE"> 관련질환명 </option>
+                                    <option value="REGION"> 지역 </option>
+                                <% }else if(searchType.equals("RELATEDDISEASE")){ %>
+                                    <option value="TITLE"> 제목 </option>
+                                    <option selected value="RELATEDDISEASE"> 관련질환명 </option>
+                                    <option value="REGION"> 지역 </option>
+                                <% }else if (searchType.equals("REGION")){ %>
+                                    <option value="TITLE"> 제목 </option>
+                                    <option value="RELATEDDISEASE"> 관련질환명 </option>
+                                    <option selected value="REGION"> 지역 </option>
+                                <% }else{ %>
+                                    <option value="ALL"> 전체 </option>
+                                <% } %>
                             </select>
                         </div>
                         <div class="col-6">
                             <input style="border-radius: 0px;" class="form-control" placeholder="Enter Search!"
-                                name="search_word" value="{{request._query_params.word}}">
+                                name="search" value="<%= search %>">
                         </div>
                         <div class="col-2">
                             <button style="border: none; background: none;" type="submit" style="border:none; background: none;"
@@ -75,40 +88,41 @@
                     </ul>
                     <!-- 탭 내용 -->
                     <br>
-                    {% for community in communitys %}
                     <div class=" container" style="width: 80%;" onclick="location.href='/empo/empo_community_read/{{community.id}}'" style="cursor: pointer;">
+                        <% HashMap result=(HashMap) request.getAttribute("result"); ArrayList
+                        itemList=(ArrayList) result.get("resultList"); for(Object obj: itemList){ HashMap
+                        record=(HashMap) obj; %>
                         <h7 class="tab-pane fade show active">
                             <a href="/empo_community/read" style="color: #4b4b4b;" class="">
-                                
+                                <%= record.get("community_choice") %>
                             </a>
                         </h7>
                         <div class="tit">
                             <h5 class=""><a href="/empo_community/read" class="">
-                                    
+                                <%= record.get("community_title") %>
                                 </a></h5>
                         </div>
                         <div class="row justify-content-between">
+                            <!-- <h7 class="category col-3">
+                                <a href="/empo_community/read" style="color: #4b4b4b;" class="">
+                                    관련 질환명 : <%= record.get("community_title") %>
+                                </a>
+                            </h7> -->
                             <h7 class="category col-3">
                                 <a href="/empo_community/read" style="color: #4b4b4b;" class="">
-                                    관련 질환명 : 
+                                    작성자 : <%= record.get("user_ID") %>
                                 </a>
                             </h7>
                             <h7 class="category col-3">
                                 <a href="/empo_community/read" style="color: #4b4b4b;" class="">
-                                    작성자 : 
-                                </a>
-                            </h7>
-                            <h7 class="category col-3">
-                                <a href="/empo_community/read" style="color: #4b4b4b;" class="">
-                                    작성일 : 
+                                    작성일 : <%= record.get("community_date") %>
                                 </a>
                             </h7>
                         </div>
+                        <% } %>
                     </div>
                     
                     <hr>
-        
-                    {% endfor %}
         
                 </div>
             

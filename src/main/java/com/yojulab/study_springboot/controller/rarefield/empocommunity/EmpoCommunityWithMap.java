@@ -1,4 +1,6 @@
 package com.yojulab.study_springboot.controller.rarefield.empocommunity;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +21,37 @@ import com.yojulab.study_springboot.service.rarefield.empocommunity.EmpoCommunit
 
 
 @Controller
-@RequestMapping("/carInfor/map")
+@RequestMapping("/empo_community")
 public class EmpoCommunityWithMap {
     // pagination controller 만들기, select, delete, update
 
     @Autowired
     EmpoCommunityService empoCommunityService;
+
+    @Autowired
+    EmpoCommunityService empoCommunity;
+
+    @PostMapping("/insert")
+    public ModelAndView listPagination(ModelAndView modelAndView
+                                    , @RequestParam HashMap<String, Object> dataMap 
+                                    , @RequestParam(name = "deleteIds", required = false) ArrayList<String> deleteIds) {
+
+        if ( dataMap.containsKey("btn_type") ) {
+            if (dataMap.get("btn_type").equals("delete")){
+                dataMap.put("deleteIds", deleteIds);
+            }else if (dataMap.get("btn_type").equals("insert")){
+                empoCommunity.insert(dataMap);
+            }
+        }
+        Object result = empoCommunity.selectSearchWithPaginationAndDeletes(dataMap);
+
+        String viewPath = "/WEB-INF/rarefield/views/empo/empo_community.jsp";
+        modelAndView.setViewName(viewPath);
+        modelAndView.addObject("result", result);
+        modelAndView.addObject("dataMap", dataMap);
+
+        return modelAndView;
+    }    
 
     // /selectSearch?search=YEAR&words=2020
     // /selectSearch/CAR_NAME/소

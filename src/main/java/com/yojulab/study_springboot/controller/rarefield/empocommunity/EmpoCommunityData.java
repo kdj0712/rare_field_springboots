@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("/empo_community")
 public class EmpoCommunityData {
 
-    @Autowired
-    EmpoCommunityService empoCommunity;
+    // @Autowired
+    // EmpoCommunityService empoCommunity;
 
-    @PostMapping("/insert")
-    public ResponseEntity insert(@RequestParam Map paramMap) {
-        Object result = empoCommunity.insert(paramMap);
-        return ResponseEntity.ok().body(result);
-    }
+    // @PostMapping("/insert")
+    // public ResponseEntity insert(@RequestParam Map paramMap) {
+    //     Object result = empoCommunity.insert(paramMap);
+    //     return ResponseEntity.ok().body(result);
+    // }
 
 
 }

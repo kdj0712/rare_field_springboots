@@ -24,8 +24,6 @@ public class EmpoCommunityService {
     @Autowired
     Commons commons;
 
-    
-
     public Object insert(Map dataMap) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -41,8 +39,54 @@ public class EmpoCommunityService {
         String sqlMapId = "RarefieldEmpocommunity.insert";
         String community_ID = commons.getUniqueSequence();
         dataMap.put("community_ID",community_ID);
-                
+
+        // community_comment 처음값 null 일 경우 글 생성
+        // if(dataMap.containsKey("community_comment")){
+            
+        // }
+
         Object result = RaresharedDao.insert(sqlMapId, dataMap);
+        return result;
+                    
+    }
+
+    // public Object deleteWithIn(Map dataMap){
+    //     String sqlMapId = "BoardCode.deletewithin";
+    //     Object count = RaresharedDao.delete(sqlMapId, dataMap);
+    //     return count;
+    // }
+
+    public Object selectTotal(Map dataMap) {
+        String sqlMapId = "RarefieldEmpocommunity.selectTotal";
+
+        Object result = RaresharedDao.getOne(sqlMapId, dataMap);
+        return result;
+    }    
+
+    public Map selectSearchWithPaginationAndDeletes(Map dataMap) {
+        // delete
+        // if (dataMap.get("deleteIds") != null){
+        //     Object count = this.deleteWithIn(dataMap);
+        // }
+
+        // 페이지 형성 위한 계산
+        int totalCount = (int) this.selectTotal(dataMap);
+        
+        int currentPage = 1;
+        if(dataMap.get("currentPage") != null) {
+            currentPage = Integer.parseInt((String)dataMap.get("currentPage"));    // from client in param
+        }
+
+        Paginations paginations = new Paginations(totalCount, currentPage);
+        HashMap result = new HashMap<>();
+        result.put("paginations", paginations); // 페이지에 대한 정보
+
+        // page record 수
+        String sqlMapId = "RarefieldEmpocommunity.selectSearchWithPagination";
+        dataMap.put("pageScale", paginations.getPageScale());
+        dataMap.put("pageBegin", paginations.getPageBegin());
+        
+        result.put("resultList", RaresharedDao.getList(sqlMapId, dataMap)); // 표현된 레코드 정보
         return result;
     }
 

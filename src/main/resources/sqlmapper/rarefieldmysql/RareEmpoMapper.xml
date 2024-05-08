@@ -26,4 +26,26 @@
         WHERE user_ID = #{user_ID};
 	</select>
 
+    	<!-- total count -->
+	<select id="selectTotal" parameterType="Map" resultType="int">
+        select count(*) as cnt
+        from empo_community
+		<if test="search != null and search != ''">
+		where ${searchType} regexp #{search}
+		</if>
+        ;
+	</select>
+
+     <!-- 검색 with pagination -->
+	<select id="selectSearchWithPagination" parameterType="Map" resultType="Map">
+        SELECT *
+        FROM empo_community
+        where 1 = 1
+		<if test="search != null and search != ''">
+		and ${searchType} regexp #{search}
+		</if>
+        limit #{pageBegin}, #{pageScale}
+        ;
+	</select>
+
 </mapper>
