@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.HashMap, java.util.ArrayList" %>
+<%@ page import="java.util.HashMap, java.util.ArrayList, com.yojulab.study_springboot.utils.Paginations" %>
 
 <%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
 <style>
@@ -28,16 +28,20 @@
         <form action="">
             <main class="container">
                 <div>
-                    <h2 class="text-center  fw-bold"> <a href="/empo_community">커뮤니티</a></h2>
+                    <h2 class="text-center  fw-bold"> <a href="/empo_community/selectSearch">커뮤니티</a></h2>
                 </div>
                 <div style="height: 20px;"></div>
+
+                <% HashMap dataMap=(HashMap)request.getAttribute("dataMap"); 
+                String searchStr=(String)dataMap.getOrDefault("search", ""); 
+                HashMap result=(HashMap)request.getAttribute("result"); %>
 
                 <div class="row justify-content-center text-center">
                     <div class="row col-7 justify-content-center">
                         <div class="col-3">
                             <select style="border-radius: 25px;" class="form-control" name="key_name">
                                 <option value=""> 전체 </option>
-                                <option value=""> 제목 </option>
+                                <option value="" <%=(searchStr.equals("community_title")) ? "selected" : "" %> 제목 </option>
                                 <option value=""> 관련질환명 </option>
                                 <option value=""> 지역 </option>
                                 <option value=""> 작성날짜 </option>
@@ -45,11 +49,11 @@
                         </div>
                         <div class="col-6">
                             <input style="border-radius: 0px;" class="form-control" placeholder="Enter Search!"
-                                name="search_word" value="{{request._query_params.word}}">
+                                name="words" value='<%= dataMap.getOrDefault("words", "") %>'>
                         </div>
                         <div class="col-2">
                             <button style="border: none; background: none;" type="submit" style="border:none; background: none;"
-                                formaction="" formmethod="get"></button>
+                                formaction="/empo_community/selectSearch" formmethod="get"></button>
                         </div>
                     </div>
                 </div>
@@ -74,40 +78,38 @@
                         </li>
                     </ul>
                     <!-- 탭 내용 -->
-
+                    <% ArrayList resultList=(ArrayList)result.get("resultList"); 
+                    for(int i=0; i < resultList.size(); i=i+1) {
+                        HashMap record=(HashMap)resultList.get(i); %>
 
                     <br>
                     <div class=" container" style="width: 80%;" onclick="location.href='/empo/empo_community_read/{{community.id}}'" style="cursor: pointer;">
-                        <h7 class="tab-pane fade show active">
-                            <a href="/empo_community/read" style="color: #4b4b4b;" class="">
-                                
-                            </a>
-                        </h7>
-                        <div class="tit">
-                            <h5 class=""><a href="/empo_community/read" class="">
-
-                                </a></h5>
-                        </div>
                         <div class="row justify-content-between">
                             <h7 class="category col-3">
                                 <a href="/empo_community/read" style="color: #4b4b4b;" class="">
-                                    관련 질환명 : 
+                                   제목 : <%= record.get("community_title") %>
                                 </a>
                             </h7>
                             <h7 class="category col-3">
                                 <a href="/empo_community/read" style="color: #4b4b4b;" class="">
-                                   작성자 : 
+                                   카테고리 : <%= record.get("community_choice") %>
+                                </a>
+                            </h7>
+                            
+                            <h7 class="category col-3">
+                                <a href="/empo_community/read" style="color: #4b4b4b;" class="">
+                                   작성자 : <%= record.get("user_ID") %>
                                 </a>
                             </h7>
                             <h7 class="category col-3">
                                 <a href="/empo_community/read" style="color: #4b4b4b;" class="">
-                                   작성일 : 
+                                   작성일 : <%= record.get("community_date") %>
                                 </a>
                             </h7>
                         </div>
 
                     </div>
-
+                    <% } %>
                     
                     
                     <hr>
@@ -119,11 +121,15 @@
                             
                         </button>
                     </div>
-            
+
+                <%
+                    Paginations paginations = (Paginations)result.get("paginations"); 
+                %>
+                <div>총 갯수 : <%= paginations.getTotalCount() %></div>
                 <div style="height: 20px;"></div>
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item {{ '' if pagination.has_previous_block else 'disabled' }}">
+                        <!-- <li class="page-item {{ '' if pagination.has_previous_block else 'disabled' }}">
                             <button style="border: none; background: none;" type="submit" class="page-link"
                                 formaction="/empo_community/{{pagination.first_page}}">
                                 <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -138,16 +144,27 @@
                                     viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                                 </svg></button>
-                        </li>
+                        </li> -->
+
                         
-                        <li class=" page-item {{ 'active' if page_num == pagination.current_page else '' }}" id="pages">
-                            <button style="border: none; background: none; color: black;" type=" submit" class="page-link"
-                                formaction="/empo_community/{{ page_num }}">
-                                page_num
-                            </button>
+
+                        <li class="page-item">
+                            <a class="page-link" href="/empo_community/selectSearch?currentPage=<%= paginations.getPreviousPage() %>">Previous</a>
                         </li>
+                        <%
+                            for(int i=paginations.getBlockStart();i <= paginations.getBlockEnd(); i=i+1){
+                        %>
+                        <li class="page-item">
+                            <a class="page-link" href="/empo_community/selectSearch?currentPage=<%= i %>"><%= i %></a>
+                        </li>
+                        <% } %>
+
+                        <li class="page-item">
+                            <a class="page-link" href="/empo_community/selectSearch?currentPage=<%= paginations.getNextPage() %>">Next</a>
+                        </li>
+                                
                        
-                        <li class=" page-item {{ '' if pagination.has_next_page else 'disabled' }}">
+                        <!-- <li class=" page-item {{ '' if pagination.has_next_page else 'disabled' }}">
                             <button style="border: none; background: none;" type=" submit" class="page-link"
                                 formaction="/empo_community/{{ pagination.next_page }}"><svg width="13" height="18"
                                     viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -165,7 +182,7 @@
                                     <path d="M11 15L17 9L11 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                                 </svg>
                             </button>
-                        </li>
+                        </li> -->
                     </ul>
                 </nav>
                 <div style="height: 20px;"></div>

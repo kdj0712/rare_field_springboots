@@ -145,7 +145,7 @@
                                     <div id="field">참여마당</div>
 
                                     <li class="menu_li dropdown-item">
-                                        <a href="/empo_community" target="_self" title="">
+                                        <a href="/empo_community/selectSearch" target="_self" title="">
                                             커뮤니티</a>
                                     </li>
                                     <li class=" th2_in dropdown-item">

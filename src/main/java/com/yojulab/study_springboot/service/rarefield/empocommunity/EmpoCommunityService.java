@@ -56,6 +56,8 @@ public class EmpoCommunityService {
         return one;
     }
 
+    
+
     // public Object deleteWithIn(Map dataMap){
     //     String sqlMapId = "BoardCode.deletewithin";
     //     Object count = RaresharedDao.delete(sqlMapId, dataMap);
@@ -70,6 +72,10 @@ public class EmpoCommunityService {
     }    
 
     public Map selectSearchWithPaginationAndDeletes(Map dataMap) {
+
+        // if (dataMap.get("deleteIds") != null){
+        //     Object count = this.deleteWithIn(dataMap);
+        // }
 
         // 페이지 형성 위한 계산
         int totalCount = (int) this.selectTotal(dataMap);
@@ -92,28 +98,28 @@ public class EmpoCommunityService {
         return result;
     }
 
-    // // 검색(조건-search : YEAR, CAR_NAME)
-    // public Map selectSearchWithPagination(Map dataMap) {
-    //     // 페이지 형성 위한 계산
-    //     int totalCount = (int) this.selectTotal(dataMap);
+    // 검색(조건-search : YEAR, CAR_NAME)
+    public Map selectSearchWithPagination(Map dataMap) {
+        // 페이지 형성 위한 계산
+        int totalCount = (int) this.selectTotal(dataMap);
         
-    //     int currentPage = 1;
-    //     if(dataMap.get("currentPage") != null) {
-    //         currentPage = Integer.parseInt((String)dataMap.get("currentPage"));    // from client in param
-    //     }
+        int currentPage = 1;
+        if(dataMap.get("currentPage") != null) {
+            currentPage = Integer.parseInt((String)dataMap.get("currentPage"));    // from client in param
+        }
 
-    //     Paginations paginations = new Paginations(totalCount, currentPage);
-    //     HashMap result = new HashMap<>();
-    //     result.put("paginations", paginations); // 페이지에 대한 정보
+        Paginations paginations = new Paginations(totalCount, currentPage);
+        HashMap result = new HashMap<>();
+        result.put("paginations", paginations); // 페이지에 대한 정보
 
-    //     // page record 수
-    //     String sqlMapId = "CarInfors.selectSearchWithPagination";
-    //     dataMap.put("pageScale", paginations.getPageScale());
-    //     dataMap.put("pageBegin", paginations.getPageBegin());
+        // page record 수
+        String sqlMapId = "RarefieldEmpocommunity.selectSearchWithPagination";
+        dataMap.put("pageScale", paginations.getPageScale());
+        dataMap.put("pageBegin", paginations.getPageBegin());
         
-    //     result.put("resultList", RaresharedDao.getList(sqlMapId, dataMap)); // 표현된 레코드 정보
-    //     return result;
-    // }
+        result.put("resultList", RaresharedDao.getList(sqlMapId, dataMap)); // 표현된 레코드 정보
+        return result;
+    }
 
     // // MVC view
     // public Object deleteAndSelectSearch(String UNIQUE_ID, Map dataMap) {

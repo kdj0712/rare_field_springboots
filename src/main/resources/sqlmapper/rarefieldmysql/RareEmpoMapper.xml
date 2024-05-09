@@ -40,7 +40,7 @@
 
      <!-- 검색 with pagination -->
 	<select id="selectSearchWithPagination" parameterType="Map" resultType="Map">
-        SELECT *
+        SELECT community_title, community_choice, community_date, user_ID
         FROM empo_community
         where 1 = 1
 		<if test="search != null and search != ''">

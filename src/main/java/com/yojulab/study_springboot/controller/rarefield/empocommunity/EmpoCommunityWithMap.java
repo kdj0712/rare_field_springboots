@@ -47,9 +47,22 @@ public class EmpoCommunityWithMap {
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("result", result);
         modelAndView.addObject("dataMap", dataMap);
-
+        
         return modelAndView;
     }
+
+    @GetMapping("/selectSearch")
+    public ModelAndView selectSearch(@RequestParam HashMap<String, Object> dataMap , ModelAndView modelAndView) {
+        
+        Object result = empoCommunity.selectSearchWithPagination(dataMap);
+        modelAndView.setViewName("/WEB-INF/rarefield/views/empo/empo_community.jsp");
+        modelAndView.addObject("dataMap", dataMap);
+        modelAndView.addObject("result", result);
+        
+        
+        return modelAndView;
+    }
+
 
     @GetMapping("/insert")
     public ModelAndView empoCommunityWrite(ModelAndView modelAndView, @RequestParam HashMap<String, Object> dataMap) {
@@ -62,48 +75,5 @@ public class EmpoCommunityWithMap {
 
         return modelAndView;
     } 
-
-    // @PostMapping("/insert")
-    // public ResponseEntity insert(@RequestParam Map paramMap) {
-    //     Object result = empoCommunity.insert(paramMap);
-    //     return ResponseEntity.ok().body(result);
-    // }
    
-
-    // /selectSearch?search=YEAR&words=2020
-    // /selectSearch/CAR_NAME/소
-    // @GetMapping("/selectSearch")
-    // public ModelAndView selectSearch(@RequestParam Map params
-    //                         , ModelAndView modelAndView) {
-    //     // Object result = carInforsService.selectSearch(params);
-    //     Object result = empoCommunityService.selectSearchWithPagination(params);
-    //     modelAndView.addObject("params", params);
-    //     modelAndView.addObject("result", result);
-        
-    //     modelAndView.setViewName("/WEB-INF/views/carinfor/list_map.jsp");
-    //     return modelAndView;
-    // }
-
-    // // delete with MVC
-    // @PostMapping("/deleteAndSelectSearch/{UNIQUE_ID}")
-    // public ModelAndView deleteAndSelectSearch(@PathVariable String UNIQUE_ID
-    //                     , @RequestParam Map params, ModelAndView modelAndView) {
-    //     Object result = empoCommunityService.deleteAndSelectSearch(UNIQUE_ID, params);
-    //     modelAndView.addObject("params", params);
-    //     modelAndView.addObject("result", result);
-
-    //     modelAndView.setViewName("/WEB-INF/views/carinfor/list_map.jsp");
-    //     return modelAndView;
-    // }
-
-    // // /selectDetail/CI002
-    // @GetMapping("/selectDetail/{UNIQUE_ID}")
-    // public ModelAndView selectDetail(@PathVariable String UNIQUE_ID
-    //                     , @RequestParam Map params, ModelAndView modelAndView) {
-    //     Object result = empoCommunityService.selectDetail(UNIQUE_ID, params);
-    //     modelAndView.addObject("params", params);
-
-    //     modelAndView.setViewName("/WEB-INF/views/carinfor/list_map.jsp");
-    //     return modelAndView;
-    // }
 }

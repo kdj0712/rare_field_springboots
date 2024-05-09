@@ -11,13 +11,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class EmpoCommunity {
     
-    @RequestMapping(value = "/empo_community", method = RequestMethod.GET)
-    public ModelAndView empoCommunity(ModelAndView modelAndView){
-        String viewName = "/WEB-INF/rarefield/views/empo/empo_community.jsp";
+    // @RequestMapping(value = "/empo_community", method = RequestMethod.GET)
+    // public ModelAndView empoCommunity(ModelAndView modelAndView){
+    //     String viewName = "/WEB-INF/rarefield/views/empo/empo_community.jsp";
         
-        modelAndView.setViewName(viewName);
-        return modelAndView;
-    }
+    //     modelAndView.setViewName(viewName);
+    //     return modelAndView;
+    // }
 
     @RequestMapping(value = "/empo_program", method = RequestMethod.GET)
     public ModelAndView empoProgram(ModelAndView modelAndView){
