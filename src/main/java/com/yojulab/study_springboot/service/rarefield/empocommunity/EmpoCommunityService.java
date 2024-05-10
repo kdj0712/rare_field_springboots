@@ -56,13 +56,19 @@ public class EmpoCommunityService {
         return one;
     }
 
+    public int update(HashMap<String, Object> dataMap){
+        String sqlMapId = "RarefieldEmpocommunity.update";
+        Object update = RaresharedDao.update(sqlMapId, dataMap);
+        return dataMap.size();
+    }
+
     
 
-    // public Object deleteWithIn(Map dataMap){
-    //     String sqlMapId = "BoardCode.deletewithin";
-    //     Object count = RaresharedDao.delete(sqlMapId, dataMap);
-    //     return count;
-    // }
+    public Object deleteWithIn(Map dataMap){
+        String sqlMapId = "RarefieldEmpocommunity.delete";
+        Object count = RaresharedDao.delete(sqlMapId, dataMap);
+        return count;
+    }
 
     public Object selectTotal(Map dataMap) {
         String sqlMapId = "RarefieldEmpocommunity.selectTotal";
@@ -73,9 +79,9 @@ public class EmpoCommunityService {
 
     public Map selectSearchWithPaginationAndDeletes(Map dataMap) {
 
-        // if (dataMap.get("deleteIds") != null){
-        //     Object count = this.deleteWithIn(dataMap);
-        // }
+        if (dataMap.get("deleteIds") != null){
+            Object count = this.deleteWithIn(dataMap);
+        }
 
         // 페이지 형성 위한 계산
         int totalCount = (int) this.selectTotal(dataMap);

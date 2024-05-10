@@ -83,29 +83,30 @@
                         HashMap record=(HashMap)resultList.get(i); %>
 
                     <br>
-                    <div class=" container" style="width: 80%;" onclick="location.href='/empo/empo_community_read/{{community.id}}'" style="cursor: pointer;">
+                    <div class=" container" style="width: 80%;" onclick="location.href='/empo_community/read?key_name=&words=&community_ID=<%= record.get("community_ID") %>'" style="cursor: pointer;" name='' value='' >
                         <div class="row justify-content-between">
                             <h7 class="category col-3">
-                                <a href="/empo_community/read" style="color: #4b4b4b;" class="">
+                                <!-- <a href="/empo_community/read" style="color: #4b4b4b;" class="" name ="community_ID" value='<%= record.get("community_ID") %>'> -->
                                    제목 : <%= record.get("community_title") %>
-                                </a>
+                                <!-- </a> -->
                             </h7>
                             <h7 class="category col-3">
-                                <a href="/empo_community/read" style="color: #4b4b4b;" class="">
+                                <!-- <a href="/empo_community/read" style="color: #4b4b4b;" class="" > -->
                                    카테고리 : <%= record.get("community_choice") %>
-                                </a>
+                                <!-- </a> -->
                             </h7>
                             
                             <h7 class="category col-3">
-                                <a href="/empo_community/read" style="color: #4b4b4b;" class="">
+                                <!-- <a href="/empo_community/read" style="color: #4b4b4b;" class="" > -->
                                    작성자 : <%= record.get("user_ID") %>
-                                </a>
+                                <!-- </a> -->
                             </h7>
                             <h7 class="category col-3">
-                                <a href="/empo_community/read" style="color: #4b4b4b;" class="">
+                                <!-- <a href="/empo_community/read" style="color: #4b4b4b;" class="" > -->
                                    작성일 : <%= record.get("community_date") %>
-                                </a>
+                                <!-- </a> -->
                             </h7>
+                            <!-- <button formaction="/empo_community/read" name="community_ID" value='<%= record.get("community_ID") %>'>read</button> -->
                         </div>
 
                     </div>

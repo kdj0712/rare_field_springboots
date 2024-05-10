@@ -25,7 +25,7 @@ public class SecurityConfiguration {
                 httpSecurity.authorizeHttpRequests() // 로그인
                         .requestMatchers("/manager*").hasAnyRole("ADMIN", "MANAGER")
                         .requestMatchers("/admin*").hasRole("ADMIN")
-                        .requestMatchers("/empo_community/insert").authenticated()
+                        .requestMatchers("/empo_community/insert", "/empo_community/updateread", "/empo_community/update", "/empo_community/list_pagination").authenticated()
                         .requestMatchers("/carInfor/map/*").hasRole("USER")
                         .anyRequest().permitAll()
                 ;

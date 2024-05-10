@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import = "java.util.HashMap" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 
 <%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
@@ -14,13 +16,15 @@
 
 
 
-<main class="row justify-content-between">
 
+<main class="row justify-content-between">
+    
     <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
 
     <div class="col-8 row">
         <div class="container">
-            <form action="" method="get" id="">
+            <form action="">
+                <% HashMap result=(HashMap) request.getAttribute("result"); %>
                 
                 <p style="font-size: small;">
                     {{communitys.community_type}}  >  {{communitys.community_subject}}
@@ -28,18 +32,24 @@
                 <br>
         
                 <div>
-                    <h3>{{communitys.community_title}}</h3>
-                    <div>{{communitys.community_related_diseases}}</div>
-                    <div style="font-size: small;" class="text-end">{{communitys.community_writer}} | {{communitys.community_date}}</div>
+                    <h3><%= result.get("community_title") %></h3>
+                    <div><%= result.get("community_choice") %></div>
+                    <div style="font-size: small;" class="text-end"><%= result.get("user_ID") %> | <%= result.get("community_date") %></div>
                 </div>
         
                 <hr>
         
                 <div>
-                    <div id="editor">{{communitys.community_content}}</div>
+                    <div id="editor"></div>
                 </div>
-        
-                <br>
+                <div>
+                    <input type="hidden" class="form-check-input" name="deleteIds" value='<%= result.get("community_ID") %>'>
+                    <input type="hidden" class="form-check-input" name="community_ID" value='<%= result.get("community_ID") %>'>
+                    <button type="submit" class="btn btn-primary" formaction="/empo_community/selectSearch" formmethod="get">List</button>
+                    <button type="submit" class="btn btn-success" formaction="/empo_community/update" formmethod="get">UPDATE</button>
+                    <button type="submit" class="btn btn-danger" name="btn_type" formaction="/empo_community/list_pagination" formmethod="post">DELETE</button>
+                </div>
+                    <br>
                 <div style="font-size: small;">찜 | 댓글수</div>
         
                 <hr>
@@ -60,7 +70,7 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-beta.0/dist/quill.js"></script>
     <script>
         // 서버나 다른 소스에서 로드한 콘텐츠를 대표하는 가상의 데이터
-        let contentFromServer = '{{communitys.community_content | safe}}';
+        let contentFromServer = '<%= result.get("community_content") %>';
     
         // Quill 편집기 초기화
         let quill = new Quill('#editor', {

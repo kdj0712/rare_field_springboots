@@ -64,11 +64,52 @@ public class EmpoCommunityWithMap {
     }
 
 
-    @GetMapping("/insert")
+    @GetMapping("/insert") 
     public ModelAndView empoCommunityWrite(ModelAndView modelAndView, @RequestParam HashMap<String, Object> dataMap) {
         Object result = empoCommunity.read(dataMap);
 
         String viewPath = "/WEB-INF/rarefield/views/empo/empo_community_write.jsp";
+        modelAndView.setViewName(viewPath);
+        modelAndView.addObject("result", result);
+        modelAndView.addObject("dataMap", dataMap);
+
+        return modelAndView;
+    } 
+
+    @GetMapping("/read")
+    public ModelAndView empoCommunityRead(ModelAndView modelAndView, @RequestParam HashMap<String, Object> dataMap) {
+        Object result = empoCommunity.read(dataMap);
+
+        String viewPath = "/WEB-INF/rarefield/views/empo/empo_community_read.jsp";
+        modelAndView.setViewName(viewPath);
+        modelAndView.addObject("result", result);
+        modelAndView.addObject("dataMap", dataMap);
+
+        return modelAndView;
+    } 
+
+    @PostMapping("/updateread/{community_ID}")
+    public ModelAndView empoCommunityUpdateRead(ModelAndView modelAndView,@PathVariable String community_ID, @RequestParam HashMap<String, Object> dataMap) {
+        if ( dataMap.containsKey("btn_type")){
+            if (dataMap.get("btn_type").equals("update")){
+                empoCommunity.update(dataMap); 
+            }
+        }
+        Object result = empoCommunity.read(dataMap);
+
+        String viewPath = "/WEB-INF/rarefield/views/empo/empo_community_read.jsp";
+        modelAndView.setViewName(viewPath);
+        modelAndView.addObject("result", result);
+        modelAndView.addObject("dataMap", dataMap);
+
+        return modelAndView;
+    } 
+
+    @GetMapping("/update")
+    public ModelAndView empoCommunityUpdate(ModelAndView modelAndView, @RequestParam HashMap<String, Object> dataMap) {
+        Object result = empoCommunity.read(dataMap);
+
+        String viewPath = "/WEB-INF/rarefield/views/empo/empo_community_update.jsp";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("result", result);
         modelAndView.addObject("dataMap", dataMap);
