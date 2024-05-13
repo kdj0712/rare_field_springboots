@@ -29,10 +29,10 @@
       }
 </style>
 
-<!-- <div class="image-container mb-5">
+<div class="image-container mb-5">
     <img class="container-fluid" src="/data/img/wordcloud.png" alt="" class="bottom-image">
     <img class="container-fluid" src="/data/img/logo_in_cloud.png" alt="" class="top-image">
-</div> -->
+</div>
 
 <main class="row justify-content-between">
 

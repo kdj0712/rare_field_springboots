@@ -39,9 +39,9 @@
                             <label for="notice_type">커뮤니티 유형</label>
                         </div>
                         <div class="col-2">
-                            <select class="form-control" name="community_choice" id="community_choice" value='<%= result.get("community_choice") %>' required>
-                                
-                            <option value="none" style="text-align: center;" selected hidden><%= result.get("community_choice") %></option>
+                            <select class="form-control" name="community_choice" id="community_choice" value='' required>
+                            
+                            <option value="<%= result.get("community_choice") %>" style="text-align: center;" selected hidden><%= result.get("community_choice") %></option>
                     
                                 
                                 <option value="궁금해요">궁금해요</option>
