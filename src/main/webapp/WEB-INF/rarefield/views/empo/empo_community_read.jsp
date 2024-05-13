@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.util.HashMap" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 
 
 <%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
@@ -16,7 +17,7 @@
 
 
 
-
+<sec:authentication property="principal" var="userDetailsBean" />
 <main class="row justify-content-between">
     
     <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
@@ -42,12 +43,20 @@
                 <div>
                     <div id="editor"></div>
                 </div>
+
                 <div>
                     <input type="hidden" class="form-check-input" name="deleteIds" value='<%= result.get("community_ID") %>'>
                     <input type="hidden" class="form-check-input" name="community_ID" value='<%= result.get("community_ID") %>'>
                     <button type="submit" class="btn btn-primary" formaction="/empo_community/selectSearch" formmethod="get">List</button>
-                    <button type="submit" class="btn btn-success" formaction="/empo_community/update" formmethod="get">UPDATE</button>
-                    <button type="submit" class="btn btn-danger" name="btn_type" formaction="/empo_community/list_pagination" formmethod="post">DELETE</button>
+                    <sec:authorize access="isAuthenticated()">
+                        <c:if test="${userDetailsBean.username.equals(result.get('user_ID'))}">
+                            <button type="submit" class="btn btn-success" formaction="/empo_community/update" formmethod="get">UPDATE</button>
+                            <button type="submit" class="btn btn-danger" name="btn_type" formaction="/empo_community/list_pagination" formmethod="post">DELETE</button>
+                        </c:if>
+                    </sec:authorize> 
+                    
+                    
+                    
                 </div>
                     <br>
                 <div style="font-size: small;">찜 | 댓글수</div>
