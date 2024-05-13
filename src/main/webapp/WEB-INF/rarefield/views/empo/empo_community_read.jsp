@@ -28,7 +28,6 @@
                 <% HashMap result=(HashMap) request.getAttribute("result"); %>
                 
                 <p style="font-size: small;">
-                    {{communitys.community_type}}  >  {{communitys.community_subject}}
                 </p>
                 <br>
         
