@@ -109,7 +109,7 @@
                                     </li>
                                     <li class=" th2_in dropdown-item">
 
-                                        <a href="/trend/trend_law" target="_self" title="">
+                                        <a href="/trend/law" target="_self" title="">
                                             법, 시행령, 시행규칙</a>
                                     </li>
                                     <li class=" th2_in dropdown-item">
