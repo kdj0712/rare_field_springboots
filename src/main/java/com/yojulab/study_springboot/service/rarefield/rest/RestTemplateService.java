@@ -145,4 +145,48 @@ public class RestTemplateService {
 
     }
 
+    
+    public List<Map<String,Object>> infodiseaseRequest() {
+    	// 요청을 보낼 URL
+        String apiUrl = "http://trainings.iptime.org:45004/trend/trend_news_data";
+
+		// HTTP 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+		
+        // 요청 데이터 생성
+        MultiValueMap<String, String> requestData = new LinkedMultiValueMap<>();
+		    requestData.add("key_name", "search_word");
+
+		// HTTP POST 요청 보내기
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(apiUrl, requestData, String.class);
+        
+        // 응답 값
+        String responseBody = responseEntity.getBody();
+        // System.out.println("POST Response: " + responseBody);
+
+        String jsonString = responseBody;
+       
+        // 가장 큰 JSONObject를 가져옵니다.
+        JSONObject jObject = new JSONObject(jsonString);
+        // 배열을 가져옵니다.
+        JSONArray jArray = jObject.getJSONArray("data_news");
+    
+        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+
+        for (int i = 0; i < jArray.length(); i++) {
+            JSONObject obj = jArray.getJSONObject(i);
+            Map<String, Object> map = new HashMap<>();
+        
+            for(String key : obj.keySet()) {
+                Object value = obj.get(key);
+                map.put(key, value);
+            }
+        
+            list.add(map);
+        }
+        return list;
+
+    }
+
 }
