@@ -1,6 +1,7 @@
-{% extends "maintemplate.html"%}
-
-{% block main_container %}
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.HashMap, java.util.List, com.yojulab.study_springboot.utils.Paginations" %>
+<%@ page import="java.util.Map" %>
+<%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
 <style>
     table {
         border: 1px solid black;
@@ -17,9 +18,10 @@
 </style>
 
 <form action="">
-    <main class="container">
+    <main class="container row justify-content-between">
+        <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
         <div>
-            <h2 class="text-center  fw-bold"> <a href="/trend/trend_news">news</a></h2>
+            <h2 class="text-center  fw-bold"> <a href="/trend/news">news</a></h2>
         </div>
         <div style="height: 20px;"></div>
 
@@ -84,25 +86,27 @@
         </ul>
         <!-- 탭 내용 -->
         <br>
-        {% for new in news %}
+        <% List<Map<String,Object>> resultList = (List<Map<String,Object>>) request.getAttribute("result");  
+           for(int i = 0 ; i < resultList.size() ; i=i+1) {
+            HashMap<String, Object> record = (HashMap<String, Object>) resultList.get(i); %>
 
         <div class="tab-content container" style="width: 80%;" onclick="location.href='/trend/trend_news_read/{{new.id}}'" style="cursor: pointer;">
             <h7 class="tab-pane fade show active">
-                <a href="/trend/trend_news_read/{{new.id}}" style="color: #4b4b4b;" class="">{{new.news_paper}}
+                <a href="/trend/trend_news_read/{{new.id}}" style="color: #4b4b4b;" class=""><%= record.get("news_paper") %>
                 </a>
             </h7>
             <div class="tit">
                 <h5 class=""><a href="/trend/trend_news_read/{{new.id}}" class="">
-                        {{new.news_title}}
+                        <%= record.get("news_title") %>
                     </a></h5>
             </div>
             <div class="row justify-content-end">
                 <h7 class="category col-2">
-                    <a href="/trend/trend_news_read/{{new.id}}" style="color: #4b4b4b;" class="">{{new.news_datetime.date()}}
+                    <a href="/trend/trend_news_read/{{new.id}}" style="color: #4b4b4b;" class=""> <%= record.get("news_datetime.date()") %>
                     </a>
                 </h7>
                 <h7 class="category col-2">
-                    <a href="/trend/trend_news_read/{{new.id}}" style="color: #4b4b4b;" class="">{{new.news_topic}}
+                    <a href="/trend/trend_news_read/{{new.id}}" style="color: #4b4b4b;" class=""> <%= record.get("news_topic") %>
                     </a>
                 </h7>
                 <h7 class="category col-2">
@@ -114,7 +118,7 @@
         </div>
         <hr>
 
-        {% endfor %}
+        <% } %>
 
     </div>
 
@@ -162,9 +166,11 @@
             </ul>
         </nav>
         <div style="height: 20px;"></div>
+        <%@ include file="/WEB-INF/rarefield/views/commons/side_right_banner.jsp" %>
     </main>
 </form>
 
+<%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
 
 <!-- jQuery를 불러오는 CDN -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -204,5 +210,3 @@
         });
     }
 </script>
-
-{% endblock %}

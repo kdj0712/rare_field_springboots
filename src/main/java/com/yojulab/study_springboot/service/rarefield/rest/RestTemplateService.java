@@ -78,8 +78,7 @@ public class RestTemplateService {
         // System.out.println("POST Response: " + responseBody);
 
         String jsonString = responseBody;
-
-       
+    
         // 가장 큰 JSONObject를 가져옵니다.
         JSONObject jObject = new JSONObject(jsonString);
         // 배열을 가져옵니다.
@@ -98,14 +97,12 @@ public class RestTemplateService {
         
             list.add(map);
         }
-
-
         return list;
 		
 
     }
 
-    public void newsPostRequest() {
+    public List<Map<String,Object>> newsPostRequest() {
     	// 요청을 보낼 URL
         String apiUrl = "http://trainings.iptime.org:45004/trend/trend_news_data";
 
@@ -131,34 +128,20 @@ public class RestTemplateService {
         // 배열을 가져옵니다.
         JSONArray jArray = jObject.getJSONArray("data_news");
     
-        // 배열의 모든 아이템을 출력합니다.
+        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+
         for (int i = 0; i < jArray.length(); i++) {
             JSONObject obj = jArray.getJSONObject(i);
-
-            String id = obj.optString("_id","no value");
-            String newsTitle = obj.optString("news_title","no value");
-            String newsDatetime = obj.optString("news_datetime","no value");
-            String newsContents = obj.optString("news_contents","no value");            
-            String newsUrl = obj.optString("news_url","no value");
-            String newsTopic = obj.optString("news_topic","no value");
-            String newsPaper = obj.optString("news_paper","no value");
-            String newsClicks = obj.optString("news_clicks","no value");
-            String newsImage = obj.optString("news_image","no value");
-
-            System.out.println("_id(" + i + "): " + id);
-            System.out.println("news_title(" + i + "): " +  newsTitle);
-            System.out.println("news_datetime(" + i + "): " + newsDatetime);
-            System.out.println("news_contents(" + i + "): " + newsContents);
-            System.out.println("news_url(" + i + "): " + newsUrl);
-            System.out.println("news_topic(" + i + "): " + newsTopic);
-            System.out.println("news_paper(" + i + "): " + newsPaper);
-            System.out.println("news_clicks(" + i + "): " + newsClicks);
-            System.out.println("news_image(" + i + "): " + newsImage);
-            
-            
-
-            System.out.println();
+            Map<String, Object> map = new HashMap<>();
+        
+            for(String key : obj.keySet()) {
+                Object value = obj.get(key);
+                map.put(key, value);
+            }
+        
+            list.add(map);
         }
+        return list;
 
     }
 

@@ -113,9 +113,12 @@ public class RestTemplateController {
       }
 
       @GetMapping(value = "/news")
-      public String news() {
-       restTemplateService.newsPostRequest();
-      return "hellow";
+        public ModelAndView news(ModelAndView modelAndView) {
+        List<Map<String,Object>> result = restTemplateService.newsPostRequest();
+        String viewPath = "/WEB-INF/rarefield/views/trend/trend_news.jsp";
+        modelAndView.setViewName(viewPath);
+        modelAndView.addObject("result", result);
+        return modelAndView;
       }
 
       @GetMapping(value = "/guideline")

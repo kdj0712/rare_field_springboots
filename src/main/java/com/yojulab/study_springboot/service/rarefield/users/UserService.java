@@ -3,6 +3,7 @@ package com.yojulab.study_springboot.service.rarefield.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.HashMap;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +72,15 @@ public class UserService {
     public Object selectByUIDWithAuths(Map dataMap) {
         Map result = (Map) this.selectByUID(dataMap);
         result.putAll(AUTHSService.selectWithUSERNAME(dataMap));
+        return result;
+    }
+
+    public Object selectAll(String user_ID){
+        String sqlMapId = "RarefieldUsers.selectAll";
+        HashMap dataMap = new HashMap<>();
+        dataMap.put("user_ID", user_ID);
+
+        Object result = rareSharedDao.getList(sqlMapId, dataMap);
         return result;
     }
 
