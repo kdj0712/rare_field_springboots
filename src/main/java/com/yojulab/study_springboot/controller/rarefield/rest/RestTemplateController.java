@@ -71,6 +71,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -121,16 +122,28 @@ public class RestTemplateController {
         return modelAndView;
       }
 
-      @GetMapping(value = "/guideline")
-      public String guideline() {
-       restTemplateService.newsPostRequest();
-      return "hellow";
+      @GetMapping(value = "/read/{iD}")
+        public ModelAndView newsRead(ModelAndView modelAndView, @PathVariable String iD) {
+        List<Map<String,Object>> result = restTemplateService.newsReadPostRequest(iD);
+        String viewPath = "/WEB-INF/rarefield/views/trend/trend_news_read.jsp";
+        modelAndView.setViewName(viewPath);
+        modelAndView.addObject("result", result);
+        return modelAndView;
       }
 
-      @GetMapping(value = "/site")
-      public String site() {
-       restTemplateService.newsPostRequest();
-      return "hellow";
+      @GetMapping(value = "/guideline")
+      public ModelAndView guideline(ModelAndView modelAndView) {
+        List<Map<String,Object>> result = restTemplateService.guideLine();
+        String viewPath = "/WEB-INF/rarefield/views/trend/trend_guideline.jsp";
+        modelAndView.setViewName(viewPath);
+        modelAndView.addObject("result", result);
+        return modelAndView;
       }
+
+      // @GetMapping(value = "/site")
+      // public String site() {
+      //  restTemplateService.newsPostRequest();
+      // return "hellow";
+      // }
   
 }

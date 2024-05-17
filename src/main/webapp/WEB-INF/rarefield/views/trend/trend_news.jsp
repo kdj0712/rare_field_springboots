@@ -90,27 +90,27 @@
            for(int i = 0 ; i < resultList.size() ; i=i+1) {
             HashMap<String, Object> record = (HashMap<String, Object>) resultList.get(i); %>
 
-        <div class="tab-content container" style="width: 80%;" onclick="location.href='/trend/trend_news_read/{{new.id}}'" style="cursor: pointer;">
+        <div class="tab-content container" style="width: 80%;" onclick="location.href='/trend/read/{iD}'" style="cursor: pointer;">
             <h7 class="tab-pane fade show active">
-                <a href="/trend/trend_news_read/{{new.id}}" style="color: #4b4b4b;" class=""><%= record.get("news_paper") %>
+                <a href="/trend/read/{iD}" style="color: #4b4b4b;" class=""><%= record.get("news_paper") %>
                 </a>
             </h7>
             <div class="tit">
-                <h5 class=""><a href="/trend/trend_news_read/{{new.id}}" class="">
+                <h5 class=""><a href="/trend/read/{iD}" class="">
                         <%= record.get("news_title") %>
                     </a></h5>
             </div>
             <div class="row justify-content-end">
                 <h7 class="category col-2">
-                    <a href="/trend/trend_news_read/{{new.id}}" style="color: #4b4b4b;" class=""> <%= record.get("news_datetime.date()") %>
+                    <a href="/trend/read/{iD}" style="color: #4b4b4b;" class=""> <%= record.get("news_datetime.date()") %>
                     </a>
                 </h7>
                 <h7 class="category col-2">
-                    <a href="/trend/trend_news_read/{{new.id}}" style="color: #4b4b4b;" class=""> <%= record.get("news_topic") %>
+                    <a href="/trend/read/{iD}" style="color: #4b4b4b;" class=""> <%= record.get("news_topic") %>
                     </a>
                 </h7>
                 <h7 class="category col-2">
-                    <a href="/trend/trend_news_read/{{new.id}}" style="color: #4b4b4b;" class="">조회수{{new.news_click}}
+                    <a href="/trend/read/{iD}" style="color: #4b4b4b;" class="">조회수{{new.news_click}}
                     </a>
                 </h7>
 
