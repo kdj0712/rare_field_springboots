@@ -123,22 +123,24 @@ public class RestTemplateController {
       }
 
       @GetMapping(value = "/read/{iD}")
-        public ModelAndView newsRead(ModelAndView modelAndView, @PathVariable String iD) {
-        List<Map<String,Object>> result = restTemplateService.newsReadPostRequest(iD);
+        public ModelAndView newsRead(ModelAndView modelAndView,@PathVariable String id) {
+        List<Map<String,Object>> result = restTemplateService.newsPostRequest();
+        restTemplateService.newsReadPostRequest(result, "_id", id);
         String viewPath = "/WEB-INF/rarefield/views/trend/trend_news_read.jsp";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("result", result);
+        modelAndView.addObject("_id", id);
         return modelAndView;
       }
 
-      @GetMapping(value = "/guideline")
-      public ModelAndView guideline(ModelAndView modelAndView) {
-        List<Map<String,Object>> result = restTemplateService.guideLine();
-        String viewPath = "/WEB-INF/rarefield/views/trend/trend_guideline.jsp";
-        modelAndView.setViewName(viewPath);
-        modelAndView.addObject("result", result);
-        return modelAndView;
-      }
+      // @GetMapping(value = "/guideline")
+      // public ModelAndView guideline(ModelAndView modelAndView) {
+      //   List<Map<String,Object>> result = restTemplateService.guideLine();
+      //   String viewPath = "/WEB-INF/rarefield/views/trend/trend_guideline.jsp";
+      //   modelAndView.setViewName(viewPath);
+      //   modelAndView.addObject("result", result);
+      //   return modelAndView;
+      // }
 
       // @GetMapping(value = "/site")
       // public String site() {
