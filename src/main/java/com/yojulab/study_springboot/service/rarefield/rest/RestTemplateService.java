@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yojulab.study_springboot.utils.Paginations;
 
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -40,23 +41,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class RestTemplateService {
+
     private RestTemplate restTemplate = new RestTemplate();
     private ObjectMapper mapper = new ObjectMapper(); 
 
      public void RestTemplateController(@Autowired RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
-    public void getRequest() {
-    	// 요청을 보낼 URL
-        String apiUrl = "http://trainings.iptime.org:45004/trend/trend_law_data";
+    // public void getRequest() {
+    // 	// 요청을 보낼 URL
+    //     String apiUrl = "http://trainings.iptime.org:45004/trend/trend_law_data";
      
-     	// HTTP GET 요청 보내기
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(apiUrl, String.class);
+    //  	// HTTP GET 요청 보내기
+    //     ResponseEntity<String> responseEntity = restTemplate.getForEntity(apiUrl, String.class);
         
-        // 응답 값
-        String responseBody = responseEntity.getBody();
-        System.out.println("GET Response: " + responseBody);
-    }
+    //     // 응답 값
+    //     String responseBody = responseEntity.getBody();
+    //     System.out.println("GET Response: " + responseBody);
+    // }
 
     public List<Map<String,Object>> lawPostRequest() {
     	// 요청을 보낼 URL
@@ -102,9 +104,9 @@ public class RestTemplateService {
 
     }
 
-    public List<Map<String,Object>> newsPostRequest() {
+    public Map<String,Object> newsPostRequest(int currentPage) {
     	// 요청을 보낼 URL
-        String apiUrl = "http://trainings.iptime.org:45004/trend/trend_news_data";
+        String apiUrl = "http://trainings.iptime.org:45004/trend/trend_news_data?page_number=" + currentPage;
 
 		// HTTP 헤더 설정
         HttpHeaders headers = new HttpHeaders();
@@ -112,7 +114,9 @@ public class RestTemplateService {
 		
         // 요청 데이터 생성
         MultiValueMap<String, String> requestData = new LinkedMultiValueMap<>();
-		    requestData.add("key", "value");
+
+		requestData.add("key", "value");
+        requestData.add("key", "value");
 
 		// HTTP POST 요청 보내기
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(apiUrl, requestData, String.class);
@@ -126,7 +130,7 @@ public class RestTemplateService {
         // 가장 큰 JSONObject를 가져옵니다.
         JSONObject jObject = new JSONObject(jsonString);
         // 배열을 가져옵니다.
-        JSONArray jArray = jObject.getJSONArray("data_news");
+        JSONArray jArray = jObject.getJSONArray("news");
     
         List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 
@@ -141,7 +145,19 @@ public class RestTemplateService {
         
             list.add(map);
         }
-        return list;
+
+        JSONObject paginationObject = jObject.getJSONObject("pagination");
+        Paginations paginations = new Paginations(paginationObject.getInt("total_records"), paginationObject.getInt("current_page"));
+
+        // Map<String, Object> pagi = new HashMap<>();
+        // pagi.put("pageScale",paginations.getPageScale());
+        // pagi.put("pageBegni",paginations.getPageBegin());
+
+        Map<String,Object> result = new HashMap<>();
+        result.put("news",list);
+        result.put("pagination",paginations);
+
+        return result;
 
     }
 

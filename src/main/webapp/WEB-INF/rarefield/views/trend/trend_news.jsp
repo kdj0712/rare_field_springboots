@@ -18,7 +18,7 @@
 </style>
 
 <form action="">
-    <main class="container row justify-content-between">
+    <main class="row justify-content-between">
         <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
         <div>
             <h2 class="text-center  fw-bold"> <a href="/trend/news">news</a></h2>
@@ -86,9 +86,10 @@
         </ul>
         <!-- 탭 내용 -->
         <br>
-        <% List<Map<String,Object>> resultList = (List<Map<String,Object>>) request.getAttribute("result");  
-           for(int i = 0 ; i < resultList.size() ; i=i+1) {
-            HashMap<String, Object> record = (HashMap<String, Object>) resultList.get(i); %>
+        <% Map<String,Object> result = (Map<String,Object>) request.getAttribute("result"); 
+           List<Map<String,Object>> records = (List<Map<String,Object>>) result.get("news");  
+           for(int i = 0 ; i < records.size() ; i=i+1) {
+            HashMap<String, Object> record = (HashMap<String, Object>) records.get(i); %>
 
         <div class="tab-content container" style="width: 80%;" onclick="location.href='/trend/read/<%= record.get("_id") %>'" style="cursor: pointer;">
             <h7 class="tab-pane fade show active">
@@ -102,7 +103,7 @@
             </div>
             <div class="row justify-content-end">
                 <h7 class="category col-2">
-                    <a href="/trend/read/<%= record.get("_id") %>" style="color: #4b4b4b;" class=""> <%= record.get("news_datetime.date()") %>
+                    <a href="/trend/read/<%= record.get("_id") %>" style="color: #4b4b4b;" class=""> <%= record.get("news_datetime") %>
                     </a>
                 </h7>
                 <h7 class="category col-2">
@@ -121,7 +122,10 @@
         <% } %>
 
     </div>
-
+    <%
+        Paginations paginations = (Paginations)result.get("pagination"); 
+    %>
+    <div>총 갯수 : <%= paginations.getTotalCount() %></div>
         <div style="height: 20px;"></div>
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
@@ -135,28 +139,30 @@
                 </li>
                 <li class="page-item {{ '' if pagination.has_previous_page else 'disabled' }}">
                     <button  style="border: none; background: none;" type="submit" class="page-link"
-                        formaction="/trend/trend_news/{{pagination.previous_page}}"><svg width="13" height="18" viewBox="0 0 13 18" fill="none"
+                        formaction="/trend/news?current_page=<%= paginations.getPreviousPage() %>"><svg width="13" height="18" viewBox="0 0 13 18" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                     </svg></button>
                 </li>
-                {% for page_num in pagination.current_page_range %}
+                <%
+                    for(int i=paginations.getBlockStart();i <= paginations.getBlockEnd(); i=i+1){
+                %>
                 <li class=" page-item {{ 'active' if page_num == pagination.current_page else '' }}" id="pages">
-                    <button  style="border: none; background: none; color: black;" type=" submit" class="page-link" formaction="/trend/trend_news/{{ page_num }}">
-                        {{page_num}}
+                    <button  style="border: none; background: none; color: black;" type=" submit" class="page-link" formaction="/trend/news?current_page=<%= i %>">
+                        <%= i %>
                     </button>
                 </li>
-                {% endfor %}
+                <% } %>
                 <li class=" page-item {{ '' if pagination.has_next_page else 'disabled' }}">
                     <button  style="border: none; background: none;" type=" submit" class="page-link"
-                        formaction="/trend/trend_news/{{ pagination.next_page }}"><svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        formaction="/trend/news?current_page=<%= paginations.getNextPage() %>"><svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                         </svg>
                     <path d="M4 0V22" stroke="#EDEDED" stroke-width="7" />
                 </svg></button>
                 </li>
                 <li class=" page-item {{ '' if pagination.has_next_block else ' disabled' }}">
-                    <button  style="border: none; background: none;" type=" submit" class="page-link" formaction="/trend/trend_news/{{ pagination.last_page }}">
+                    <button  style="border: none; background: none;" type=" submit" class="page-link" formaction="/trend/news/{{ pagination.last_page }}">
                         <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                             <path d="M11 15L17 9L11 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />

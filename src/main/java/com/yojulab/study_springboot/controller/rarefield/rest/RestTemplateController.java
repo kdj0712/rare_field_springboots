@@ -114,24 +114,24 @@ public class RestTemplateController {
       }
 
       @GetMapping(value = "/news")
-        public ModelAndView news(ModelAndView modelAndView) {
-        List<Map<String,Object>> result = restTemplateService.newsPostRequest();
+        public ModelAndView news(ModelAndView modelAndView, @RequestParam int currentPage) {
+        Map<String,Object> result = restTemplateService.newsPostRequest(currentPage);
         String viewPath = "/WEB-INF/rarefield/views/trend/trend_news.jsp";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("result", result);
         return modelAndView;
       }
 
-      @GetMapping(value = "/read/{iD}")
-        public ModelAndView newsRead(ModelAndView modelAndView,@PathVariable String id) {
-        List<Map<String,Object>> result = restTemplateService.newsPostRequest();
-        restTemplateService.newsReadPostRequest(result, "_id", id);
-        String viewPath = "/WEB-INF/rarefield/views/trend/trend_news_read.jsp";
-        modelAndView.setViewName(viewPath);
-        modelAndView.addObject("result", result);
-        modelAndView.addObject("_id", id);
-        return modelAndView;
-      }
+      // @GetMapping(value = "/read/{iD}")
+      //   public ModelAndView newsRead(ModelAndView modelAndView,@PathVariable String id) {
+      //   Map<String,Object> result = restTemplateService.newsPostRequest();
+      //   // restTemplateService.newsReadPostRequest(result, "_id", id);
+      //   String viewPath = "/WEB-INF/rarefield/views/trend/trend_news_read.jsp";
+      //   modelAndView.setViewName(viewPath);
+      //   modelAndView.addObject("result", result);
+      //   modelAndView.addObject("_id", id);
+      //   return modelAndView;
+      // }
 
       // @GetMapping(value = "/guideline")
       // public ModelAndView guideline(ModelAndView modelAndView) {
