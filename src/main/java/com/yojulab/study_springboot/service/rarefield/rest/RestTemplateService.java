@@ -148,7 +148,7 @@ public class RestTemplateService {
     
     public List<Map<String,Object>> infodiseaseRequest() {
     	// 요청을 보낼 URL
-        String apiUrl = "http://trainings.iptime.org:45004/trend/trend_news_data";
+        String apiUrl = "http://trainings.iptime.org:45004/info/info_raredisease";
 
 		// HTTP 헤더 설정
         HttpHeaders headers = new HttpHeaders();
