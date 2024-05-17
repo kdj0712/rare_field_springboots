@@ -186,7 +186,18 @@ public class RestTemplateService {
             list.add(map);
         }
         return list;
+    }
 
+    public void newsReadPostRequest(List<Map<String, Object>> list, String targetKey, String targetValue) {
+        for (Map<String, Object> map : list) {
+            if (targetValue.equals(map.get(targetKey))) {
+                for (Map.Entry<String, Object> entry : map.entrySet()) {
+                    if (!entry.getKey().equals(targetKey)) {
+                        System.out.println(entry.getKey() + ": " + entry.getValue());
+                    }
+                }
+            }
+        }
     }
 
 }
