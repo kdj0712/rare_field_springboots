@@ -164,7 +164,7 @@ public class RestTemplateService {
     
     public List<Map<String,Object>> infodiseaseRequest() {
     	// 요청을 보낼 URL
-        String apiUrl = "http://trainings.iptime.org:45004/info/info_raredisease";
+        String apiUrl = "http://trainings.iptime.org:45004/info/raredisease";
 
 		// HTTP 헤더 설정
         HttpHeaders headers = new HttpHeaders();
@@ -214,6 +214,11 @@ public class RestTemplateService {
                 }
             }
         }
+    }
+
+    public Map<String, Object> infodiseaseRequest(int currentPage) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'infodiseaseRequest'");
     }
 
 }
