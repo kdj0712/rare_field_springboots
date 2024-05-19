@@ -161,9 +161,9 @@ public class RestTemplateService {
     }
 
     
-    public List<Map<String,Object>> infodiseaseRequest() {
+    public List<Map<String, Object>> infodiseaseRequest() {
     	// 요청을 보낼 URL
-        String apiUrl = "http://trainings.iptime.org:45004/info/info_raredisease";
+        String apiUrl = "http://trainings.iptime.org:45004/info/raredisease";
 
 		// HTTP 헤더 설정
         HttpHeaders headers = new HttpHeaders();
@@ -203,6 +203,49 @@ public class RestTemplateService {
         return list;
     }
 
+    public class MapQueryService {
+        private RestTemplate restTemplate = new RestTemplate();
+        public Map<String, Object> institutionQueryRequest(String keyword, double latitude, double longitude, int currentPage) {
+            // 요청을 보낼 URL
+            String apiUrl = "http://trainings.iptime.org:45004/info/institution/2?keyword=" + keyword + "&pos=" + latitude + "%2C" + longitude + "&page_number=" + currentPage;
+            // HTTP 헤더 설정
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);    
+            // HTTP GET 요청 보내기
+            ResponseEntity<String> responseEntity = restTemplate.getForEntity(apiUrl, String.class);    
+            // 응답 값
+            String responseBody = responseEntity.getBody();    
+            JSONObject jObject = new JSONObject(responseBody);    
+            // 결과 배열을 가져옵니다.
+            JSONArray jResults = jObject.getJSONArray("results");
+            List<Map<String, Object>> resultList = new ArrayList<>();
+    
+            for (int i = 0; i < jResults.length(); i++) {
+                JSONObject obj = jResults.getJSONObject(i);
+                Map<String, Object> map = new HashMap<>();
+    
+                for (String key : obj.keySet()) {
+                    Object value = obj.get(key);
+                    map.put(key, value);
+                }
+    
+                resultList.add(map);
+            }
+    
+            JSONObject paginationObject = jObject.getJSONObject("pagination");
+            Map<String, Object> paginationMap = new HashMap<>();
+            for (String key : paginationObject.keySet()) {
+                Object value = paginationObject.get(key);
+                paginationMap.put(key, value);
+            }
+    
+            Map<String, Object> result = new HashMap<>();
+            result.put("results", resultList);
+            result.put("pagination", paginationMap);
+    
+            return result;
+        }
+    }
     public void newsReadPostRequest(List<Map<String, Object>> list, String targetKey, String targetValue) {
         for (Map<String, Object> map : list) {
             if (targetValue.equals(map.get(targetKey))) {
@@ -215,4 +258,3 @@ public class RestTemplateService {
         }
     }
 
-}
