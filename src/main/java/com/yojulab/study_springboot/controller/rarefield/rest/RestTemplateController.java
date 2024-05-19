@@ -122,7 +122,7 @@ public class RestTemplateController {
         return modelAndView;
       }
 
-      // @GetMapping(value = "/read/{iD}")
+      // @GetMapping(value = "/read/{id}")
       //   public ModelAndView newsRead(ModelAndView modelAndView,@PathVariable String id) {
       //   Map<String,Object> result = restTemplateService.newsPostRequest();
       //   // restTemplateService.newsReadPostRequest(result, "_id", id);

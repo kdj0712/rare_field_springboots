@@ -17,7 +17,7 @@
     }
 </style>
 
-<form action="">
+<form action="" method="get">
     <main class="row justify-content-between">
         <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
         <div>
@@ -139,7 +139,7 @@
                 </li>
                 <li class="page-item {{ '' if pagination.has_previous_page else 'disabled' }}">
                     <button  style="border: none; background: none;" type="submit" class="page-link"
-                        formaction="/trend/news?current_page=<%= paginations.getPreviousPage() %>"><svg width="13" height="18" viewBox="0 0 13 18" fill="none"
+                        formaction="/trend/news?currentPage=<%= paginations.getPreviousPage() %>"><svg width="13" height="18" viewBox="0 0 13 18" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                     </svg></button>
@@ -148,14 +148,14 @@
                     for(int i=paginations.getBlockStart();i <= paginations.getBlockEnd(); i=i+1){
                 %>
                 <li class=" page-item {{ 'active' if page_num == pagination.current_page else '' }}" id="pages">
-                    <button  style="border: none; background: none; color: black;" type=" submit" class="page-link" formaction="/trend/news?current_page=<%= i %>">
+                    <a style="border: none; background: none; color: black;" class="page-link" href="/trend/news?currentPage=<%= i %>">
                         <%= i %>
-                    </button>
+                    </a>
                 </li>
                 <% } %>
                 <li class=" page-item {{ '' if pagination.has_next_page else 'disabled' }}">
                     <button  style="border: none; background: none;" type=" submit" class="page-link"
-                        formaction="/trend/news?current_page=<%= paginations.getNextPage() %>"><svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        formaction="/trend/news?currentPage=<%= paginations.getNextPage() %>"><svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                         </svg>
                     <path d="M4 0V22" stroke="#EDEDED" stroke-width="7" />

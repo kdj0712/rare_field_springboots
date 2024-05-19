@@ -104,7 +104,7 @@
                                 <ul class="th1 col-2 text-decoration-none">
                                     <div id="field">최신마당</div>
                                     <li class="menu_li dropdown-item ">
-                                        <a href="/trend/news" target="_self" title="" width="100px">
+                                        <a href="/trend/news?currentPage=1" target="_self" title="" width="100px">
                                             뉴스</a>
                                     </li>
                                     <li class=" th2_in dropdown-item">
