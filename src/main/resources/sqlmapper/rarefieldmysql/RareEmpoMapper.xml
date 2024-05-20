@@ -59,6 +59,7 @@
 		<if test="search != null and search != ''">
 		and ${searchType} regexp #{search}
 		</if>
+        ORDER BY community_date DESC
         limit #{pageBegin}, #{pageScale}
         ;
 	</select>

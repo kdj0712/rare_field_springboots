@@ -17,9 +17,12 @@
     }
 </style>
 
-<form action="" method="get">
+
     <main class="row justify-content-between">
         <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
+        <div class="col-8 row">
+        <form action="" method="get">
+        <main class="container">
         <div>
             <h2 class="text-center  fw-bold"> <a href="/trend/news">news</a></h2>
         </div>
@@ -130,19 +133,19 @@
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
                 <li class="page-item {{ '' if pagination.has_previous_block else 'disabled' }}">
-                    <button  style="border: none; background: none;" type="submit" class="page-link" formaction="/trend/trend_news/{{pagination.first_page}}">
+                    <a  style="border: none; background: none;" class="page-link" href="/trend/news?currentPage=<%= paginations.getBlockStart() %>">
                         <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M18 3L12 9L18 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                             <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                         </svg>
-                    </button>
+                    </a>
                 </li>
                 <li class="page-item {{ '' if pagination.has_previous_page else 'disabled' }}">
-                    <button  style="border: none; background: none;" type="submit" class="page-link"
-                        formaction="/trend/news?currentPage=<%= paginations.getPreviousPage() %>"><svg width="13" height="18" viewBox="0 0 13 18" fill="none"
+                    <a style="border: none; background: none;" class="page-link"
+                        href="/trend/news?currentPage=<%= paginations.getPreviousPage() %>"><svg width="13" height="18" viewBox="0 0 13 18" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
-                    </svg></button>
+                    </svg></a>
                 </li>
                 <%
                     for(int i=paginations.getBlockStart();i <= paginations.getBlockEnd(); i=i+1){
@@ -154,27 +157,30 @@
                 </li>
                 <% } %>
                 <li class=" page-item {{ '' if pagination.has_next_page else 'disabled' }}">
-                    <button  style="border: none; background: none;" type=" submit" class="page-link"
-                        formaction="/trend/news?currentPage=<%= paginations.getNextPage() %>"><svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <a style="border: none; background: none;" class="page-link"
+                        href="/trend/news?currentPage=<%= paginations.getNextPage() %>"><svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                         </svg>
                     <path d="M4 0V22" stroke="#EDEDED" stroke-width="7" />
-                </svg></button>
+                </svg></a>
                 </li>
                 <li class=" page-item {{ '' if pagination.has_next_block else ' disabled' }}">
-                    <button  style="border: none; background: none;" type=" submit" class="page-link" formaction="/trend/news/{{ pagination.last_page }}">
+                    <a style="border: none; background: none;" class="page-link" href="/trend/news?currentPage=<%= paginations.getBlockEnd() %>">
                         <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                             <path d="M11 15L17 9L11 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                         </svg>
-                    </button>
+                    </a>
                 </li>
             </ul>
         </nav>
         <div style="height: 20px;"></div>
-        <%@ include file="/WEB-INF/rarefield/views/commons/side_right_banner.jsp" %>
     </main>
-</form>
+    </form>
+    </div>
+        <%@ include file="/WEB-INF/rarefield/views/commons/side_right_banner.jsp" %>
+
+    </main>
 
 <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
 

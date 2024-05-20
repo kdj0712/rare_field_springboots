@@ -31,54 +31,57 @@
     }
 </style>
 <main class="row justify-content-between">
+    <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
+    <div class="col-8 row">
     
-<div class="col-2"><%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %></div>
+        <main class="container">
+        <div class="container col-10" style="width: 80%">
+            <h4 class="text-center m-3 fw-bold" width="100%" height="100px"> <a href="/trend/law">법/시행령/시행규칙</a> </h4>
+            <hr>
+            <% List<Map<String,Object>> resultList = (List<Map<String,Object>>) request.getAttribute("result");  
+            for(int i = 0 ; i < resultList.size() ; i=i+1) {
+                HashMap<String, Object> record = (HashMap<String, Object>) resultList.get(i); %>
+            <div class="container" style="width: 80%;" onclick="location.href='<%= record.get("link") %>'">
+                <div class="tit">
+                    <h5 class="">
 
-    <div class="container col-10" style="width: 80%">
-        <h4 class="text-center m-3 fw-bold" width="100%" height="100px"> <a href="/trend/law">법/시행령/시행규칙</a> </h4>
-        <hr>
-        <% List<Map<String,Object>> resultList = (List<Map<String,Object>>) request.getAttribute("result");  
-           for(int i = 0 ; i < resultList.size() ; i=i+1) {
-            HashMap<String, Object> record = (HashMap<String, Object>) resultList.get(i); %>
-        <div class="container" style="width: 80%;" onclick="location.href='<%= record.get("link") %>'">
-            <div class="tit">
-                <h5 class="">
+                        <a href='<%= record.get("link") %>' class="">
+                            <%= record.get("law_name") %>
 
-                    <a href='<%= record.get("link") %>' class="">
-                        <%= record.get("law_name") %>
-
-                    </a>
-                </h5>
-            </div>
-            <div class="sub row justify-content-between">
-                <h7 class="name col-3">
+                        </a>
+                    </h5>
+                </div>
+                <div class="sub row justify-content-between">
+                    <h7 class="name col-3">
+                        
+                        <a href='<%= record.get("link") %>' class="">
+                            공포번호 : <%= record.get("promulgation_number") %>
+                        
+                        </a>
+                    </h7>
+                    <h7 class="name col-3">
                     
-                    <a href='<%= record.get("link") %>' class="">
-                        공포번호 : <%= record.get("promulgation_number") %>
-                       
-                    </a>
-                </h7>
-                <h7 class="name col-3">
-                   
-                    <a href='<%= record.get("link") %>' class="">
-                        공포일자 : <%= record.get("promulgation_date") %>
-                       
-                    </a>
-                </h7>
-                <h7 class="name col-3">
-                   
-                    <a href='<%= record.get("link") %>' class="">
-                        시행일자 : <%= record.get("start_date") %>
+                        <a href='<%= record.get("link") %>' class="">
+                            공포일자 : <%= record.get("promulgation_date") %>
+                        
+                        </a>
+                    </h7>
+                    <h7 class="name col-3">
                     
-                    </a>
-                </h7>
+                        <a href='<%= record.get("link") %>' class="">
+                            시행일자 : <%= record.get("start_date") %>
+                        
+                        </a>
+                    </h7>
+                </div>
             </div>
-        </div>
-        <% } %>
-        <hr>
+            <% } %>
+            <hr>
         
-    </div>
-    <div class="col-1"><%@ include file="/WEB-INF/rarefield/views/commons/side_right_banner.jsp" %></div>
+        </div>
+        </main>
+        </div>
+    <%@ include file="/WEB-INF/rarefield/views/commons/side_right_banner.jsp" %>
     
 </main>
 <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
