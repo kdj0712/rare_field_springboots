@@ -1,5 +1,8 @@
 package com.yojulab.study_springboot.service.rarefield.rest;
+import com.yojulab.study_springboot.utils.Paginations;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.net.http.HttpClient;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// import org.apache.catalina.util.URLEncoder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +22,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yojulab.study_springboot.utils.Paginations;
-
-import org.springframework.web.bind.annotation.RequestBody;
-
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -35,19 +36,24 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Service
 public class RestTemplateService {
+    @Autowired
+    private RestTemplate restTemplate;
+    @Autowired
+    private ObjectMapper mapper;
 
-    private RestTemplate restTemplate = new RestTemplate();
-    private ObjectMapper mapper = new ObjectMapper(); 
+    // private RestTemplate restTemplate = new RestTemplate();
+    // private ObjectMapper mapper = new ObjectMapper(); 
 
-     public void RestTemplateController(@Autowired RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+    // public void RestTemplateController(@Autowired RestTemplate restTemplate) {
+    //     this.restTemplate = restTemplate;
+    // }
     // public void getRequest() {
     // 	// 요청을 보낼 URL
     //     String apiUrl = "http://trainings.iptime.org:45004/trend/trend_law_data";
@@ -161,92 +167,62 @@ public class RestTemplateService {
 
     }
 
-    
-    public List<Map<String, Object>> infodiseaseRequest() {
-    	// 요청을 보낼 URL
-        String apiUrl = "http://trainings.iptime.org:45004/info/raredisease";
 
-		// HTTP 헤더 설정
+    public Map<String, Object> institutionQueryRequest(String keyword, double latitude, double longitude, int selectedPage) throws JsonProcessingException {
+        // 기본 URL 설정
+        String baseUrl = "http://trainings.iptime.org:45004/info/institution";
+        
+        // 선택된 페이지 번호를 URL에 추가
+        String apiUrl = baseUrl + "/" + selectedPage + "?";
+        
+        // 파라미터 추가 (키워드와 위치)
+        String params = "keyword=" + URLEncoder.encode(keyword, StandardCharsets.UTF_8) + "&pos=" + latitude + "," + longitude;
+        apiUrl += params;
+        
+        // 요청 본문에 들어갈 맵 생성
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("keyword", keyword);
+        requestBody.put("pos", latitude + "," + longitude);
+        requestBody.put("page_number", selectedPage);
+        
+        // HttpHeaders 객체 생성 및 Content-Type 설정
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-		
-        // 요청 데이터 생성
-        MultiValueMap<String, String> requestData = new LinkedMultiValueMap<>();
-		    requestData.add("key_name", "search_word");
-
-		// HTTP POST 요청 보내기
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(apiUrl, requestData, String.class);
         
-        // 응답 값
-        String responseBody = responseEntity.getBody();
-        // System.out.println("POST Response: " + responseBody);
-
-        String jsonString = responseBody;
-       
-        // 가장 큰 JSONObject를 가져옵니다.
-        JSONObject jObject = new JSONObject(jsonString);
-        // 배열을 가져옵니다.
-        JSONArray jArray = jObject.getJSONArray("data_news");
+        // HttpEntity 객체 생성
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+        
+        // POST 요청 보내기
+        ResponseEntity<String> response = restTemplate.postForEntity(apiUrl, entity, String.class);
+        
+        // 응답 본문을 Map으로 변환
+        Map<String, Object> responseMap = mapper.readValue(response.getBody(), Map.class);
+        
+        List<Map<String, Object>> resultList = (List<Map<String, Object>>) responseMap.get("results");
+        Map<String, Object> paginationMap = (Map<String, Object>) responseMap.get("pagination");
+        
+        Map<String, Object> result = new HashMap<>();
+        result.put("results", resultList);
+        result.put("pagination", paginationMap);
+        
+        return result;
+    }
     
-        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 
-        for (int i = 0; i < jArray.length(); i++) {
-            JSONObject obj = jArray.getJSONObject(i);
-            Map<String, Object> map = new HashMap<>();
-        
-            for(String key : obj.keySet()) {
-                Object value = obj.get(key);
-                map.put(key, value);
-            }
-        
-            list.add(map);
-        }
-        return list;
+    private String postForString(String url, MultiValueMap<String, String> requestData) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestData, headers);
+
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
+        return responseEntity.getBody();
     }
 
-    public class MapQueryService {
-        private RestTemplate restTemplate = new RestTemplate();
-        public Map<String, Object> institutionQueryRequest(String keyword, double latitude, double longitude, int currentPage) {
-            // 요청을 보낼 URL
-            String apiUrl = "http://trainings.iptime.org:45004/info/institution/2?keyword=" + keyword + "&pos=" + latitude + "%2C" + longitude + "&page_number=" + currentPage;
-            // HTTP 헤더 설정
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);    
-            // HTTP GET 요청 보내기
-            ResponseEntity<String> responseEntity = restTemplate.getForEntity(apiUrl, String.class);    
-            // 응답 값
-            String responseBody = responseEntity.getBody();    
-            JSONObject jObject = new JSONObject(responseBody);    
-            // 결과 배열을 가져옵니다.
-            JSONArray jResults = jObject.getJSONArray("results");
-            List<Map<String, Object>> resultList = new ArrayList<>();
-    
-            for (int i = 0; i < jResults.length(); i++) {
-                JSONObject obj = jResults.getJSONObject(i);
-                Map<String, Object> map = new HashMap<>();
-    
-                for (String key : obj.keySet()) {
-                    Object value = obj.get(key);
-                    map.put(key, value);
-                }
-    
-                resultList.add(map);
-            }
-    
-            JSONObject paginationObject = jObject.getJSONObject("pagination");
-            Map<String, Object> paginationMap = new HashMap<>();
-            for (String key : paginationObject.keySet()) {
-                Object value = paginationObject.get(key);
-                paginationMap.put(key, value);
-            }
-    
-            Map<String, Object> result = new HashMap<>();
-            result.put("results", resultList);
-            result.put("pagination", paginationMap);
-    
-            return result;
-        }
+    private String getForString(String url) {
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+        return responseEntity.getBody();
     }
+
     public void newsReadPostRequest(List<Map<String, Object>> list, String targetKey, String targetValue) {
         for (Map<String, Object> map : list) {
             if (targetValue.equals(map.get(targetKey))) {
@@ -258,4 +234,4 @@ public class RestTemplateService {
             }
         }
     }
-
+}
