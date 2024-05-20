@@ -166,6 +166,37 @@ public class RestTemplateService {
 
     }
 
+    public Map<String,Object> newsReadGetRequest(String id) {
+    	// 요청을 보낼 URL
+        String apiUrl = "http://trainings.iptime.org:45004/trend/trend_news_data/" + id;
+
+		// HTTP POST 요청 보내기
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(apiUrl, String.class);
+        
+        // 응답 값
+        String responseBody = responseEntity.getBody();
+        System.out.println("get Response: " + responseBody);
+
+        String jsonString = responseBody;
+       
+        // 가장 큰 JSONObject를 가져옵니다.
+        JSONObject jObject = new JSONObject(jsonString);
+        JSONObject newsObject = jObject.getJSONObject("news");
+
+        Map<String,Object> result = new HashMap<>();
+        result.put("id",newsObject.optString("_id"));
+        result.put("news_title",newsObject.optString("news_title"));
+        result.put("news_datetime",newsObject.optString("news_datetime"));
+        result.put("news_contents",newsObject.optString("news_contents"));
+        result.put("news_url",newsObject.optString("news_url"));
+        result.put("news_topic",newsObject.optString("news_topic"));
+        result.put("news_paper",newsObject.optString("news_paper"));
+        result.put("news_image",newsObject.optString("news_image"));
+
+        return result;
+
+    }
+
 
     public Map<String, Object> institutionQueryRequest(String keyword, double latitude, double longitude, int selectedPage) throws JsonProcessingException {
         // 기본 URL 설정
@@ -222,15 +253,15 @@ public class RestTemplateService {
         return responseEntity.getBody();
     }
 
-    public void newsReadPostRequest(List<Map<String, Object>> list, String targetKey, String targetValue) {
-        for (Map<String, Object> map : list) {
-            if (targetValue.equals(map.get(targetKey))) {
-                for (Map.Entry<String, Object> entry : map.entrySet()) {
-                    if (!entry.getKey().equals(targetKey)) {
-                        System.out.println(entry.getKey() + ": " + entry.getValue());
-                    }
-                }
-            }
-        }
-    }
+    // public void newsReadGetRequest(List<Map<String, Object>> list, String targetKey, String targetValue) {
+    //     for (Map<String, Object> map : list) {
+    //         if (targetValue.equals(map.get(targetKey))) {
+    //             for (Map.Entry<String, Object> entry : map.entrySet()) {
+    //                 if (!entry.getKey().equals(targetKey)) {
+    //                     System.out.println(entry.getKey() + ": " + entry.getValue());
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 }
