@@ -122,7 +122,6 @@ public class RestTemplateService {
         MultiValueMap<String, String> requestData = new LinkedMultiValueMap<>();
 
 		requestData.add("key", "value");
-        requestData.add("key", "value");
 
 		// HTTP POST 요청 보내기
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(apiUrl, requestData, String.class);
