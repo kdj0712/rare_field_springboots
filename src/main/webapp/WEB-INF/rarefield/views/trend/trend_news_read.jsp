@@ -11,47 +11,51 @@
 </style>
 
 
-<main class="container row justify-content-between">
+<main class="row justify-content-between">
     <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
-
-    <% List<Map<String,Object>> resultList = (List<Map<String,Object>>) request.getAttribute("result");  
-           for(int i = 0 ; i < resultList.size() ; i=i+1) {
-            HashMap<String, Object> record = (HashMap<String, Object>) resultList.get(i); %>
+    <% int currentPage = (Integer) request.getAttribute("currentPage"); %>
+    <div class="col-8 row">
+    <% Map<String,Object> result = (Map<String,Object>) request.getAttribute("result"); %>
 
     <div class="mt-4 mb-4">
-        <h2 style="margin-top: 100px;"><%= record.get("news_title") %></h2>
+        <h2 style="margin-top: 100px;"><%= result.get("news_title") %></h2>
     </div>
     <div class="row">
         <div class="col-12 text-end">
-            언론사명 : <%= record.get("news_paper") %>
+            언론사명 : <%= result.get("news_paper") %>
         </div>
         <div class="col-12 text-end">
-            날짜 : <%= record.get("news_datetime.date()") %>
+            날짜 : <%= result.get("news_datetime") %>
         </div>
     </div>
     <hr>
     <div style="">
-        <img src="<%= record.get('news_image') %>" alt="">
+        <img src="<%= result.get("news_image") %>" alt="">
     </div>
     <div class="lead" style="text-align:justify; font-size: 18px;" id="editor"></div>
     <hr>
     <div>뉴스 링크 :
-        <a href="<%= record.get('news_url') %>" target="_blank"><%= record.get("news_url") %></a>
+        <a href="<%= result.get("news_url") %>" target="_blank"><%= result.get("news_url") %></a>
     </div>
-    <% } %>
     <hr>
     <div class="row">
         <div class="col-12 text-end">
-            <a href="/trend/news" class="btn btn-primary">목록</a>
+
+            <a href="/trend/news?currentPage=<%= currentPage %>" class="btn btn-primary">목록</a>
+
         </div>
     </div>
+</div>
+    <%@ include file="/WEB-INF/rarefield/views/commons/side_right_banner.jsp" %>
 </main>
+
+<%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
 
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-beta.0/dist/quill.js"></script>
 
 <script>
     // 서버나 다른 소스에서 로드한 콘텐츠를 대표하는 가상의 데이터
-    let contentFromServer = '<%= record.get("news_contents") %>';
+    let contentFromServer = '<%= result.get("news_contents") %>';
 
     // Quill 편집기 초기화
     let quill = new Quill('#editor', {

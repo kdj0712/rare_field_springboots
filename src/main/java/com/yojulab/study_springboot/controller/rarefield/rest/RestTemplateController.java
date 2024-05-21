@@ -122,16 +122,17 @@ public class RestTemplateController {
         return modelAndView;
       }
 
-      // @GetMapping(value = "/read/{id}")
-      //   public ModelAndView newsRead(ModelAndView modelAndView,@PathVariable String id) {
-      //   Map<String,Object> result = restTemplateService.newsPostRequest();
-      //   // restTemplateService.newsReadPostRequest(result, "_id", id);
-      //   String viewPath = "/WEB-INF/rarefield/views/trend/trend_news_read.jsp";
-      //   modelAndView.setViewName(viewPath);
-      //   modelAndView.addObject("result", result);
-      //   modelAndView.addObject("_id", id);
-      //   return modelAndView;
-      // }
+      @GetMapping(value = "/read/{id}")
+        public ModelAndView newsRead(ModelAndView modelAndView,@PathVariable String id, @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
+        Map<String,Object> result = restTemplateService.newsReadGetRequest(id);
+        // restTemplateService.newsReadPostRequest(result, "_id", id);
+        String viewPath = "/WEB-INF/rarefield/views/trend/trend_news_read.jsp";
+        modelAndView.setViewName(viewPath);
+        modelAndView.addObject("result", result);
+        modelAndView.addObject("_id", id);
+        modelAndView.addObject("currentPage", currentPage);
+        return modelAndView;
+      }
 
       // @GetMapping(value = "/guideline")
       // public ModelAndView guideline(ModelAndView modelAndView) {
