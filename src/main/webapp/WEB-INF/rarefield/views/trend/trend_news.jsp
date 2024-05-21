@@ -133,7 +133,7 @@
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
                 <li class="page-item {{ '' if pagination.has_previous_block else 'disabled' }}">
-                    <a  style="border: none; background: none;" class="page-link" href="/trend/news?currentPage=<%= paginations.getBlockStart() %>">
+                    <a  style="border: none; background: none;" class="page-link" href="/trend/news?currentPage=<%= paginations.getPageBegin() %>">
                         <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M18 3L12 9L18 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                             <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
@@ -165,7 +165,7 @@
                 </svg></a>
                 </li>
                 <li class=" page-item {{ '' if pagination.has_next_block else ' disabled' }}">
-                    <a style="border: none; background: none;" class="page-link" href="/trend/news?currentPage=<%= paginations.getBlockEnd() %>">
+                    <a style="border: none; background: none;" class="page-link" href="/trend/news?currentPage=<%= paginations.getPageEnd() %>">
                         <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                             <path d="M11 15L17 9L11 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
