@@ -203,7 +203,7 @@ public class RestTemplateService {
         String baseUrl = "http://trainings.iptime.org:45004/info/institution";
         
         // 선택된 페이지 번호를 URL에 추가
-        String apiUrl = baseUrl + "/" + selectedPage + "?";
+        String apiUrl = baseUrl + "?";
         
         // 파라미터 추가 (키워드와 위치)
         String params = "keyword=" + URLEncoder.encode(keyword, StandardCharsets.UTF_8) + "&pos=" + latitude + "," + longitude;
@@ -235,6 +235,55 @@ public class RestTemplateService {
         result.put("results", resultList);
         result.put("pagination", paginationMap);
         
+        return result;
+    }
+    public Map<String, Object> dise_search(Integer currentPage, String key_name, String search_word) throws JsonProcessingException {
+        // 기본 URL 설정
+        String baseUrl = "http://rare-field.shop/info/raredisease?";
+        
+        // // 파라미터를 MultiValueMap에 추가
+        // MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        // params.add("page_number", currentPage != null ? String.valueOf(currentPage) : null);
+        
+        // // 사용자가 입력한 값을 파라미터에 추가
+        // if (key_name != null && !key_name.isEmpty()) {
+        //     params.add("key_name", key_name);
+        // }
+        // if (search_word != null && !search_word.isEmpty()) {
+        //     params.add("search_word", search_word);
+        // }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("page_number", currentPage);
+        params.put("key_name", key_name);
+        params.put("search_word", search_word);
+        
+        // Map 객체를 JSON 문자열로 변환
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonParams = objectMapper.writeValueAsString(params);
+        
+        // HttpHeaders 객체 생성 및 Content-Type 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // HttpEntity 객체 생성 (JSON 문자열과 헤더 포함)
+        HttpEntity<String> entity = new HttpEntity<>(jsonParams, headers);
+        
+        // MultiValueMap<String, String> requestData = new LinkedMultiValueMap<>();
+        
+        // requestData.add("key", "value");
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<String> response = restTemplate.postForEntity(baseUrl, entity, String.class);
+        Map<String, Object> responseMap = objectMapper.readValue(response.getBody(), Map.class);
+        List<Map<String, Object>> resultList = (List<Map<String, Object>>) responseMap.get("dise_list");
+        Map<String, Object> paginationMap = (Map<String, Object>) responseMap.get("pagination");
+        
+        // 결과를 저장할 Map 생성
+        Map<String, Object> result = new HashMap<>();
+        result.put("results", resultList);
+        result.put("pagination", paginationMap);
+
         return result;
     }
     

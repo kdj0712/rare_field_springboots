@@ -61,7 +61,7 @@
                 <svg class="bi me-2" width="40" height="32">
                     <use xlink:href="#bootstrap"></use>
                 </svg>
-                <span class="fs-4"><img width="200" src="/data/img/RDS_logo.png" alt=""></span>
+                <span class="fs-4"><img width="200" src="http://rare-field.shop/data/img/RDS_logo.png" alt=""></span>
             </a>
 
             <ul class="nav nav-pills">
