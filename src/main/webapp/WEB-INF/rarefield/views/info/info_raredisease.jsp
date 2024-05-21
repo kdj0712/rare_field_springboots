@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
   <%@ page import="java.util.HashMap, java.util.ArrayList, com.yojulab.study_springboot.utils.Paginations" %>
     <%@ page import="java.util.Map" %>
-
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+    <%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
       <style>
         .table-fixed td,
         .table-fixed th {
@@ -118,7 +120,6 @@
         }
       </style>
 
-      <%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
 
         <main class="row justify-content-between">
           <div class="col-2">
@@ -248,30 +249,16 @@
                   <div class="col-3" style="padding: 5px; margin: 10px;"></div>
                   </ul>
                 </div>
-
-                <% HashMap dataMap=(HashMap)request.getAttribute("dataMap"); String
-                  searchStr=(String)dataMap.getOrDefault("search", "" ); HashMap
-                  result=(HashMap)request.getAttribute("result"); %>
-                  <!-- 검색 항목 추가 필요 -->
+                <%
+                HashMap<String, Object> dataMap = (HashMap<String, Object>) request.getAttribute("dataMap");
+                String searchStr = (String) dataMap.getOrDefault("search", "");
+                HashMap<String, Object> result = (HashMap<String, Object>) request.getAttribute("result");
+                %>
                   <br>
                   <br>
                   <br>
                   <div class="justify-content-center row">
                     <div class="row col-7" style="align-items: center;">
-                      <!-- <div class="col-3">
-              <select class="form-control" name="key_name">
-                <option value="dise_name_kr" {{ 'selected' if request._query_params.key_name=='dise_name_kr' else '' }}>질환명
-                </option>
-                <option value="dise_KCD_code" {{ 'selected' if request._query_params.key_name=='dise_KCD_code' else '' }}>
-                  KCD코드</option>
-                <option value="dise_spc_code" {{ 'selected' if request._query_params.key_name=='dise_spc_code' else '' }}>
-                  산정특례
-                  특정기호</option>
-                <option value="dise_symptoms" {{ 'selected' if request._query_params.key_name=='dise_symptoms' else '' }}>
-                  증상명</option>
-              </select>
-              <input type="hidden" name="dise_KCD_code_range" value="A00-B99">
-            </div> -->
                       <div class="col-3">
                         <select style="border-radius: 25px;" class="form-control" name="key_name">
                           <option value="dise_name_kr" <%=(searchStr.equals("dise_name_kr")) ? "selected" : "" %>>질환명
@@ -319,7 +306,6 @@
                       </div>
                     </div>
                   </div>
-                  <!-- 엑셀로 내보내기 버튼 -->
                   <div class="text-center"
                     style="width: 10%; height: 40px; margin-bottom: 10px; border-radius: 45px; box-shadow: 0px 0px 5px rgba(0,0,0,0.1); align-items: center;">
                     <a href="#" onclick="javascript:fn_downExcel(); return false;" title=" 엑셀다운로드">엑셀다운로드</a>
@@ -335,34 +321,20 @@
                         <th class="center-fixed">항목분류</th>
                         <th class="center-fixed">의료비지원</th>
                         <th>상세정보</th>
-
                       </tr>
                     </thead>
                     <tbody>
-                      <% ArrayList resultList=(ArrayList)result.get("resultList"); for(int i=0; i < resultList.size();
-                        i=i+1) { HashMap record=(HashMap)resultList.get(i); %>
+                      <c:forEach var="record" items="${resultList}" varStatus="status">
                         <tr>
-                          <td class="center-fixed">{{pagination.start_record_number + loop.index0}}</td>
+                          <td class="center-fixed"><c:out value="${paginations.startRecordNumber + status.index}"/></td>
+                          <td><c:out value="${record.dise_name_kr}"/></td>
+                          <td><c:out value="${record.dise_name_en}"/></td>
+                          <td class="center-fixed"><c:out value="${record.dise_KCD_code}"/></td>
+                          <td class="center-fixed"><c:out value="${record.dise_spc_code}"/></td>
+                          <td class="center-fixed"><c:out value="${record.dise_group}"/></td>
+                          <td class="center-fixed"><c:out value="${record.dise_support}"/></td>
                           <td>
-                            <%= record.get("dise_name_kr") %>
-                          </td>
-                          <td>
-                            <%= record.get("dise_name_en") %>
-                          </td>
-                          <td class="center-fixed">
-                            <%= record.get("dise_KCD_code") %>
-                          </td>
-                          <td class="center-fixed">
-                            <%= record.get("dise_spc_code") %>
-                          </td>
-                          <td class="center-fixed">
-                            <%= record.get("dise_group") %>
-                          </td>
-                          <td class="center-fixed">
-                            <%= record.get("dise_support") %>
-                          </td>
-                          <td>
-                            <a style="border:none; background: none;" href='<%= record.get("dise_url") %>'
+                            <a style="border:none; background: none;" href='<c:out value="${record.dise_url}"/>'
                               target="_blank"><svg width="61" height="32" viewBox="0 0 61 32" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_39_9)">
@@ -390,84 +362,65 @@
                             </a>
                           </td>
                         </tr>
-                        <% } %>
+                      </c:forEach>
                     </tbody>
                   </table>
                   <div>
-                    <!-- {% if dise_list==[] %}
-                <h5>검색 결과가 없습니다.</h5>
-                {% endif %} -->
-                    <% Paginations paginations=(Paginations)result.get("paginations"); %>
-                      <div>총 갯수 : <%= paginations.getTotalCount() %>
+                    <!-- <% Paginations paginations=(Paginations)result.get("pagination"); %> -->
+                      <div>총 갯수 : <c:out value="${paginations.totalCount}"/></div>
                       </div>
                       <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
-                          <!-- <li class="page-item {{ '' if pagination.has_previous_block else 'disabled' }}">
-                        <button style="border: none; background: none;" type="submit" class="page-link"
-                          formaction="/info/info_raredisease/{{pagination.first_page}}">
-                          <svg width="21" height="18" viewBox="0 0 21 18" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M18 3L12 9L18 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
-                            <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
-                          </svg>
-                        </button>
-                      </li>
-                      <li class="page-item {{ '' if pagination.has_previous_page else 'disabled' }}">
-                        <button style="border: none; background: none;" type="submit" class="page-link"
-                          formaction="/info/info_raredisease/{{pagination.previous_page}}"><svg width="13" height="18"
-                            viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
-                          </svg></button>
-                      </li> -->
-
-                          <li class="page-item">
-                            <a class="page-link"
-                              href="/info/info_raredisease?currentPage=<%= paginations.getPreviousPage() %>">Previous</a>
-                          </li>
-                          <% for(int i=paginations.getBlockStart();i <=paginations.getBlockEnd(); i=i+1){ %>
-                            <li class="page-item">
-                              <a class="page-link" href="/info/info_raredisease?currentPage=<%= i %>">
-                                <%= i %>
-                              </a>
+                            <li class="page-item {{ '' if pagination.has_previous_block else 'disabled' }}">
+                                <a  style="border: none; background: none;" class="page-link" href="/info/info_raredisease?currentPage=${paginations.blockStart}">
+                                    <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M18 3L12 9L18 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
+                                        <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
+                                    </svg>
+                                </a>
                             </li>
-                            <% } %>
+                            <li class="page-item {{ '' if pagination.has_previous_page else 'disabled' }}">
+                                <a style="border: none; background: none;" class="page-link"
+                                    href="/info/info_raredisease?currentPage=${paginations.previousPage}"><svg width="13" height="18" viewBox="0 0 13 18" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
+                                </svg></a>
+                            </li>
 
-                              <li class="page-item">
-                                <a class="page-link"
-                                  href="/info/info_raredisease?currentPage=<%= paginations.getNextPage() %>">Next</a>
+                            
+                            <!-- <%
+                                for(int i=paginations.getBlockStart();i <= paginations.getBlockEnd(); i=i+1){
+                            %>
+                            <li class=" page-item {{ 'active' if page_num == pagination.current_page else '' }}" id="pages">
+                                <a style="border: none; background: none; color: black;" class="page-link" href="/info/info_raredisease?currentPage=<%= i %>">
+                                    <%= i %>
+                                </a>
+                            </li>
+                            <% } %> -->
+                            <c:forEach var="i" begin="${paginations.blockStart}" end="${paginations.blockEnd}">
+                              <li class="page-item ${i == paginations.currentPage ? 'active' : ''}">
+                                  <a style="border: none; background: none; color: black;" class="page-link" href="/info/info_raredisease?currentPage=${i}">${i}</a>
                               </li>
+                          </c:forEach>
 
-                              <!--                       
-                      {% for page_num in pagination.current_page_range %}
-                      <li class=" page-item {{ 'active' if page_num == pagination.current_page else '' }}">
-                        <button style="border: none; background: none; color: black;" type=" submit" class="page-link"
-                          formaction="/info/info_raredisease/{{ page_num }}">
-                          {{page_num}}
-                        </button>
-                      </li>
-                      {% endfor %}
-                      <li class=" page-item {{ '' if pagination.has_next_page else 'disabled' }}">
-                        <button style="border: none; background: none;" type=" submit" class="page-link"
-                          formaction="/info/info_raredisease/{{ pagination.next_page }}"><svg width="13" height="18"
-                            viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
-                          </svg>
-                          <path d="M4 0V22" stroke="#EDEDED" stroke-width="7" />
-                          </svg>
-                        </button>
-                      </li>
-                      <li class=" page-item {{ '' if pagination.has_next_block else ' disabled' }}">
-                        <button style="border: none; background: none;" type=" submit" class="page-link"
-                          formaction="/info/info_raredisease/{{ pagination.last_page }}">
-                          <svg width="21" height="18" viewBox="0 0 21 18" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
-                            <path d="M11 15L17 9L11 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
-                          </svg>
-                        </button>
-                      </li> -->
+                            <li class=" page-item {{ '' if pagination.has_next_page else 'disabled' }}">
+                                <a style="border: none; background: none;" class="page-link"
+                                    href="/info/info_raredisease?currentPage=${paginations.nextPage}"><svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
+                                    </svg>
+                                <path d="M4 0V22" stroke="#EDEDED" stroke-width="7" />
+                            </svg></a>
+                            </li>
+                            <li class=" page-item {{ '' if pagination.has_next_block else ' disabled' }}">
+                                <a style="border: none; background: none;" class="page-link" href="/info/info_raredisease?currentPage=${paginations.blockEnd}">
+                                    <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
+                                        <path d="M11 15L17 9L11 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
+                                    </svg>
+                                </a>
+                            </li>
                         </ul>
-                      </nav>
+                    </nav>
                   </div>
               </form>
             </div>
@@ -479,8 +432,6 @@
         <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
           <script>
             function fn_downExcel() {
-              // Fetch API 또는 XMLHttpRequest를 사용하여 서버에 파일 다운로드 요청을 보낼 수 있습니다.
-              // 여기서는 Fetch API의 예시를 보여드립니다.
               fetch('/download')
                 .then(response => response.blob())
                 .then(blob => {
@@ -501,6 +452,6 @@
                 })
                 .catch(error => console.error('다운로드 중 에러가 발생했습니다.', error));
             }
-
-
           </script>
+
+</html>

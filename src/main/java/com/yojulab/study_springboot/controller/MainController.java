@@ -15,6 +15,10 @@ public class MainController {
     @Value("${remote.server.url}")
     private String remoteServerUrl;
 
+    @GetMapping("/index")
+    public String index() {
+        return "forward:/index.html";
+    }
     @GetMapping({ "/", "/home", "/main" })
     public ModelAndView main(ModelAndView modelAndView) {
         // 현재 사용자 Authentication 객체 가져오기
