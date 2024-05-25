@@ -26,8 +26,6 @@ public class RarediseaseInfo {
     @Value("${google.maps.api.key}")
     private String googleMapsApiKey;
 
-
-    // RequestMethod.GET
     @GetMapping("/info_institution")
     public ModelAndView institutionSearch(
             @RequestParam(required = false) String keyword,
@@ -54,50 +52,8 @@ public class RarediseaseInfo {
         modelAndView.setViewName(viewName);
         modelAndView.addObject("page");
         modelAndView.addObject("API_KEY", googleMapsApiKey);
-        // if (keyword != null || (latitude != null && longitude != null)) {
-        //     Map<String, Object> result = restTemplateService.institutionQueryRequest(
-        //             keyword,
-        //             latitude,
-        //             longitude,
-        //             currentPage != null ? currentPage : 1);
-        //     if (result != null) {
-        //         Gson gson = new Gson();
-        //         String resultsJson = gson.toJson(result.get("results"));
-        //         modelAndView.addObject("resultsFromPython", resultsJson);
-        //         modelAndView.addObject("result", result);
-        //     } else {
-        //         modelAndView.addObject("message", "검색 결과가 없습니다.");
-        //     }
-        // } else {
-        //     modelAndView.addObject("message", "검색 조건을 입력해주세요.");
-        // }
         return modelAndView;
     }
-
-    // @GetMapping(value = "/info_raredisease")
-    // public ModelAndView dise_search(
-    //         @RequestParam(required = false) String key_name,
-    //         @RequestParam(required = false) String search_word,
-    //         @RequestParam(required = false) Integer currentPage,
-    //         ModelAndView modelAndView) {
-
-    //     Integer page = (currentPage != null) ? currentPage : 1;
-
-    //     Map<String, Object> result = null;
-    //     try {
-    //         result = restTemplateService.dise_search(page, key_name, search_word);
-    //     } catch (JsonProcessingException e) {
-    //         // 예외 처리 로직 추가
-    //         e.printStackTrace();
-    //         modelAndView.addObject("error", "데이터 처리 중 오류가 발생했습니다.");
-    //     }
-
-    //     String viewPath = "/WEB-INF/rarefield/views/info/info_raredisease.jsp";
-    //     modelAndView.setViewName(viewPath);
-    //     modelAndView.addObject("result", result);
-    //     modelAndView.addObject("pagination", new Pagination(page));
-    //     return modelAndView;
-    // }
 
     @GetMapping(value = "/info_raredisease")
     public ModelAndView dise_search(
@@ -105,22 +61,31 @@ public class RarediseaseInfo {
             @RequestParam(required = false) String search_word,
             @RequestParam(required = false) Integer currentPage,
             ModelAndView modelAndView) {
-
-        Integer page = (currentPage != null) ? currentPage : 1;
-        Map<String, Object> result = null;
-
+                
+                Integer page = (currentPage != null) ? currentPage : 1;
+                Map<String, Object> result = null;
+                
+        int startRecordNumber = 0;
         try {
             result = restTemplateService.dise_search(page, key_name, search_word);
         } catch (JsonProcessingException e) {
-            // 예외 처리 로직 추가
             e.printStackTrace();
             modelAndView.addObject("error", "데이터 처리 중 오류가 발생했습니다.");
             modelAndView.setViewName("/WEB-INF/rarefield/views/error.jsp");
             return modelAndView;
         }
+        if (result != null && result.containsKey("pagination")) {
+            Map<String, Object> pagination = (Map<String, Object>) result.get("pagination");
+            if (pagination != null && pagination.containsKey("start_record_number")) {
+                Object startRecordNumberObj = pagination.get("start_record_number");
+                if (startRecordNumberObj instanceof Number) {
+                    startRecordNumber = ((Number) startRecordNumberObj).intValue();
+                }
+            }
+        }
+        
         List<Map<String, Object>> results = (List<Map<String, Object>>) result.get("results");
-        // totalItems는 결과 맵에서 가져와야 합니다.
-        int totalItems = 0; // 기본값 설정
+        int totalItems = 0;
         if (result != null && result.containsKey("pagination")) {
             Map<String, Object> pagination = (Map<String, Object>) result.get("pagination");
             if (pagination != null && pagination.containsKey("total_records")) {
@@ -132,17 +97,12 @@ public class RarediseaseInfo {
         }
         
         Paginations Paginations = new Paginations(totalItems,page);
-
+        
         String viewPath = "/WEB-INF/rarefield/views/info/info_raredisease.jsp";
         modelAndView.setViewName(viewPath);
+        modelAndView.addObject("StartRecordNumber", startRecordNumber);
         modelAndView.addObject("resultList", results);
         modelAndView.addObject("paginations", Paginations);
-        
-        // // dataMap이 null인 경우 빈 맵을 설정
-        // if (result == null) {
-        //     result = new HashMap<>();
-        // }
-        // modelAndView.addObject("dataMap", result);
 
         return modelAndView;
     }
