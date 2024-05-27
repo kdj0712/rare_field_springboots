@@ -154,10 +154,6 @@ public class RestTemplateService {
         JSONObject paginationObject = jObject.getJSONObject("pagination");
         Paginations paginations = new Paginations(paginationObject.getInt("total_records"), paginationObject.getInt("current_page"));
 
-        // Map<String, Object> pagi = new HashMap<>();
-        // pagi.put("pageScale",paginations.getPageScale());
-        // pagi.put("pageBegni",paginations.getPageBegin());
-
         Map<String,Object> result = new HashMap<>();
         result.put("news",list);
         result.put("pagination",paginations);

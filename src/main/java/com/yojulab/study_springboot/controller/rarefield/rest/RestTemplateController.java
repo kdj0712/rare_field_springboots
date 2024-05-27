@@ -122,6 +122,16 @@ public class RestTemplateController {
         return modelAndView;
       }
 
+      @GetMapping(value = "/")
+        public ModelAndView mainNews(ModelAndView modelAndView, @RequestParam int currentPage) {
+        Map<String,Object> result = restTemplateService.newsPostRequest(currentPage);
+        String viewPath = "/WEB-INF/rarefield/views/mainpage.jsp";
+        modelAndView.setViewName(viewPath);
+        modelAndView.addObject("result", result);
+        return modelAndView;
+      }
+
+
       @GetMapping(value = "/read/{id}")
         public ModelAndView newsRead(ModelAndView modelAndView,@PathVariable String id, @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
         Map<String,Object> result = restTemplateService.newsReadGetRequest(id);

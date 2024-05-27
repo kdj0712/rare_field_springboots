@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ page import="java.util.HashMap, java.util.List, com.yojulab.study_springboot.utils.Paginations" %>
+<%@ page import="java.util.Map" %>
 
 <%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
 
@@ -94,20 +95,27 @@
                     📝(어떤어떤 희귀질환자의 보호자인)당신을 위한 추천 뉴스
                 </div>
                 <div class="row justify-content-center">
-        
-                    {% for news in news_list %}
-        
+
+                    <%
+                    List<Map<String,Object>> records = (List<Map<String,Object>>) session.getAttribute("newsRecords");
+                    if (records != null) {
+                        for(int i = 0 ; i < records.size() ; i++) {
+                            HashMap<String, Object> record = (HashMap<String, Object>) records.get(i);
+                    %>
                     <div class=" col-2 card ms-2 me-2"
                         style="width: 18rem;border-radius: 25px;  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);">
                         <div class="card-body">
-                            <a href="/trend/trend_news_read/{{news.id}}" class="card-link text-decoration-none">
-                                <h5 class="card-title">{{news.news_title}}</h5>
+                            <a href="/trend/read/<%= record.get("_id") %>" class="card-link text-decoration-none">
+                                <h5 class="card-title"><%= record.get("news_title") %></h5>
                             </a>
-                            <h6 class="card-subtitle mb-2 text-body-secondary">{{news.news_paper}}</h6>
+                            <h6 class="card-subtitle mb-2 text-body-secondary"><%= record.get("news_paper") %></h6>
                             <p class="card-text"></p>
                         </div>
                     </div>
-                    {% endfor %}
+                    <%
+                            }
+                        }
+                    %>
                 </div>
             </div>
         </div>
