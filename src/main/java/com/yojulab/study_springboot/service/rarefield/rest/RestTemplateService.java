@@ -3,31 +3,19 @@ import com.yojulab.study_springboot.utils.Paginations;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.net.http.HttpClient;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// import org.apache.catalina.util.URLEncoder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.http.HttpEntity;
@@ -36,9 +24,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Service
@@ -79,7 +64,7 @@ public class RestTemplateService {
 		    requestData.add("key", "value");
 
 		// HTTP POST 요청 보내기
-       ResponseEntity<String> responseEntity = restTemplate.postForEntity(apiUrl, requestData, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(apiUrl, requestData, String.class);
         
         // 응답 값
         String responseBody = responseEntity.getBody();
@@ -236,49 +221,44 @@ public class RestTemplateService {
     public Map<String, Object> dise_search(Integer currentPage, String key_name, String search_word) throws JsonProcessingException {
         // 기본 URL 설정
         String baseUrl = "http://rare-field.shop/info/raredisease?";
-        
-        // // 파라미터를 MultiValueMap에 추가
-        // MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        // params.add("page_number", currentPage != null ? String.valueOf(currentPage) : null);
-        
-        // // 사용자가 입력한 값을 파라미터에 추가
-        // if (key_name != null && !key_name.isEmpty()) {
-        //     params.add("key_name", key_name);
-        // }
-        // if (search_word != null && !search_word.isEmpty()) {
-        //     params.add("search_word", search_word);
-        // }
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(baseUrl);
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("page_number", currentPage);
-        params.put("key_name", key_name);
-        params.put("search_word", search_word);
-        
-        // Map 객체를 JSON 문자열로 변환
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonParams = objectMapper.writeValueAsString(params);
-        
+        // 조건에 따라 URL에 파라미터 추가
+        if (currentPage != null) {
+            builder.queryParam("page_number", currentPage);
+        }
+        if (key_name != null && !key_name.isEmpty()) {
+            builder.queryParam("key_name", key_name);
+        }
+        if (search_word != null && !search_word.isEmpty()) {
+            builder.queryParam("search_word", search_word);
+        }
+
         // HttpHeaders 객체 생성 및 Content-Type 설정
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // HttpEntity 객체 생성 (JSON 문자열과 헤더 포함)
-        HttpEntity<String> entity = new HttpEntity<>(jsonParams, headers);
-        
-        // MultiValueMap<String, String> requestData = new LinkedMultiValueMap<>();
+        // HttpEntity 객체 생성 (여기서는 본문을 비워둘 수 있습니다)
+        HttpEntity<String> entity = new HttpEntity<>(headers); 
+
         
         // requestData.add("key", "value");
         RestTemplate restTemplate = new RestTemplate();
+        String responseBody = restTemplate.postForObject(builder.toUriString(), entity, String.class);
 
-        ResponseEntity<String> response = restTemplate.postForEntity(baseUrl, entity, String.class);
-        Map<String, Object> responseMap = objectMapper.readValue(response.getBody(), Map.class);
-        List<Map<String, Object>> resultList = (List<Map<String, Object>>) responseMap.get("dise_list");
-        Map<String, Object> paginationMap = (Map<String, Object>) responseMap.get("pagination");
-        
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
+    
         // 결과를 저장할 Map 생성
         Map<String, Object> result = new HashMap<>();
-        result.put("results", resultList);
-        result.put("pagination", paginationMap);
+        if (responseMap.containsKey("dise_list")) {
+            List<Map<String, Object>> resultList = (List<Map<String, Object>>) responseMap.get("dise_list");
+            result.put("results", resultList);
+        }
+        if (responseMap.containsKey("pagination")) {
+            Map<String, Object> paginationMap = (Map<String, Object>) responseMap.get("pagination");
+            result.put("pagination", paginationMap);
+        }
 
         return result;
     }
