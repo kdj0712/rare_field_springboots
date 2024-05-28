@@ -91,6 +91,7 @@
         <br>
         <% Map<String,Object> result = (Map<String,Object>) request.getAttribute("result"); 
            List<Map<String,Object>> records = (List<Map<String,Object>>) result.get("news");  
+            session.setAttribute("newsRecords", records);
            for(int i = 0 ; i < records.size() ; i=i+1) {
             HashMap<String, Object> record = (HashMap<String, Object>) records.get(i); %>
 
@@ -114,7 +115,7 @@
                     </a>
                 </h7>
                 <h7 class="category col-2">
-                    <a href="/trend/read/<%= record.get("_id") %>" style="color: #4b4b4b;" class="">조회수{{new.news_click}}
+                    <a href="/trend/read/<%= record.get("_id") %>" style="color: #4b4b4b;" class="">조회수
                     </a>
                 </h7>
 
@@ -133,7 +134,7 @@
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
                 <li class="page-item {{ '' if pagination.has_previous_block else 'disabled' }}">
-                    <a  style="border: none; background: none;" class="page-link" href="/trend/news?currentPage=<%= paginations.getPageBegin() %>">
+                    <a  style="border: none; background: none;" class="page-link" href="/trend/news?currentPage=1">
                         <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M18 3L12 9L18 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                             <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
@@ -165,7 +166,7 @@
                 </svg></a>
                 </li>
                 <li class=" page-item {{ '' if pagination.has_next_block else ' disabled' }}">
-                    <a style="border: none; background: none;" class="page-link" href="/trend/news?currentPage=<%= paginations.getPageEnd() %>">
+                    <a style="border: none; background: none;" class="page-link" href="/trend/news?currentPage=<%= paginations.getTotalPage() %>">
                         <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
                             <path d="M11 15L17 9L11 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
