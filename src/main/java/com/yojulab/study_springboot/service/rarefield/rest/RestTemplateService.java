@@ -53,7 +53,7 @@ public class RestTemplateService {
 
     public List<Map<String,Object>> lawPostRequest() {
     	// 요청을 보낼 URL
-        String apiUrl = "http://trainings.iptime.org:45004/trend/trend_law_data";
+        String apiUrl = "http://rare-field.shop/trend/trend_law_data";
 
 		// HTTP 헤더 설정
         HttpHeaders headers = new HttpHeaders();
@@ -97,7 +97,7 @@ public class RestTemplateService {
 
     public Map<String,Object> newsPostRequest(int currentPage) {
     	// 요청을 보낼 URL
-        String apiUrl = "http://trainings.iptime.org:45004/trend/trend_news_data?page_number=" + currentPage;
+        String apiUrl = "http://rare-field.shop/trend/trend_news_data?page_number=" + currentPage;
 
 		// HTTP 헤더 설정
         HttpHeaders headers = new HttpHeaders();
@@ -149,7 +149,7 @@ public class RestTemplateService {
 
     public Map<String,Object> newsReadGetRequest(String id) {
     	// 요청을 보낼 URL
-        String apiUrl = "http://trainings.iptime.org:45004/trend/trend_news_data/" + id;
+        String apiUrl = "http://rare-field.shop/trend/trend_news_data/" + id;
 
 		// HTTP POST 요청 보내기
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(apiUrl, String.class);
@@ -181,7 +181,7 @@ public class RestTemplateService {
 
     public Map<String, Object> institutionQueryRequest(String keyword, double latitude, double longitude, int selectedPage) throws JsonProcessingException {
         // 기본 URL 설정
-        String baseUrl = "http://trainings.iptime.org:45004/info/institution";
+        String baseUrl = "http://rare-field.shop/info/institution";
         
         // 선택된 페이지 번호를 URL에 추가
         String apiUrl = baseUrl + "?";
