@@ -3,6 +3,9 @@ package com.yojulab.study_springboot.controller.rarefield.rarediseaseinfo;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,9 +65,14 @@ public class RarediseaseInfo {
             @RequestParam(required = false) Integer currentPage,
             ModelAndView modelAndView) {
                 
-                Integer page = (currentPage != null) ? currentPage : 1;
-                Map<String, Object> result = null;
-                
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+        logger.info("Received currentPage: {}", currentPage);
+        logger.info("Received key_name: {}", key_name);
+        logger.info("Received search_word: {}", search_word);
+        
+        Integer page = (currentPage != null) ? currentPage : 1;
+        Map<String, Object> result = null;
+        
         int startRecordNumber = 0;
         try {
             result = restTemplateService.dise_search(page, key_name, search_word);
@@ -74,6 +82,7 @@ public class RarediseaseInfo {
             modelAndView.setViewName("/WEB-INF/rarefield/views/error.jsp");
             return modelAndView;
         }
+
         if (result != null && result.containsKey("pagination")) {
             Map<String, Object> pagination = (Map<String, Object>) result.get("pagination");
             if (pagination != null && pagination.containsKey("start_record_number")) {
@@ -100,6 +109,8 @@ public class RarediseaseInfo {
         
         String viewPath = "/WEB-INF/rarefield/views/info/info_raredisease.jsp";
         modelAndView.setViewName(viewPath);
+        modelAndView.addObject("key_name", key_name);
+        modelAndView.addObject("search_word", search_word);
         modelAndView.addObject("StartRecordNumber", startRecordNumber);
         modelAndView.addObject("resultList", results);
         modelAndView.addObject("paginations", Paginations);

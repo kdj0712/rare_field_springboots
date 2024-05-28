@@ -130,7 +130,7 @@
 
     <div class="col-8 row">
       <div class="container">
-        <form action="">
+        <form id="searchForm" action="">
           <div class="row" style="justify-content: center;">
             <div class="col-10.5 row text-center"
               style="align-items: center;  border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); justify-content: center;">
@@ -273,12 +273,13 @@
               paginations = (Paginations) result.get("paginations");
            }
 
-           
           int startRecordNumber = 1;
           if (dataMap.containsKey("StartRecordNumber")) {
             startRecordNumber = (int) dataMap.get("StartRecordNumber");
           }
-          request.setAttribute("StartRecordNumber", startRecordNumber);
+          
+          String keyName = request.getParameter("key_name");
+          String searchWord = request.getParameter("search_word");
           %>
           <br>
           <br>
@@ -287,23 +288,19 @@
             <div class="row col-7" style="align-items: center;">
               <div class="col-3">
                 <select style="border-radius: 25px;" class="form-control" name="key_name">
-                  <option value="dise_name_kr" <%=(searchStr.equals("dise_name_kr"))
-                    ? "selected" : "" %>>질환명
+                  <option value="dise_name_kr" ${key_name eq 'dise_name_kr' ? 'selected' : ''}>질환명
                   </option>
-                  <option value="dise_KCD_code" <%=(searchStr.equals("dise_KCD_code"))
-                    ? "selected" : "" %>>KCD코드
+                  <option value="dise_KCD_code" ${key_name eq 'dise_KCD_code' ? 'selected' : ''}>KCD코드
                   </option>
-                  <option value="dise_spc_code" <%=(searchStr.equals("dise_spc_code"))
-                    ? "selected" : "" %>>산정특례
+                  <option value="dise_spc_code" ${key_name eq 'dise_spc_code' ? 'selected' : ''}>산정특례
                     특정기호</option>
-                  <option value="dise_symptoms" <%=(searchStr.equals("dise_symptoms"))
-                    ? "selected" : "" %>>증상명
+                  <option value="dise_symptoms" ${key_name eq 'dise_symptoms' ? 'selected' : ''}>증상명
                   </option>
                 </select>
               </div>
               <div class="col-7">
                 <input class="form-control" placeholder="Enter Search!" name="search_word"
-                  value='<%= dataMap.getOrDefault("search_word", "") %>'>
+                  value="${search_word != null ? search_word : ''}">
               </div>
               <div class="col-2">
                 <button type="submit" style="border:none; background: none;"
@@ -383,7 +380,7 @@
                   </td>
                   <td>
                     <a style="border:none; background: none;"
-                      href='<c:out value="${record.dise_url}"/>' target="_blank"><svg
+                      href="${record.dise_url}" target="_blank"><svg
                         width="61" height="32" viewBox="0 0 61 32" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <g filter="url(#filter0_d_39_9)">
@@ -427,7 +424,8 @@
             <ul class="pagination justify-content-center">
               <li class="page-item {{ '' if pagination.has_previous_block else 'disabled' }}">
                 <a style="border: none; background: none;" class="page-link"
-                  href="/info/info_raredisease?currentPage=${paginations.blockStart}">
+                  href="javascript:void(0);"
+                  onclick="goToPage(${paginations.blockStart});return false;">
                   <svg width="21" height="18" viewBox="0 0 21 18" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path d="M18 3L12 9L18 15" stroke="#696969" stroke-width="5"
@@ -439,7 +437,8 @@
               </li>
               <li class="page-item {{ '' if pagination.has_previous_page else 'disabled' }}">
                 <a style="border: none; background: none;" class="page-link"
-                  href="/info/info_raredisease?currentPage=${paginations.previousPage}"><svg
+                  href="javascript:void(0);"
+                  onclick="goToPage(${paginations.previousPage});return false;"><svg
                     width="13" height="18" viewBox="0 0 13 18" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5"
@@ -450,13 +449,15 @@
                 end="${paginations.blockEnd}">
                 <li class="page-item ${i == paginations.currentPage ? 'active' : ''}">
                   <a style="border: none; background: none; color: black;" class="page-link"
-                    href="/info/info_raredisease?currentPage=${i}">${i}</a>
+                    href="javascript:void(0);"
+                    onclick="goToPage(${i});return false;">${i}</a>
                 </li>
               </c:forEach>
 
               <li class=" page-item {{ '' if pagination.has_next_page else 'disabled' }}">
                 <a style="border: none; background: none;" class="page-link"
-                  href="/info/info_raredisease?currentPage=${paginations.nextPage}"><svg
+                  href="javascript:void(0);"
+                  onclick="goToPage(${paginations.nextPage});return false;"><svg
                     width="13" height="18" viewBox="0 0 13 18" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5"
@@ -468,7 +469,8 @@
               </li>
               <li class=" page-item {{ '' if pagination.has_next_block else ' disabled' }}">
                 <a style="border: none; background: none;" class="page-link"
-                  href="/info/info_raredisease?currentPage=${paginations.blockEnd}">
+                  href="javascript:void(0);"
+                    onclick="goToPage(${paginations.blockEnd});return false;">
                   <svg width="21" height="18" viewBox="0 0 21 18" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5"
@@ -489,21 +491,4 @@
     </div>
   </main>
   <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
-    <script>
-      function fn_downExcel() {
-        fetch('/download')
-          .then(response => response.blob())
-          .then(blob => {
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = 'data/csv/[헬프라인]희귀질환목록_2024_03_20_10_34_05.xlsx';
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-          })
-          .catch(error => console.error('다운로드 중 에러가 발생했습니다.', error));
-      }
-    </script>
+  <script src="${pageContext.request.contextPath}/js/info_raredisease.js"></script>
