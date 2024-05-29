@@ -31,8 +31,8 @@
 </style>
 
 <div class="image-container mb-5">
-    <img class="container-fluid" src="http://rare-field.shop/data/img/wordcloud.png" alt="" class="bottom-image">
-    <img class="container-fluid" src="http://rare-field.shop/data/img/logo_in_cloud.png" alt="" class="top-image">
+    <img class="container-fluid" src="/data/img/wordcloud.png" alt="" class="bottom-image">
+    <img class="container-fluid" src="/data/img/logo_in_cloud.png" alt="" class="top-image">
 </div>
 
 <main class="row justify-content-between">
