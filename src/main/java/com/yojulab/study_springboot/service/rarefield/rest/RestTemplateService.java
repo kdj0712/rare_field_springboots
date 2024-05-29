@@ -4,18 +4,23 @@ import com.yojulab.study_springboot.utils.Paginations;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.http.HttpEntity;
@@ -218,11 +223,12 @@ public class RestTemplateService {
         
         return result;
     }
+    
     public Map<String, Object> dise_search(Integer currentPage, String key_name, String search_word) throws JsonProcessingException {
         // 기본 URL 설정
-        String baseUrl = "http://rare-field.shop/info/raredisease?";
+        String baseUrl = "http://rare-field.shop/info/raredisease";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(baseUrl);
-
+    
         // 조건에 따라 URL에 파라미터 추가
         if (currentPage != null) {
             builder.queryParam("page_number", currentPage);
@@ -231,37 +237,52 @@ public class RestTemplateService {
             builder.queryParam("key_name", key_name);
         }
         if (search_word != null && !search_word.isEmpty()) {
+            // search_word를 명시적으로 인코딩
             builder.queryParam("search_word", search_word);
         }
-
+    
         // HttpHeaders 객체 생성 및 Content-Type 설정
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+    
         // HttpEntity 객체 생성 (여기서는 본문을 비워둘 수 있습니다)
         HttpEntity<String> entity = new HttpEntity<>(headers); 
-
-        
-        // requestData.add("key", "value");
-        RestTemplate restTemplate = new RestTemplate();
-        String responseBody = restTemplate.postForObject(builder.toUriString(), entity, String.class);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
     
+        // RestTemplate 초기화
+        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
+        
         // 결과를 저장할 Map 생성
         Map<String, Object> result = new HashMap<>();
-        if (responseMap.containsKey("dise_list")) {
-            List<Map<String, Object>> resultList = (List<Map<String, Object>>) responseMap.get("dise_list");
-            result.put("results", resultList);
+    
+        try {
+            // 요청 및 응답
+            String responseBody = restTemplate.postForObject(builder.toUriString(), entity, String.class);
+    
+            // ObjectMapper 초기화 및 설정
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    
+            Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
+    
+            if (responseMap.containsKey("dise_list")) {
+                List<Map<String, Object>> resultList = (List<Map<String, Object>>) responseMap.get("dise_list");
+                result.put("results", resultList);
+            }
+            if (responseMap.containsKey("pagination")) {
+                Map<String, Object> paginationMap = (Map<String, Object>) responseMap.get("pagination");
+                result.put("pagination", paginationMap);
+            }
+        } catch (RestClientException e) {
+            // 예외 처리
+            result.put("error", "Failed to fetch data: " + e.getMessage());
         }
-        if (responseMap.containsKey("pagination")) {
-            Map<String, Object> paginationMap = (Map<String, Object>) responseMap.get("pagination");
-            result.put("pagination", paginationMap);
-        }
-
+    
         return result;
     }
+    
+
     
 
     private String postForString(String url, MultiValueMap<String, String> requestData) {
