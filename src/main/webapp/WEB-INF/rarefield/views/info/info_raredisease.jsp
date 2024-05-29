@@ -355,6 +355,11 @@
               </tr>
             </thead>
             <tbody>
+              <c:if test="${empty resultList}">
+                <tr>
+                  <td colspan="8" class="center-fixed">검색 결과가 없습니다.</td>
+                </tr>
+              </c:if>
               <c:forEach var="record" items="${resultList}" varStatus="status">
                 <tr>
                   <td class="center-fixed">
@@ -425,7 +430,7 @@
               <li class="page-item {{ '' if pagination.has_previous_block else 'disabled' }}">
                 <a style="border: none; background: none;" class="page-link"
                   href="javascript:void(0);"
-                  onclick="goToPage(${paginations.blockStart});return false;">
+                  onclick="goToPage(${paginations.previousPage});return false;">
                   <svg width="21" height="18" viewBox="0 0 21 18" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path d="M18 3L12 9L18 15" stroke="#696969" stroke-width="5"
@@ -438,7 +443,7 @@
               <li class="page-item {{ '' if pagination.has_previous_page else 'disabled' }}">
                 <a style="border: none; background: none;" class="page-link"
                   href="javascript:void(0);"
-                  onclick="goToPage(${paginations.previousPage});return false;"><svg
+                  onclick="goToPage(${paginations.blockStart});return false;"><svg
                     width="13" height="18" viewBox="0 0 13 18" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5"
@@ -457,7 +462,7 @@
               <li class=" page-item {{ '' if pagination.has_next_page else 'disabled' }}">
                 <a style="border: none; background: none;" class="page-link"
                   href="javascript:void(0);"
-                  onclick="goToPage(${paginations.nextPage});return false;"><svg
+                  onclick="goToPage(${paginations.blockEnd});return false;"><svg
                     width="13" height="18" viewBox="0 0 13 18" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5"
@@ -470,7 +475,7 @@
               <li class=" page-item {{ '' if pagination.has_next_block else ' disabled' }}">
                 <a style="border: none; background: none;" class="page-link"
                   href="javascript:void(0);"
-                    onclick="goToPage(${paginations.blockEnd});return false;">
+                  onclick="goToPage(${paginations.nextPage});return false;">
                   <svg width="21" height="18" viewBox="0 0 21 18" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5"

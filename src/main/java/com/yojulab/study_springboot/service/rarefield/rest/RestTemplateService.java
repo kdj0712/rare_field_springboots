@@ -1,7 +1,11 @@
 package com.yojulab.study_springboot.service.rarefield.rest;
 import com.yojulab.study_springboot.utils.Paginations;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -226,9 +230,14 @@ public class RestTemplateService {
     
     public Map<String, Object> dise_search(Integer currentPage, String key_name, String search_word) throws JsonProcessingException {
         // 기본 URL 설정
-        String baseUrl = "http://rare-field.shop/info/raredisease";
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(baseUrl);
-    
+        String baseUrl = "http://rare-field.shop/info/raredisease?";
+        
+        // URL 디코딩
+        String decodedBaseUrl = URLDecoder.decode(baseUrl, StandardCharsets.UTF_8);
+
+        // UriComponentsBuilder 초기화
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(decodedBaseUrl);
+
         // 조건에 따라 URL에 파라미터 추가
         if (currentPage != null) {
             builder.queryParam("page_number", currentPage);
@@ -237,35 +246,37 @@ public class RestTemplateService {
             builder.queryParam("key_name", key_name);
         }
         if (search_word != null && !search_word.isEmpty()) {
-            // search_word를 명시적으로 인코딩
             builder.queryParam("search_word", search_word);
         }
-    
+
         // HttpHeaders 객체 생성 및 Content-Type 설정
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-    
+        headers.set("Accept-Encoding", "gzip, deflate, br");
+        headers.set("Connection", "keep-alive");
+
         // HttpEntity 객체 생성 (여기서는 본문을 비워둘 수 있습니다)
-        HttpEntity<String> entity = new HttpEntity<>(headers); 
-    
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
         // RestTemplate 초기화
-        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
-        RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
-        
+        RestTemplate restTemplate = new RestTemplate();
+
         // 결과를 저장할 Map 생성
         Map<String, Object> result = new HashMap<>();
-    
+        String encodedUrl = builder.toUriString();
+
         try {
             // 요청 및 응답
-            String responseBody = restTemplate.postForObject(builder.toUriString(), entity, String.class);
-    
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(encodedUrl, entity, String.class);
+            String responseBody = responseEntity.getBody();
+
             // ObjectMapper 초기화 및 설정
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    
+
             Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
-    
+
             if (responseMap.containsKey("dise_list")) {
                 List<Map<String, Object>> resultList = (List<Map<String, Object>>) responseMap.get("dise_list");
                 result.put("results", resultList);
@@ -278,25 +289,8 @@ public class RestTemplateService {
             // 예외 처리
             result.put("error", "Failed to fetch data: " + e.getMessage());
         }
-    
+
         return result;
-    }
-    
-
-    
-
-    private String postForString(String url, MultiValueMap<String, String> requestData) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestData, headers);
-
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
-        return responseEntity.getBody();
-    }
-
-    private String getForString(String url) {
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
-        return responseEntity.getBody();
     }
 
     // public void newsReadGetRequest(List<Map<String, Object>> list, String targetKey, String targetValue) {
