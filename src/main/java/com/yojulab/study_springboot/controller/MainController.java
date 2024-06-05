@@ -15,6 +15,9 @@ public class MainController {
     @Value("${remote.server.url}")
     private String remoteServerUrl;
 
+    @Value("${root.file.folder}")
+    private String rootFileFolder;
+    
     @GetMapping("/index")
     public String index() {
         return "forward:/index.html";
@@ -43,9 +46,10 @@ public class MainController {
         }
         // modelAndView.addObject("name", "Yojulab!");
 
-        modelAndView.addObject("remoteServerUrl", remoteServerUrl);
-        // modelAndView.addObject("myimage", "thermometer.png");
+        // modelAndView.addObject("remoteServerUrl", remoteServerUrl);
+        // // modelAndView.addObject("myimage", "thermometer.png");
 
+        // modelAndView.addObject("imageFolderPath", remoteServerUrl + rootFileFolder);
         modelAndView.setViewName("/WEB-INF/rarefield/views/mainpage.jsp");
         return modelAndView;
     }

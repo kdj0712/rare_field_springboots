@@ -1,6 +1,10 @@
 package com.yojulab.study_springboot.service.rarefield.rest;
 import com.yojulab.study_springboot.utils.Paginations;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -23,12 +27,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.json.JSONArray;
@@ -187,46 +190,101 @@ public class RestTemplateService {
 
     }
 
+    public Map<String, Object> institutionSearch(Integer currentPage, String keyword, String pos) throws Exception {
+        String baseUrl = "http://rare-field.shop/info/institution?";
+        String decodedBaseUrl = UriComponentsBuilder.fromHttpUrl(baseUrl)
+                .queryParam("page_number", currentPage)
+                .queryParam("keyword", keyword)
+                .queryParam("pos", pos)
+                .toUriString();
 
-    public Map<String, Object> institutionQueryRequest(String keyword, double latitude, double longitude, int selectedPage) throws JsonProcessingException {
-        // 기본 URL 설정
-        String baseUrl = "http://rare-field.shop/info/institution";
-        
-        // 선택된 페이지 번호를 URL에 추가
-        String apiUrl = baseUrl + "?";
-        
-        // 파라미터 추가 (키워드와 위치)
-        String params = "keyword=" + URLEncoder.encode(keyword, StandardCharsets.UTF_8) + "&pos=" + latitude + "," + longitude;
-        apiUrl += params;
-        
-        // 요청 본문에 들어갈 맵 생성
-        Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("keyword", keyword);
-        requestBody.put("pos", latitude + "," + longitude);
-        requestBody.put("page_number", selectedPage);
-        
-        // HttpHeaders 객체 생성 및 Content-Type 설정
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        
-        // HttpEntity 객체 생성
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
-        
-        // POST 요청 보내기
-        ResponseEntity<String> response = restTemplate.postForEntity(apiUrl, entity, String.class);
-        
-        // 응답 본문을 Map으로 변환
-        Map<String, Object> responseMap = mapper.readValue(response.getBody(), Map.class);
-        
-        List<Map<String, Object>> resultList = (List<Map<String, Object>>) responseMap.get("results");
-        Map<String, Object> paginationMap = (Map<String, Object>) responseMap.get("pagination");
-        
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<String> responseEntity = restTemplate.exchange(decodedBaseUrl, HttpMethod.GET, entity, String.class);
+        String responseBody = responseEntity.getBody();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
+
         Map<String, Object> result = new HashMap<>();
-        result.put("results", resultList);
-        result.put("pagination", paginationMap);
-        
+        if (responseMap.containsKey("results")) {
+            List<Map<String, Object>> results = (List<Map<String, Object>>) responseMap.get("results");
+            result.put("results", results);
+        }
+
+        if (responseMap.containsKey("pagination")) {
+            Map<String, Object> paginationMap = (Map<String, Object>) responseMap.get("pagination");
+            result.put("pagination", paginationMap);
+        }
+
         return result;
     }
+
+
+    // public Map<String, Object> institutionSearch(Integer currentPage, String keyword, String pos) throws JsonProcessingException {
+    //     // 기본 URL 설정
+    //     String baseUrl = "http://rare-field.shop/info/institution?";
+
+    //     String decodedBaseUrl = URLDecoder.decode(baseUrl, StandardCharsets.UTF_8);
+        
+    //     // 파라미터 추가 (키워드와 위치)
+    //     // UriComponentsBuilder 초기화
+    //     UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(decodedBaseUrl);
+
+    //     if (currentPage != null) {
+    //         builder.queryParam("page_number", currentPage);
+    //     }
+    //     if (keyword != null && !keyword.isEmpty()) {
+    //         builder.queryParam("keyword", keyword);
+    //     }
+    //     if (pos != null && !pos.isEmpty()) {
+    //         builder.queryParam("pos", pos);
+    //     }
+
+    //     // HttpHeaders 객체 생성 및 Content-Type 설정
+    //     HttpHeaders headers = new HttpHeaders();
+    //     headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+    //     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+    //     headers.set("Accept-Encoding", "gzip, deflate, br");
+    //     headers.set("Connection", "keep-alive");
+
+    //     HttpEntity<String> entity = new HttpEntity<>(headers);
+
+    //     // RestTemplate 초기화
+    //     RestTemplate restTemplate = new RestTemplate();
+
+    //     // 결과를 저장할 Map 생성
+    //     Map<String, Object> result = new HashMap<>();
+    //     String encodedUrl = builder.toUriString();
+    //     try {
+    //         // 요청 및 응답
+    //         ResponseEntity<String> responseEntity = restTemplate.postForEntity(encodedUrl, entity, String.class);
+    //         String responseBody = responseEntity.getBody();
+
+    //         // ObjectMapper 초기화 및 설정
+    //         ObjectMapper objectMapper = new ObjectMapper();
+    //         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+    //         Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
+
+    //         if (responseMap.containsKey("results")) {
+    //             List<Map<String, Object>> results = (List<Map<String, Object>>) responseMap.get("results");
+    //             result.put("results", results);
+    //         }
+    //         if (responseMap.containsKey("pagination")) {
+    //             Map<String, Object> paginationMap = (Map<String, Object>) responseMap.get("pagination");
+    //             result.put("pagination", paginationMap);
+    //         }
+    //     } catch (RestClientException e) {
+    //         // 예외 처리
+    //         result.put("error", "Failed to fetch data: " + e.getMessage());
+    //     }
+
+    //     return result;
+    // }
     
     public Map<String, Object> dise_search(Integer currentPage, String key_name, String search_word) throws JsonProcessingException {
         // 기본 URL 설정

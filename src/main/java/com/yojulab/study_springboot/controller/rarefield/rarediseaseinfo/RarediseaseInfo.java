@@ -8,10 +8,12 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,38 +28,58 @@ public class RarediseaseInfo {
     @Autowired
     RestTemplateService restTemplateService;
 
-    @Value("${google.maps.api.key}")
-    private String googleMapsApiKey;
-
     @GetMapping("/info_institution")
     public ModelAndView institutionSearch(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String pos,
-            @RequestParam(required = false) Integer currentPage,
-            ModelAndView modelAndView) throws JsonProcessingException {
-        Double latitude = null;
-        Double longitude = null;
-        if (pos != null && !pos.isEmpty()) {
-            String[] parts = pos.split(",");
-            if (parts.length == 2) {
-                try {
-                    latitude = Double.valueOf(parts[0]);
-                    longitude = Double.valueOf(parts[1]);
-                } catch (NumberFormatException e) {
-                    modelAndView.addObject("message", "위치 정보가 잘못되었습니다.");
-                    modelAndView.setViewName("/WEB-INF/rarefield/views/info/info_institution.jsp");
-                    modelAndView.addObject("page");
-                    return modelAndView;
+            @RequestParam(required = false) Integer currentPage) throws Exception {
+        
+        ModelAndView modelAndView = new ModelAndView("/WEB-INF/rarefield/views/info/info_institution.jsp");
+        
+        if (keyword == null && pos == null) {
+            return modelAndView;    
+        }
+
+        int startRecordNumber = 0;
+
+        Integer page = (currentPage != null) ? currentPage : 1;
+        
+        Map<String, Object> result = restTemplateService.institutionSearch(page, keyword, pos);
+        List<Map<String, Object>> results = (List<Map<String, Object>>) result.get("results");
+
+        if (result != null && result.containsKey("pagination")) {
+            Map<String, Object> pagination = (Map<String, Object>) result.get("pagination");
+            if (pagination != null && pagination.containsKey("start_record_number")) {
+                Object startRecordNumberObj = pagination.get("start_record_number");
+                if (startRecordNumberObj instanceof Number) {
+                    startRecordNumber = ((Number) startRecordNumberObj).intValue();
                 }
             }
         }
-        String viewName = "/WEB-INF/rarefield/views/info/info_institution.jsp";
-        modelAndView.setViewName(viewName);
-        modelAndView.addObject("page");
-        modelAndView.addObject("API_KEY", googleMapsApiKey);
+        
+        List<Map<String, Object>> insresults = (List<Map<String, Object>>) result.get("results");
+        int totalItems = 0;
+        if (result != null && result.containsKey("pagination")) {
+            Map<String, Object> pagination = (Map<String, Object>) result.get("pagination");
+            if (pagination != null && pagination.containsKey("total_records")) {
+                Object totalRecordsObj = pagination.get("total_records");
+                if (totalRecordsObj instanceof Number) {
+                    totalItems = ((Number) totalRecordsObj).intValue();
+                }
+            }
+        }
+        
+        Paginations Paginations = new Paginations(totalItems,page);
+
+        String viewPath = "/WEB-INF/rarefield/views/info/info_institution.jsp";
+        modelAndView.setViewName(viewPath);
+        modelAndView.addObject("StartRecordNumber", startRecordNumber);
+        modelAndView.addObject("paginations", Paginations);
+        modelAndView.addObject("results", insresults);
+        modelAndView.addObject("keyword", keyword);
+        modelAndView.addObject("pos", pos);
         return modelAndView;
     }
-
     @GetMapping(value = "/info_raredisease")
     public ModelAndView dise_search(
             @RequestParam(required = false) String key_name,
@@ -114,7 +136,7 @@ public class RarediseaseInfo {
         modelAndView.addObject("StartRecordNumber", startRecordNumber);
         modelAndView.addObject("resultList", results);
         modelAndView.addObject("paginations", Paginations);
-
+        // modelAndView.addObject("remoteServerUrl", remoteServerUrl);
         return modelAndView;
     }
 }
