@@ -38,6 +38,7 @@ dependencies {
 	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
 
 	implementation 'com.google.maps:google-maps-services:0.9.+'
+	implementation 'org.slf4j:slf4j-simple:1.7.25'
 
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'org.apache.httpcomponents.client5:httpclient5:5.1'

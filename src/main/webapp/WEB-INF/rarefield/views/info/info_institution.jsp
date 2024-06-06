@@ -1,180 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
   <%@ page import="java.util.HashMap, java.util.ArrayList, com.yojulab.study_springboot.utils.Paginations" %>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
     <%@ page import="java.util.Map, java.util.List" %>
       <%@ page isELIgnored="false" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
           <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
-            <script>
-              let map, infowindow, userPosition;
-
-              function callback(results, status) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                  for (let i = 0; i < results.length; i++) {
-                    createMarker(results[i]);
-                  }
-                }
-              }
-
-              function getLocation() {
-                if (navigator.geolocation) {
-                  navigator.geolocation.getCurrentPosition(sendPositionToServer, showError);
-                } else {
-                  alert("Geolocation is not supported by this browser.");
-                }
-              }
-
-
-              // 위치 정보를 가져오는 것을 프로미스로 감싸는 함수
-              function getPosition() {
-                return new Promise((resolve, reject) => {
-                  navigator.geolocation.getCurrentPosition(resolve, reject);
-                });
-              }
-
-              async function getLocationAndSubmit() {
-                try {
-                  // 위치 정보를 비동기적으로 요청하고, 결과를 기다립니다.
-                  const position = await getPosition();
-
-                  // 위치 정보를 성공적으로 가져왔을 때 실행되는 부분
-                  const yPos = position.coords.latitude.toString();
-                  const xPos = position.coords.longitude.toString();
-                  if (yPos && xPos) {
-                    const pos = `${yPos},${xPos}`;
-                    // 위치 정보를 숨겨진 입력 필드에 설정합니다.
-                    document.getElementById('pos').value = pos;
-
-                    // 폼을 제출합니다.
-                    document.getElementById('maps').submit();
-                  } else {
-                    throw new Error('유효한 위치 정보를 가져오지 못했습니다.');
-                  }
-                } catch (error) {
-                  // 위치 정보를 가져오는 데 실패했을 때 실행되는 부분
-                  console.error('Geolocation error:', error);
-                  alert('위치 정보를 가져오는 데 실패했습니다. 다시 시도해 주세요.');
-                }
-              }
-
-              function initMap() {
-                infowindow = new google.maps.InfoWindow();
-
-                const userLocationConsent = localStorage.getItem('userLocationConsent');
-
-                if (userLocationConsent === 'granted' && navigator.geolocation) {
-                  navigator.geolocation.getCurrentPosition(function (position) {
-                    const pos = {
-                      lat: position.coords.latitude,
-                      lng: position.coords.longitude
-                    };
-                    sessionStorage.setItem('pos', `${pos.lat},${pos.lng}`);
-                    map = new google.maps.Map(document.getElementById('map'), {
-                      center: pos,
-                      zoom: 15,
-                      draggable: true,
-                      zoomControl: true,
-                    });
-                    displayMarkers(results);
-                  }, function () {
-                    handleLocationError(true, infowindow, defaultPos);
-                  });
-                } else if (userLocationConsent === null) {
-                  const confirmed = confirm("이 웹사이트는 위치 정보를 사용하여 보다 나은 서비스를 제공합니다. 위치 정보를 제공하시겠습니까?");
-
-                  if (confirmed && navigator.geolocation) {
-                    localStorage.setItem('userLocationConsent', 'granted');
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                      const pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                      };
-                      sessionStorage.setItem('pos', `${pos.lat},${pos.lng}`);
-                      map = new google.maps.Map(document.getElementById('map'), {
-                        center: pos,
-                        zoom: 15,
-                        draggable: true,
-                        zoomControl: true,
-                      });
-                      displayMarkers(results);
-                    }, function () {
-                      handleLocationError(true, infowindow, defaultPos);
-                    });
-                  } else if (!confirmed) {
-                    handleLocationError(false, infowindow, defaultPos);
-                  } else {
-                    handleLocationError(false, infowindow, defaultPos);
-                  }
-                } else {
-                  handleLocationError(false, infowindow, defaultPos);
-                }
-              }
-
-              function displayMarkers(results) {
-                if (results.length === 0) return;
-
-                results.forEach((result, index) => {
-                  if (result.YPos && result.XPos) {
-                    const marker = new google.maps.Marker({
-                      position: { lat: parseFloat(result.YPos), lng: parseFloat(result.XPos) },
-                      map: map,
-                      title: result.yadmNm ? result.yadmNm : `Marker ${index + 1}`
-                    });
-                    google.maps.event.addListener(marker, 'click', function () {
-                      infowindow.setContent(result.yadmNm ? result.yadmNm : `Marker ${index + 1}`);
-                      infowindow.open(map, marker);
-                    });
-                  }
-                });
-              }
-
-              function handleLocationError(browserHasGeolocation, infowindow, pos) {
-                infowindow.setPosition(pos);
-                infowindow.setContent(browserHasGeolocation ?
-                  'Error: The Geolocation service failed.' :
-                  'Error: Your browser doesn\'t support geolocation.');
-                infowindow.open(map);
-              }
-
-              document.addEventListener("DOMContentLoaded", function () {
-                // URL에서 쿼리 파라미터 가져오기
-                const urlParams = new URLSearchParams(window.location.search);
-                const keyword = urlParams.get('keyword');
-                const pos = urlParams.get('pos');
-
-
-                // 폼 입력 필드에 값 설정하기
-                if (keyword !== null) {
-                  document.getElementById('keyword').value = keyword;
-                }
-                if (pos !== null) {
-                  document.getElementById('pos').value = pos;
-                }
-              });
-
-
-              // 페이지 로드 시 기존 값 설정
-              window.onload = function () {
-                const urlParams = new URLSearchParams(window.location.search);
-
-                if (urlParams.has('keyword')) {
-                  document.getElementById('keyword').value = urlParams.get('keyword');
-                }
-                if (urlParams.has('pos')) {
-                  document.getElementById('pos').value = urlParams.get('pos');
-                }
-
-              };
-
-              function focusOnMap(index) {
-                const marker = markers[index];
-                map.setCenter(marker.getPosition());
-                map.setZoom(17);
-              }
-
-              window.onload = initMap;
-
-            </script>
             <script src="/proxy/google-maps" async defer></script>
             <%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
               <style>
@@ -200,9 +30,15 @@
                 .td {
                   text-align: center;
                 }
+
+                .hidden {
+                  display: none;
+                }
+
+                .visible {
+                  display: block;
+                }
               </style>
-
-
 
 
               <main class="row justify-content-between">
@@ -246,7 +82,8 @@
                                             <label for="keyword">검색할 장소를 입력하세요</label>
                                             <input type="text" id="keyword" name="keyword" class="controls"
                                               placeholder="입력하기" value="${param.keyword}">
-                                            <input type="hidden" id="pos" name="pos" value="${param.pos}">
+                                            <input type="hidden" id="pos" name="pos" value="<c:out value="${pos}" />">
+                                            <button id="getLocation" style="display:none;">위치 정보 제공</button>
                                             <button type="button" formmethod="get"
                                               onclick="getLocationAndSubmit()">Search</button>
                                             <div class="row">
@@ -385,3 +222,153 @@
               </main>
               <hr>
               <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
+                <script>
+                  let map, infowindow, userPosition, service;
+
+
+                  function initMap() {
+                    infowindow = new google.maps.InfoWindow();
+
+                    const userLocationConsent = localStorage.getItem('userLocationConsent');
+                    const defaultPos = { lat: 37.5665, lng: 126.9780 };  // 서울의 기본 위치를 예시로 설정
+
+                    if (userLocationConsent === 'granted' && navigator.geolocation) {
+                      requestLocation();
+                    } else if (userLocationConsent === null) {
+                      const confirmed = confirm("이 웹사이트는 위치 정보를 사용하여 보다 나은 서비스를 제공합니다. 위치 정보를 제공하시겠습니까?");
+
+                      if (confirmed) {
+                        localStorage.setItem('userLocationConsent', 'granted');
+                        document.getElementById('getLocation').style.display = 'block';
+                      } else {
+                        handleLocationError(false, infowindow, defaultPos);
+                      }
+                    } else {
+                      handleLocationError(false, infowindow, defaultPos);
+                    }
+
+                    // 이벤트 리스너 추가
+                    document.getElementById('getLocation').addEventListener('click', requestLocation);
+                  }
+
+                  function requestLocation() {
+                    if (navigator.geolocation) {
+                      navigator.geolocation.getCurrentPosition(
+                        function (position) {
+                          const pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                          };
+                          sessionStorage.setItem('pos', `${pos.lat},${pos.lng}`);
+                          map = new google.maps.Map(document.getElementById('map'), {
+                            center: pos,
+                            zoom: 15,
+                            draggable: true,
+                            zoomControl: true,
+                          });
+                          displayMarkers(results);
+                        },
+                        function (error) {
+                          console.error("Error requesting location:", error);
+                          const defaultPos = { lat: 37.5665, lng: 126.9780 };  // 서울의 기본 위치를 예시로 설정
+                          handleLocationError(true, infowindow, defaultPos);
+                        }
+                      );
+                    } else {
+                      alert("이 브라우저에서는 위치 정보 사용이 지원되지 않습니다.");
+                    }
+                  }
+
+                  function handleLocationError(browserHasGeolocation, infowindow, pos) {
+                    infowindow.setPosition(pos);
+                    infowindow.setContent(browserHasGeolocation ?
+                      'Error: The Geolocation service failed.' :
+                      'Error: Your browser doesn\'t support geolocation.');
+                    infowindow.open(map);
+                  }
+
+                  
+                  async function getLocationAndSubmit() {
+                    try {
+                      var yPos, xPos;
+                      // 위치 정보를 비동기적으로 요청하고, 결과를 기다립니다.
+                      await new Promise((resolve, reject) => {
+                        navigator.geolocation.getCurrentPosition(
+                          (position) => {
+                            yPos = position.coords.latitude.toString();
+                            xPos = position.coords.longitude.toString();
+                            var pos = `${yPos},${xPos}`;
+                            document.getElementById('pos').value = pos;
+
+                            console.log('Latitude:', yPos);
+                            console.log('Longitude:', xPos);
+                            console.log('Position set to:', pos);
+                            resolve({ latitude: yPos, longitude: xPos }); // pos 값을 resolve 함수에 전달합니다.
+                          },
+                          (error) => {
+                            console.error("Geolocation error:", error);
+                            reject(error);
+                          }
+                        );
+                      });
+
+                      // 비동기 후처리 부분에서 pos 값을 재확인하고 폼을 제출합니다.
+                      var posValue = document.getElementById('pos').value;
+                      console.log('Submitting form with pos:', posValue);
+                      document.getElementById('maps').submit();
+
+                    } catch (error) {
+                      // 위치 정보를 가져오는 데 실패했을 때 실행되는 부분
+                      console.log('Geolocation error:', error);
+                      alert('위치 정보를 가져오는 데 실패했습니다. 다시 시도해 주세요.');
+                    }
+                  }
+
+                  function callback(results, status) {
+                    if (status === google.maps.places.PlacesServiceStatus.OK) {
+                      for (let i = 0; i < results.length; i++) {
+                        createMarker(results[i]);
+                      }
+                    }
+                  }
+
+
+                  function displayMarkers(results) {
+                    if (!results || results.length === 0) return;
+
+                    results.forEach((result, index) => {
+                      if (result.YPos && result.XPos) {
+                        const marker = new google.maps.Marker({
+                          position: { lat: parseFloat(result.YPos), lng: parseFloat(result.XPos) },
+                          map: map,
+                          title: result.yadmNm ? result.yadmNm : `Marker ${index + 1}`
+                        });
+                        google.maps.event.addListener(marker, 'click', function () {
+                          infowindow.setContent(result.yadmNm ? result.yadmNm : `Marker ${index + 1}`);
+                          infowindow.open(map, marker);
+                        });
+                      }
+                    });
+                  }
+
+                  document.addEventListener("DOMContentLoaded", function () {
+                    // 지도 초기화
+                    initMap();
+
+                    // URL에서 쿼리 파라미터 가져오기
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const keyword = urlParams.get('keyword');
+                    const pos = urlParams.get('pos');
+
+                    // 폼 입력 필드에 값 설정하기
+                    if (keyword !== null) {
+                      document.getElementById('keyword').value = keyword;
+                    }
+                    if (pos !== null && pos !== ',') {
+                      document.getElementById('pos').value = pos;
+                    }
+
+                    // 이벤트 리스너 추가
+                    document.getElementById('getLocation').addEventListener('click', getLocationAndSubmit);
+                  });
+                </script>

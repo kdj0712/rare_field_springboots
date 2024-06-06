@@ -6,14 +6,11 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,12 +33,14 @@ public class RarediseaseInfo {
         
         ModelAndView modelAndView = new ModelAndView("/WEB-INF/rarefield/views/info/info_institution.jsp");
         
-        if (keyword == null && pos == null) {
+        if ((keyword == null || keyword.isEmpty()) && (pos == null || pos.isEmpty())) {
             return modelAndView;    
         }
 
-        int startRecordNumber = 0;
+        System.out.println("Received keyword: " + keyword);
+        System.out.println("Received pos: " + pos);
 
+        int startRecordNumber = 0;
         Integer page = (currentPage != null) ? currentPage : 1;
         
         Map<String, Object> result = restTemplateService.institutionSearch(page, keyword, pos);
@@ -69,17 +68,21 @@ public class RarediseaseInfo {
             }
         }
         
-        Paginations Paginations = new Paginations(totalItems,page);
+        Paginations paginations = new Paginations(totalItems, page);
+
+        System.out.println("Final keyword: " + keyword);
+        System.out.println("Final pos: " + pos);
 
         String viewPath = "/WEB-INF/rarefield/views/info/info_institution.jsp";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("StartRecordNumber", startRecordNumber);
-        modelAndView.addObject("paginations", Paginations);
+        modelAndView.addObject("paginations", paginations);
         modelAndView.addObject("results", insresults);
         modelAndView.addObject("keyword", keyword);
         modelAndView.addObject("pos", pos);
         return modelAndView;
     }
+
     @GetMapping(value = "/info_raredisease")
     public ModelAndView dise_search(
             @RequestParam(required = false) String key_name,

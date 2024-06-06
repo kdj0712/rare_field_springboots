@@ -201,7 +201,7 @@ public class RestTemplateService {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<String> responseEntity = restTemplate.exchange(decodedBaseUrl, HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(decodedBaseUrl, entity, String.class);
         String responseBody = responseEntity.getBody();
 
         ObjectMapper objectMapper = new ObjectMapper();
