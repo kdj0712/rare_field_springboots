@@ -82,7 +82,7 @@
                                             <label for="keyword">검색할 장소를 입력하세요</label>
                                             <input type="text" id="keyword" name="keyword" class="controls"
                                               placeholder="입력하기" value="${param.keyword}">
-                                            <input type="hidden" id="pos" name="pos" value="<c:out value="${pos}" />">
+                                            <input type="hidden" id="pos" name="pos" value="">
                                             <button id="getLocation" style="display:none;">위치 정보 제공</button>
                                             <button type="button" formmethod="get"
                                               onclick="getLocationAndSubmit()">Search</button>
@@ -287,7 +287,6 @@
                     infowindow.open(map);
                   }
 
-                  
                   async function getLocationAndSubmit() {
                     try {
                       var yPos, xPos;
@@ -297,7 +296,7 @@
                           (position) => {
                             yPos = position.coords.latitude.toString();
                             xPos = position.coords.longitude.toString();
-                            var pos = `${yPos},${xPos}`;
+                            const pos = `${yPos},${xPos}`;
                             document.getElementById('pos').value = pos;
 
                             console.log('Latitude:', yPos);
@@ -331,7 +330,6 @@
                       }
                     }
                   }
-
 
                   function displayMarkers(results) {
                     if (!results || results.length === 0) return;
