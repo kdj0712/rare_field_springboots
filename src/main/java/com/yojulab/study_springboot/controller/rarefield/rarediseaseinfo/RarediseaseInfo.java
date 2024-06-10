@@ -3,9 +3,6 @@ package com.yojulab.study_springboot.controller.rarefield.rarediseaseinfo;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-
+import com.google.gson.Gson;
 import com.yojulab.study_springboot.utils.Paginations;
 import com.yojulab.study_springboot.service.rarefield.rest.RestTemplateService;
 
 @RestController
 @RequestMapping("/info")
 public class RarediseaseInfo {
-    
+
     @Autowired
     RestTemplateService restTemplateService;
 
@@ -30,21 +27,30 @@ public class RarediseaseInfo {
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String pos,
             @RequestParam(required = false) Integer currentPage) throws Exception {
-        
-        ModelAndView modelAndView = new ModelAndView("/WEB-INF/rarefield/views/info/info_institution.jsp");
-        
-        if ((keyword == null || keyword.isEmpty()) && (pos == null || pos.isEmpty())) {
-            return modelAndView;    
-        }
 
-        System.out.println("Received keyword: " + keyword);
-        System.out.println("Received pos: " + pos);
+        ModelAndView modelAndView = new ModelAndView("/WEB-INF/rarefield/views/info/info_institution.jsp");
+
+        if ((keyword == null || keyword.isEmpty()) && (pos == null || pos.isEmpty())) {
+            return modelAndView;
+        }
 
         int startRecordNumber = 0;
         Integer page = (currentPage != null) ? currentPage : 1;
-        
+
         Map<String, Object> result = restTemplateService.institutionSearch(page, keyword, pos);
+
         List<Map<String, Object>> results = (List<Map<String, Object>>) result.get("results");
+
+        // results 리스트를 순회하면서 각 항목에서 excellent_info 추출
+        if (results != null) {
+            for (Map<String, Object> item : results) {
+                if (item.containsKey("excellent_info")) {
+                    String excellentInfoJson = new Gson().toJson(item.get("excellent_info"));
+                    modelAndView.addObject("excellentInfoJson", excellentInfoJson);
+                    break; // 첫 번째 excellent_info를 찾으면 반복문을 종료합니다.
+                }
+            }
+        }
 
         if (result != null && result.containsKey("pagination")) {
             Map<String, Object> pagination = (Map<String, Object>) result.get("pagination");
@@ -55,8 +61,7 @@ public class RarediseaseInfo {
                 }
             }
         }
-        
-        List<Map<String, Object>> insresults = (List<Map<String, Object>>) result.get("results");
+
         int totalItems = 0;
         if (result != null && result.containsKey("pagination")) {
             Map<String, Object> pagination = (Map<String, Object>) result.get("pagination");
@@ -67,19 +72,21 @@ public class RarediseaseInfo {
                 }
             }
         }
-        
+
         Paginations paginations = new Paginations(totalItems, page);
 
-        System.out.println("Final keyword: " + keyword);
-        System.out.println("Final pos: " + pos);
-
+        String responseBody = (String) result.get("responseBody");
         String viewPath = "/WEB-INF/rarefield/views/info/info_institution.jsp";
         modelAndView.setViewName(viewPath);
+        modelAndView.addObject("responseBody", responseBody);
         modelAndView.addObject("StartRecordNumber", startRecordNumber);
         modelAndView.addObject("paginations", paginations);
-        modelAndView.addObject("results", insresults);
+        modelAndView.addObject("results", results); // Set results as a list
         modelAndView.addObject("keyword", keyword);
         modelAndView.addObject("pos", pos);
+        Gson gson = new Gson();
+        String jsonResults = gson.toJson(results);
+        modelAndView.addObject("jsonResults", jsonResults);
         return modelAndView;
     }
 
@@ -89,15 +96,10 @@ public class RarediseaseInfo {
             @RequestParam(required = false) String search_word,
             @RequestParam(required = false) Integer currentPage,
             ModelAndView modelAndView) {
-                
-        Logger logger = LoggerFactory.getLogger(this.getClass());
-        logger.info("Received currentPage: {}", currentPage);
-        logger.info("Received key_name: {}", key_name);
-        logger.info("Received search_word: {}", search_word);
-        
+
         Integer page = (currentPage != null) ? currentPage : 1;
         Map<String, Object> result = null;
-        
+
         int startRecordNumber = 0;
         try {
             result = restTemplateService.dise_search(page, key_name, search_word);
@@ -117,7 +119,7 @@ public class RarediseaseInfo {
                 }
             }
         }
-        
+
         List<Map<String, Object>> results = (List<Map<String, Object>>) result.get("results");
         int totalItems = 0;
         if (result != null && result.containsKey("pagination")) {
@@ -129,9 +131,9 @@ public class RarediseaseInfo {
                 }
             }
         }
-        
-        Paginations Paginations = new Paginations(totalItems,page);
-        
+
+        Paginations Paginations = new Paginations(totalItems, page);
+
         String viewPath = "/WEB-INF/rarefield/views/info/info_raredisease.jsp";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("key_name", key_name);
@@ -139,7 +141,6 @@ public class RarediseaseInfo {
         modelAndView.addObject("StartRecordNumber", startRecordNumber);
         modelAndView.addObject("resultList", results);
         modelAndView.addObject("paginations", Paginations);
-        // modelAndView.addObject("remoteServerUrl", remoteServerUrl);
         return modelAndView;
     }
 }

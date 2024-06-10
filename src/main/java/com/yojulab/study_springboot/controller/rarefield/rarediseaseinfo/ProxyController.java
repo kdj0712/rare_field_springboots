@@ -26,7 +26,6 @@ public class ProxyController {
         String apiUrl = "https://maps.googleapis.com/maps/api/js";
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
                 .queryParam("key", googleApiKey)
-                .queryParam("callback", "initMap")
                 .queryParam("language", "ko");
 
 
@@ -40,38 +39,3 @@ public class ProxyController {
                 .body(response.getBody());
     }
 }
-// @RestController
-// public class GoogleMapsProxyController {
-
-//     @Autowired
-//     private RestTemplate restTemplate;
-
-//     // Google Maps API URL
-//     private static final String GOOGLE_MAPS_API_BASE_URL = "https://maps.googleapis.com/maps/api";
-
-//     // Google Maps API 키 (본인의 키로 대체)
-//     private static final String GOOGLE_MAPS_API_KEY = "YOUR_API_KEY";
-
-//     @GetMapping("/maps/{endpoint}")
-//     public ResponseEntity<?> proxyGoogleMaps(@PathVariable String endpoint,
-//                                              @RequestParam(required = false) Map<String, String> params) {
-//         StringBuilder url = new StringBuilder(GOOGLE_MAPS_API_BASE_URL);
-//         url.append("/").append(endpoint);
-//         url.append("?key=").append(GOOGLE_MAPS_API_KEY);
-
-//         // 요청 파라미터 추가
-//         if (!params.isEmpty()) {
-//             params.forEach((key, value) -> url.append("&").append(key).append("=").append(value));
-//         }
-
-//         // HTTP 요청 생성
-//         HttpHeaders headers = new HttpHeaders();
-//         HttpEntity<?> requestEntity = new HttpEntity<>(headers);
-
-//         // Google Maps API 호출
-//         ResponseEntity<String> responseEntity = restTemplate.exchange(url.toString(), HttpMethod.GET, requestEntity, String.class);
-
-//         // 응답 전달
-//         return ResponseEntity.ok(responseEntity.getBody());
-//     }
-// }

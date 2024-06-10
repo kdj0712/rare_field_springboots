@@ -46,12 +46,6 @@ function goToPage(pageNumber) {
             queryString += `&search_word=${encodeURIComponent(searchWord)}`;
         }
 
-        console.log('keyName:', keyName);
-        console.log('searchWord:', searchWord);
-        console.log('baseUrl:', baseUrl);
-        console.log('currentPage:', pageNumber);
-        console.log('queryString:', queryString);
-
         window.location.href = baseUrl + queryString;
         // form.submit();
     } else {

@@ -1,183 +1,201 @@
-// Python에서 전달된 results 데이터를 JavaScript 변수로 변환
-var resultsFromPython = {{ results | tojson | safe }};
-
-let map, service, infowindow;
-const defaultPos = { lat: 37.5665, lng: 126.9780 }; // 기본 위치 (서울 좌표)
-
-function callback(results, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-        for (let i = 0; i < results.length; i++) {
-            createMarker(results[i]);
-        }
-    }
-}
-
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(sendPositionToServer, showError);
-    } else {
-        alert("Geolocation is not supported by this browser.");
-    }
-}
-
-function getLocationAndSubmit() {
-    navigator.geolocation.getCurrentPosition(
-        async function (position) {
-            const yPos = position.coords.latitude.toString();
-            const xPos = position.coords.longitude.toString();
-            const pos = `${yPos},${xPos}`;
-            document.getElementById('pos').value = pos;
-            const keyword = document.getElementById('keyword').value;
-            document.getElementById('maps').submit();
-        },
-        function (error) {
-            console.error('Geolocation error:', error);
-            alert('위치 정보를 가져오는 데 실패했습니다. 다시 시도해 주세요.');
-        }
-    );
-}
+let map, infowindow, userPosition, service;
+let markers = [];
 
 function initMap() {
     infowindow = new google.maps.InfoWindow();
 
     const userLocationConsent = localStorage.getItem('userLocationConsent');
+    const defaultPos = { lat: 37.5665, lng: 126.9780 };  // 서울의 기본 위치를 예시로 설정
 
     if (userLocationConsent === 'granted' && navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            const pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-
-            map = new google.maps.Map(document.getElementById('map'), {
-                center: pos,
-                zoom: 15,
-                draggable: true,
-                zoomControl: true,
-            });
-            displayMarkers(resultsFromPython);
-        }, function () {
-            handleLocationError(true, infowindow, defaultPos);
-        });
+        requestLocation();
     } else if (userLocationConsent === null) {
         const confirmed = confirm("이 웹사이트는 위치 정보를 사용하여 보다 나은 서비스를 제공합니다. 위치 정보를 제공하시겠습니까?");
 
-        if (confirmed && navigator.geolocation) {
+        if (confirmed) {
             localStorage.setItem('userLocationConsent', 'granted');
-            navigator.geolocation.getCurrentPosition(function (position) {
-                const pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-
-                map = new google.maps.Map(document.getElementById('map'), {
-                    center: pos,
-                    zoom: 15,
-                    draggable: true,
-                    zoomControl: true,
-                });
-                displayMarkers(resultsFromPython);
-            }, function () {
-                handleLocationError(true, infowindow, defaultPos);
-            });
-        } else if (!confirmed) {
-            handleLocationError(false, infowindow, defaultPos);
+            document.getElementById('getLocation').style.display = 'block';
         } else {
             handleLocationError(false, infowindow, defaultPos);
         }
     } else {
         handleLocationError(false, infowindow, defaultPos);
     }
+
+    // 이벤트 리스너 추가
+    document.getElementById('getLocation').addEventListener('click', requestLocation);
 }
 
-function toggleExcellentInfo(index) {
-    var infoElement = document.getElementById('excellent-info-' + index);
-    if (infoElement.style.display === 'none') {
-        infoElement.style.display = 'block';
+function requestLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function (position) {
+                const pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                sessionStorage.setItem('pos', `${pos.lat},${pos.lng}`);
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: pos,
+                    zoom: 16,
+                    draggable: true,
+                    zoomControl: true,
+                });
+                displayMarkers(jsonResults);
+            },
+            function (error) {
+                console.error("Error requesting location:", error);
+                const defaultPos = { lat: 37.5665, lng: 126.9780 };  // 서울의 기본 위치를 예시로 설정
+                handleLocationError(true, infowindow, defaultPos);
+            }
+        );
     } else {
-        infoElement.style.display = 'none';
+        alert("이 브라우저에서는 위치 정보 사용이 지원되지 않습니다.");
     }
 }
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: pos,
-        zoom: 15,
-    });
 
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
+function handleLocationError(browserHasGeolocation, infowindow, pos) {
+    infowindow.setPosition(pos);
+    infowindow.setContent(browserHasGeolocation ?
         'Error: The Geolocation service failed.' :
         'Error: Your browser doesn\'t support geolocation.');
-    infoWindow.open(map);
+    infowindow.open(map);
 }
 
-let markers = [];
+async function getLocationAndSubmit() {
+    try {
+        var yPos, xPos;
+        await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    yPos = position.coords.latitude.toString();
+                    xPos = position.coords.longitude.toString();
+                    resolve({ latitude: yPos, longitude: xPos });
+                },
+                (error) => {
+                    console.error("Geolocation error:", error);
+                    reject(error);
+                }
+            );
+        });
 
-function createMarker(place) {
-    if (!place.geometry || !place.geometry.location) return;
-    const marker = new google.maps.Marker({
-        map,
-        position: place.geometry.location,
-    });
+        const positionString = ''.concat(yPos, ',', xPos);
+        document.getElementById('pos').value = positionString;
 
-    google.maps.event.addListener(marker, 'click', function () {
-        infowindow.setContent(place.name);
-        infowindow.open(map, this);
-    });
+        var posValue = document.getElementById('pos').value;
+        if (posValue && posValue !== ',' && posValue.split(',').length === 2) {
+            document.getElementById('maps').submit();
+        } else {
+            alert('유효한 위치 정보가 없습니다. 다시 시도해 주세요.');
+        }
+    } catch (error) {
+        alert('위치 정보를 가져오지 못했습니다. 다시 시도해 주세요.');
+    }
 }
 
-// function displayMarkers(results) {
-//     if (results.length === 0) return;
 
-//     markers.forEach((marker) => marker.setMap(null)); // 기존 마커 제거
-//     markers = [];
 
-//     results.forEach((result) => {
-//         const marker = new google.maps.Marker({
-//             position: { lat: parseFloat(result.YPos), lng: parseFloat(result.XPos) },
-//             map: map,
-//             title: result.yadmNm
-//         });
-//         markers.push(marker);
+function callback(jsonResults, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+        displayMarkers(jsonResults);
+    }
+}
 
-//         marker.addListener('click', () => {
-//             infowindow.setContent(`${result.yadmNm}<br>${result.addr}`);
-//             infowindow.open(map, marker);
-//         });
-//     });
-// }
-function displayMarkers(results) {
-    if (results.length === 0) return;
 
-    results.forEach((result) => {
-        if(result.YPos && result.XPos) {
+function showExcellentInfoPopup(index) {
+    // 팝업에 표시할 우수 정보 내용을 직접 구성합니다.
+    const excellentInfoElement = document.getElementById(`excellent-info-${index}`);
+    const excellentInfoHTML = `<ul>${excellentInfoElement.innerHTML}</ul>`;
+    const popupWindow = window.open("", "PopupWindow", "width=600,height=400,scrollbars=yes,resizable=yes");
+    popupWindow.document.write(`<html><head><title>우수정보</title></head><body>${excellentInfoHTML}</body></html>`);
+    popupWindow.document.close(); // 팝업 내용이 모두 작성된 후에 문서를 닫습니다.
+}
+
+function displayMarkers(jsonResults) {
+    if (!jsonResults || jsonResults.length === 0) return;
+
+    jsonResults.forEach((result, index) => {
+        if (result.YPos && result.XPos) {
             const marker = new google.maps.Marker({
                 position: { lat: parseFloat(result.YPos), lng: parseFloat(result.XPos) },
                 map: map,
-                title: result.yadmNm
+                title: result.yadmNm ? result.yadmNm : `Marker ${index + 1}`
             });
-            markers.push(marker);
 
-            marker.addListener('click', () => {
-                infowindow.setContent(`${result.yadmNm}<br>${result.addr}`);
+            google.maps.event.addListener(marker, 'click', function () {
+                infowindow.setContent(result.yadmNm ? result.yadmNm : `Marker ${index + 1}`);
                 infowindow.open(map, marker);
             });
+
+            markers.push(marker); // 마커 배열에 추가
         }
     });
+
+    // 마커가 추가된 후 첫 번째 마커에 포커스 맞추기
+    if (markers.length > 0) {
+        focusOnMap(markers[0].position.lat(), markers[0].position.lng(), 0);
+    }
 }
-function focusOnMap(index) {
-    const marker = markers[index];
-    map.setCenter(marker.getPosition());
-    map.setZoom(16);
+
+// focusOnMap 함수 예시
+function focusOnMap(lat, lng) {
+    if (isNaN(lat) || isNaN(lng)) {
+        return;
+    }
+
+    // 지도 중심을 지정된 좌표로 이동
+    map.setCenter(new google.maps.LatLng(lat, lng));
+    map.setZoom(18); // 줌 레벨 설정
 }
 
 window.onload = initMap;
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    // 지도 초기화
+    initMap();
+
+    // URL에서 쿼리 파라미터 가져오기
+    const urlParams = new URLSearchParams(window.location.search);
+    const keyword = urlParams.get('keyword');
+    const pos = urlParams.get('pos');
+    const currentPage = urlParams.get('currentPage');
+
+    // 폼 입력 필드에 값 설정하기
+    if (keyword !== null) {
+        document.getElementById('keyword').value = keyword;
+    }
+    if (pos !== null && pos !== ',') {
+        document.getElementById('pos').value = pos;
+    }
+
+    // 이벤트 리스너 추가
+    document.getElementById('getLocation').addEventListener('click', getLocationAndSubmit);
+});
+
+function goToPage(pageNumber) {
+    var form = document.getElementById('maps');
+    if (form) {
+        var keyword = document.querySelector('input[name="keyword"]').value;
+        var pos = document.querySelector('input[name="pos"]').value;
+        var baseUrl = form.action.split('?')[0];
+        var queryString = `?currentPage=${pageNumber}&keyword=${encodeURIComponent(keyword)}&pos=${encodeURIComponent(pos)}`;
+        window.location.href = baseUrl + queryString;
+        // form.submit();
+    } else {
+        console.error("Form not found");
+    }
+}
+
+// 페이지 로드 시 기존 값 설정
 window.onload = function () {
     const urlParams = new URLSearchParams(window.location.search);
 
     if (urlParams.has('keyword')) {
         document.getElementById('keyword').value = urlParams.get('keyword');
     }
+
+    if (urlParams.has('pos')) {
+        document.getElementById('pos').value = urlParams.get('pos');
+    }
 };
-<script src="https://maps.googleapis.com/maps/api/js?key={{ API_KEY }}&libraries=places&callback=initMap&language=ko"
-    async defer></script>
