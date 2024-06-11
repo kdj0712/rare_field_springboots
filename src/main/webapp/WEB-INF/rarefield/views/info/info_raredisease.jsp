@@ -255,7 +255,7 @@
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                    <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('코드 없음')">코드 없음</a>
+                    <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('코드없음')">코드 없음</a>
                   </li>
                   <li class="col-3 text-end" style="border: none; background: none;"
                     onclick="javascript:fn_opendiv();return false;">

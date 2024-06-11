@@ -66,3 +66,8 @@ window.onload = function () {
         document.getElementById('hiddenSearchWord').value = urlParams.get('search_word');
     }
 };
+
+function fetchAllDiseases() {
+    var baseUrl = window.location.origin + window.location.pathname;
+    window.location.href = baseUrl;
+}
