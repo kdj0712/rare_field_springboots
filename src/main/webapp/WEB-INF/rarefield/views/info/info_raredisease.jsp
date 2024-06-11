@@ -168,8 +168,8 @@
 
       <div class="main-content col-8 row">
         <div class="container">
-          <form id="searchForm" action="">
-            <div class="row" style="justify-content: center;">
+          <form id="searchForm" action="" method="get">
+            <div class="row" style="justify-content: center;">              
               <div class="col-10.5 row text-center"
                 style="align-items: center;  border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); justify-content: center;">
                 <ul class="row col list-unstyled justify-content-center">
@@ -181,77 +181,77 @@
                   <li class="col-3 btn mt-4"
                     style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
                     <a href="#" style="color: rgb(0, 0, 0); "
-                      onclick="fetchDataByRange('A00', 'B99')">특정감염성(A00-B99)</a>
+                      onclick="fetchDataByRange('A00-B99')">특정감염성(A00-B99)</a>
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
                     <a href="#" style="color: rgb(0, 0, 0); "
-                      onclick="fetchDataByRange('C00','D48')">신생물(C00-D48)</a>
+                      onclick="fetchDataByRange('C00-D48')">신생물(C00-D48)</a>
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
                     <a href="#" style="color: rgb(0, 0, 0); "
-                      onclick="fetchDataByRange('D50','D89')">혈액조혈기관(D50-D89)</a>
+                      onclick="fetchDataByRange('D50-D89')">혈액조혈기관(D50-D89)</a>
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
                     <a href="#" style="color: rgb(0, 0, 0); "
-                      onclick="fetchDataByRange('E00','E90')">내분비,영양(E00-E90)</a>
+                      onclick="fetchDataByRange('E00-E90')">내분비,영양(E00-E90)</a>
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
                     <a href="#" style="color: rgb(0, 0, 0); "
-                      onclick="fetchDataByRange('F00','F99')">정신및행동(F00-F99)</a>
+                      onclick="fetchDataByRange('F00-F99')">정신및행동(F00-F99)</a>
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
                     <a href="#" style="color: rgb(0, 0, 0); "
-                      onclick="fetchDataByRange('G00','G99')">신경계통질환(G00-G99)</a>
+                      onclick="fetchDataByRange('G00-G99')">신경계통질환(G00-G99)</a>
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
                     <a href="#" style="color: rgb(0, 0, 0); "
-                      onclick="fetchDataByRange('H00','H59')">눈및부속기관(H00-H59)</a>
+                      onclick="fetchDataByRange('H00-H59')">눈및부속기관(H00-H59)</a>
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
                     <a href="#" style="color: rgb(0, 0, 0); "
-                      onclick="fetchDataByRange('I00','I99')">순환기계통(I00-I99)</a>
+                      onclick="fetchDataByRange('I00-I99')">순환기계통(I00-I99)</a>
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
                     <a href="#" style="color: rgb(0, 0, 0); "
-                      onclick="fetchDataByRange('J00','J99')">호흡기계통(J00-J99)</a>
+                      onclick="fetchDataByRange('J00-J99')">호흡기계통(J00-J99)</a>
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
                     <a href="#" style="color: rgb(0, 0, 0); "
-                      onclick="fetchDataByRange('K00','K93')">소화기계통(K00-K93)</a>
+                      onclick="fetchDataByRange('K00-K93')">소화기계통(K00-K93)</a>
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
                     <a href="#" style="color: rgb(0, 0, 0); "
-                      onclick="fetchDataByRange('L00','L99')">피부및조직(L00-L99)</a>
+                      onclick="fetchDataByRange('L00-L99')">피부및조직(L00-L99)</a>
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
                     <a href="#" style="color: rgb(0, 0, 0); "
-                      onclick="fetchDataByRange('M00','M99')">근육골격계통(M00-M99)</a>
+                      onclick="fetchDataByRange('M00-M99')">근육골격계통(M00-M99)</a>
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
                     <a href="#" style="color: rgb(0, 0, 0); "
-                      onclick="fetchDataByRange('N00','N99')">비뇨생식(N00-N99)</a>
+                      onclick="fetchDataByRange('N00-N99')">비뇨생식(N00-N99)</a>
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
                     <a href="#" style="color: rgb(0, 0, 0); "
-                      onclick="fetchDataByRange('P00','P96')">출생전후기(P00-P96)</a>
+                      onclick="fetchDataByRange('P00-P96')">출생전후기(P00-P96)</a>
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
                     <a href="#" style="color: rgb(0, 0, 0); "
-                      onclick="fetchDataByRange('Q00','Q99')">선천기형변형(Q00-Q99)</a>
+                      onclick="fetchDataByRange('Q00-Q99')">선천기형변형(Q00-Q99)</a>
                   </li>
                   <li class="col-3 btn mt-4"
                     style="height: 20%; height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
@@ -324,7 +324,7 @@
                             <div class="justify-content-center row">
                               <div class="row col-7" style="align-items: center;">
                                 <div class="col-3">
-                                  <select style="border-radius: 25px;" class="form-control" name="key_name">
+                                  <select style="border-radius: 25px;" id="keyNameSelect" class="form-control" name="key_name">
                                     <option value="dise_name_kr" ${key_name eq 'dise_name_kr' ? 'selected'
                                       : '' }>질환명
                                     </option>
@@ -340,12 +340,14 @@
                                   </select>
                                 </div>
                                 <div class="col-7">
-                                  <input class="form-control" placeholder="Enter Search!" name="search_word"
+                                  <input id="searchWordInput" class="form-control" placeholder="Enter Search!" name="search_word"
                                     value="${search_word != null ? search_word : ''}">
                                 </div>
+                                <input type="hidden" id="hiddenKeyName" name="hidden_key_name" value="">
+                                <input type="hidden" id="hiddenSearchWord" name="hidden_search_word" value="">
                                 <div class="col-2">
                                   <button type="submit" style="border:none; background: none;"
-                                    formaction="/info/info_raredisease" formmethod="get"><svg width="50"
+                                    formaction="/info/info_raredisease"><svg width="50"
                                       height="50" viewBox="0 0 80 80" fill="none"
                                       xmlns="http://www.w3.org/2000/svg">
                                       <g filter="url(#filter0_d_7_45)">
