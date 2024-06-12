@@ -178,11 +178,6 @@ function displayMarkers(jsonResults) {
             markers.push(marker); // 마커 배열에 추가
         }
     });
-
-    // 마커가 추가된 후 첫 번째 마커에 포커스 맞추기
-    if (markers.length > 0) {
-        focusOnMap(markers[0].position.lat(), markers[0].position.lng(), 0);
-    }
 }
 
 // focusOnMap 함수 예시
