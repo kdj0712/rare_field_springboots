@@ -133,19 +133,34 @@
                                             <th class="td">Address</th>
                                             <th class="td">Tel Num</th>
                                             <th class="td">자세히 보기</th>
-                                            <th class="td">병원평가정보</th>
                                           </tr>
                                         </thead>
                                         <tbody id="tbody">
                                           <c:if test="${empty results}">
                                             <tr>
-                                              <td colspan="8" class="center-fixed">검색 결과가 없습니다.</td>
+                                              <td colsp an="8" class="center-fixed">검색 결과가 없습니다.</td>
                                             </tr>
                                           </c:if>
                                           <c:forEach var="result" items="${results}" varStatus="status">
                                             <tr>
                                               <td class="name">
                                                 ${result.yadmNm}
+                                                <c:if
+                                                  test="${not empty result.excellent_info and result.excellent_info ne '없음'}">
+                                                  <button type="button"
+                                                    onclick="showExcellentInfoPopup(${status.index});" class="btn btn-primary" style="font-size: 10px; width: 70px; height: 25px; padding: 5px;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                                                      <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"></path>
+                                                    </svg>우수 정보</button>
+                                                  <div id="excellent-info-${status.index}" class="excellent-info"
+                                                    style="display: none;">
+                                                    <ul>
+                                                      <c:forEach var="entry" items="${result.excellent_info}">
+                                                        <li>${entry.asmGrdNm} - ${entry.asmNm}</li>
+                                                      </c:forEach>
+                                                    </ul>
+                                                  </div>
+                                                </c:if>
                                               </td>
                                               <td class="address">
                                                 ${result.addr}
@@ -161,21 +176,6 @@
                                                 </c:if>
                                                 <c:if test="${empty result.YPos || empty result.XPos}">
                                                   데이터 없음
-                                                </c:if>
-                                              </td>
-                                              <td class="td">
-                                                <c:if
-                                                  test="${not empty result.excellent_info and result.excellent_info ne '없음'}">
-                                                  <button type="button"
-                                                    onclick="showExcellentInfoPopup(${status.index});">우수 정보</button>
-                                                  <div id="excellent-info-${status.index}" class="excellent-info"
-                                                    style="display: none;">
-                                                    <ul>
-                                                      <c:forEach var="entry" items="${result.excellent_info}">
-                                                        <li>${entry.asmGrdNm} - ${entry.asmNm}</li>
-                                                      </c:forEach>
-                                                    </ul>
-                                                  </div>
                                                 </c:if>
                                               </td>
                                             </tr>
