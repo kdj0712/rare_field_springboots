@@ -37,10 +37,6 @@ public class SecurityConfiguration {
                                 .logoutSuccessUrl("/main")
                                 .invalidateHttpSession(true)
                                 .deleteCookies("JSESSIONID"));
-                                
-                httpSecurity.requiresChannel()
-                                .anyRequest()
-                                .requiresSecure();
 
                 return httpSecurity.build();
         }
