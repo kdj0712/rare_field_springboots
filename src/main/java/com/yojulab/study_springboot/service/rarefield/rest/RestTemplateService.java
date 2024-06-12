@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 
+@SuppressWarnings("deprecation")
 @Service
 public class RestTemplateService {
     @Autowired
@@ -141,8 +142,6 @@ public class RestTemplateService {
         
         // 응답 값
         String responseBody = responseEntity.getBody();
-        System.out.println("get Response: " + responseBody);
-
         String jsonString = responseBody;
        
         // 가장 큰 JSONObject를 가져옵니다.
@@ -153,7 +152,7 @@ public class RestTemplateService {
         result.put("id",newsObject.optString("_id"));
         result.put("news_title",newsObject.optString("news_title"));
         result.put("news_datetime",newsObject.optString("news_datetime"));
-        result.put("news_contents",newsObject.optString("news_contents"));
+        result.put("news_contents", newsObject.optString("news_contents"));
         result.put("news_url",newsObject.optString("news_url"));
         result.put("news_topic",newsObject.optString("news_topic"));
         result.put("news_paper",newsObject.optString("news_paper"));
@@ -162,6 +161,7 @@ public class RestTemplateService {
         return result;
 
     }
+    
 
     public Map<String, Object> institutionSearch(Integer currentPage, String keyword, String pos) throws Exception {
         String baseUrl = "http://rare-field.shop/info/institution?";
