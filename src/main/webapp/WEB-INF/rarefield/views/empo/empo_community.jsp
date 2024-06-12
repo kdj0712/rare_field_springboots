@@ -77,7 +77,7 @@
                                 result=(HashMap)request.getAttribute("result"); %>
 
                                 <div class="row justify-content-center text-center">
-                                    <div class="row col-7 justify-content-center">
+                                    <div class="row col-9 justify-content-center">
                                         <div class="col-3">
                                             <select style="border-radius: 25px;" class="form-control" name="key_name">
                                                 <option value=""> 전체 </option>
@@ -130,26 +130,26 @@
                                         resultList.size(); i=i+1) { HashMap record=(HashMap)resultList.get(i); %>
 
                                         <br>
-                                        <div class=" container" style="width: 80%;"
+                                        <div class=" container" style="width: 100%;"
                                             onclick="location.href='/empo_community/read?key_name=&words=&community_ID=<%= record.get("community_ID") %>'" style="cursor: pointer;" name='' value='' >
                                             <div class="row justify-content-between">
-                                                <h7 class="category col-3">
+                                                <h7 class="category col-4">
                                                     <!-- <a href="/empo_community/read" style="color: #4b4b4b;" class="" name ="community_ID" value='<%= record.get("community_ID") %>'> -->
                                                     제목 : <%= record.get("community_title") %>
                                                         <!-- </a> -->
                                                 </h7>
-                                                <h7 class="category col-3">
+                                                <h7 class="category col-2">
                                                     <!-- <a href="/empo_community/read" style="color: #4b4b4b;" class="" > -->
                                                     카테고리 : <%= record.get("community_choice") %>
                                                         <!-- </a> -->
                                                 </h7>
 
-                                                <h7 class="category col-3">
+                                                <h7 class="category col-2">
                                                     <!-- <a href="/empo_community/read" style="color: #4b4b4b;" class="" > -->
                                                     작성자 : <%= record.get("user_ID") %>
                                                         <!-- </a> -->
                                                 </h7>
-                                                <h7 class="category col-3">
+                                                <h7 class="category col-4">
                                                     <!-- <a href="/empo_community/read" style="color: #4b4b4b;" class="" > -->
                                                     작성일 : <%= record.get("community_date") %>
                                                         <!-- </a> -->
@@ -158,21 +158,27 @@
                                             </div>
 
                                         </div>
+                                        <hr>
                                         <% } %>
 
 
-                                            <hr>
 
                                 </div>
-                                <div class="mb-4">
-                                    <button class="btn btn-lg " name="btn_type" value="insert"
-                                        formaction="/empo_community/insert"
-                                        style="background-color: #00CBFE; color: #ffffff; width: 100%; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);"
-                                        type="submit">글쓰기
+                                <div class="row">
+                                    <div class="col-2">
+                                    </div>
+                                    <div class="mb-4 col-8">
+                                        <button class="btn btn-lg " name="btn_type" value="insert"
+                                            formaction="/empo_community/insert"
+                                            style="background-color: #00CBFE; color: #ffffff; width: 100%; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);"
+                                            type="submit">글쓰기
 
-                                    </button>
+                                        </button>
+                                    </div>
+
+                                    <div class="col-2">
+                                    </div>
                                 </div>
-
                                 <% Paginations paginations=(Paginations)result.get("paginations"); %>
                                     <div>총 갯수 : <%= paginations.getTotalCount() %>
                                     </div>
