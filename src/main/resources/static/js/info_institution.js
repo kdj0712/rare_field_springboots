@@ -106,7 +106,7 @@ function showExcellentInfoPopup(index) {
     // 팝업에 표시할 우수 정보 내용을 직접 구성합니다.
     const excellentInfoElement = document.getElementById(`excellent-info-${index}`);
     const excellentInfoHTML = `<ul>${excellentInfoElement.innerHTML}</ul>`;
-    const popupWindow = window.open("", "PopupWindow", "width=350,height=350,scrollbars=yes,resizable=yes");
+    const popupWindow = window.open("", "PopupWindow", "width=380,height=450,scrollbars=yes,resizable=yes");
     popupWindow.document.write(`
         <html>
         <head>
