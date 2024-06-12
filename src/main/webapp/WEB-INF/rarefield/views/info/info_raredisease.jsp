@@ -347,7 +347,7 @@
                                           <input type="hidden" id="hiddenKeyName" name="hidden_key_name" value="">
                                           <input type="hidden" id="hiddenSearchWord" name="hidden_search_word" value="">
                                           <div class="col-2">
-                                            <button type="submit" style="border:none; background: none;"
+                                            <button id="searchButton" type="submit" style="border:none; background: none;"
                                               formaction="/info/info_raredisease"><svg width="50" height="50"
                                                 viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <g filter="url(#filter0_d_7_45)">

@@ -71,3 +71,15 @@ function fetchAllDiseases() {
     var baseUrl = window.location.origin + window.location.pathname;
     window.location.href = baseUrl;
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchButton = document.getElementById('searchButton');
+    const searchInput = document.getElementById('searchWordInput');
+
+    searchButton.addEventListener('click', function(event) {
+      if (searchInput.value.trim() === '') {
+        event.preventDefault();
+        alert('검색할 내용을 입력해 주세요');
+      }
+    });
+  });
