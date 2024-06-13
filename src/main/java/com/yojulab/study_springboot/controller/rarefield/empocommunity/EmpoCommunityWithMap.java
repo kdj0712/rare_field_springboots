@@ -34,7 +34,7 @@ public class EmpoCommunityWithMap {
         }
         Object result = empoCommunity.selectSearchWithPaginationAndDeletes(dataMap);
 
-        String viewPath = "/empo/empo_community.jsp";
+        String viewPath = "/empo/empo_community";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("result", result);
         modelAndView.addObject("dataMap", dataMap);
