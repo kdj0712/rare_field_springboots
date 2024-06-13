@@ -90,12 +90,10 @@
             <div>
                 <c:choose>
                     <c:when test="${empty result['news_image']}">
-                        <!-- news_image 값이 null 또는 빈칸인 경우 -->
-                        <img src="" alt="" style="float: left; margin-right: 20px;">
                     </c:when>
                     <c:otherwise>
                         <!-- news_image 값이 존재하는 경우 -->
-                        <img src="${result['news_image']}" alt="" style="float: left; margin-left: 20px;">
+                        <img src="${result['news_image']}" alt="" style="float: left; margin-right: 7px; margin-bottom: 5px;">
                     </c:otherwise>
                 </c:choose>
             </div>
