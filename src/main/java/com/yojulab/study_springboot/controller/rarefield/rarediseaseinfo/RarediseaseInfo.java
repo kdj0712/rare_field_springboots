@@ -28,7 +28,7 @@ public class RarediseaseInfo {
             @RequestParam(required = false) String pos,
             @RequestParam(required = false) Integer currentPage) throws Exception {
 
-        ModelAndView modelAndView = new ModelAndView("/WEB-INF/rarefield/views/info/info_institution.jsp");
+        ModelAndView modelAndView = new ModelAndView("info/info_institution");
 
         if ((keyword == null || keyword.isEmpty()) && (pos == null || pos.isEmpty())) {
             return modelAndView;
@@ -76,7 +76,7 @@ public class RarediseaseInfo {
         Paginations paginations = new Paginations(totalItems, page);
 
         String responseBody = (String) result.get("responseBody");
-        String viewPath = "/WEB-INF/rarefield/views/info/info_institution.jsp";
+        String viewPath = "info/info_institution";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("responseBody", responseBody);
         modelAndView.addObject("StartRecordNumber", startRecordNumber);
@@ -106,7 +106,7 @@ public class RarediseaseInfo {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             modelAndView.addObject("error", "데이터 처리 중 오류가 발생했습니다.");
-            modelAndView.setViewName("/WEB-INF/rarefield/views/error.jsp");
+            modelAndView.setViewName("error");
             return modelAndView;
         }
 
@@ -134,7 +134,7 @@ public class RarediseaseInfo {
 
         Paginations Paginations = new Paginations(totalItems, page);
 
-        String viewPath = "/WEB-INF/rarefield/views/info/info_raredisease.jsp";
+        String viewPath = "info/info_raredisease";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("key_name", key_name);
         modelAndView.addObject("search_word", search_word);
