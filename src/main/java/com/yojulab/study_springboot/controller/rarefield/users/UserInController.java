@@ -22,13 +22,13 @@ public class UserInController {
         // 1. 해당 ID 있는지 체크
         boolean isDup = userService.checkDupUser(params);
         if(isDup){
-            String viewName = "/WEB-INF/rarefield/views/users/user_join_fail.jsp";
+            String viewName = "users/user_join_fail";
             modelAndView.setViewName(viewName);
             return modelAndView;
         }
         else{
             Object result = userService.insertWithAuth(params);
-            String viewName = "/WEB-INF/rarefield/views/mainpage.jsp";
+            String viewName = "mainpage";
             modelAndView.setViewName(viewName);
             return modelAndView;
         }

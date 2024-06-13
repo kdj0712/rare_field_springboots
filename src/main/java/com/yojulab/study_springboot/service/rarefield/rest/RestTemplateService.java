@@ -103,9 +103,7 @@ public class RestTemplateService {
 
         String jsonString = responseBody;
        
-        // 가장 큰 JSONObject를 가져옵니다.
         JSONObject jObject = new JSONObject(jsonString);
-        // 배열을 가져옵니다.
         JSONArray jArray = jObject.getJSONArray("news");
     
         List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
@@ -123,7 +121,8 @@ public class RestTemplateService {
         }
 
         JSONObject paginationObject = jObject.getJSONObject("pagination");
-        Paginations paginations = new Paginations(paginationObject.getInt("total_records"), paginationObject.getInt("current_page"));
+        Paginations paginations = new Paginations(paginationObject.getInt("total_records"), 
+                                                  paginationObject.getInt("current_page"));
 
         Map<String,Object> result = new HashMap<>();
         result.put("news",list);
