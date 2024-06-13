@@ -27,6 +27,44 @@
 
         ;
     }
+
+    /* 왼쪽 배너 스타일 */
+    .side-banner-left {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 16.66667%;
+        /* 2/12의 너비 */
+        height: 100%;
+        /* 배너가 화면 전체 높이를 차지하도록 */
+        overflow: auto;
+        /* 배너 내용이 길어지면 스크롤 가능하게 */
+        z-index: 1000;
+        /* 다른 요소들 위에 배너가 위치하도록 */
+    }
+
+    /* 오른쪽 배너 스타일 */
+    .side-banner-right {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 16.66667%;
+        /* 2/12의 너비 */
+        height: 100%;
+        /* 배너가 화면 전체 높이를 차지하도록 */
+        overflow: auto;
+        /* 배너 내용이 길어지면 스크롤 가능하게 */
+        z-index: 1000;
+        /* 다른 요소들 위에 배너가 위치하도록 */
+    }
+
+    /* 메인 컨텐츠 스타일 조정 */
+    .main-content {
+        margin-left: 16.66667%;
+        /* 왼쪽 배너의 너비만큼 여백 추가 */
+        margin-right: 16.66667%;
+        /* 오른쪽 배너의 너비만큼 여백 추가 */
+    }
 </style>
 {% endblock css %}
 

@@ -1,64 +1,70 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 
-<%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
+    <%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
 
-<style>
-
-
-</style>
+        <style>
 
 
+        </style>
 
-<main class="row justify-content-between">
 
-    <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
 
-    <div class="col-8 row">
-        <div class="container">
-            <h2>news</h2>
-            <div class="justify-content-center row">
-                <div class="row col-7">
-                    <div class="col-3">
-                        <select class="form-control" name="key_name">
-                            <option value="thesis_name" {{ 'selected' if request._query_params.key_name=='thesis_name' else ''}}>
-                                제목
-                            </option>
-                            <option value="thesis_date" {{ 'selected' if request._query_params.key_name=='thesis_date' else ''}}>
-                                발행연도
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-6">
-                        <input class="form-control" placeholder="Enter Search!" name="search_word" value="{{request._query_params.word}}">
-                    </div>
-                    <div class="col-2">
-                        <button type="submit" class="btn btn-primary" formaction="/info/info_academicinfo" formmethod="get">검색</button>
-                    </div>
-                </div>
+        <main class="row justify-content-between">
+            <div class="side-banner-left">
+            <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
             </div>
-        
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>번호</th>
-                        <th>제목</th>
-                        <th>등록일자</th>
-                        <th>분류</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for paper in papers %}
-                    <tr onclick="location.href='/info/info_academicinfo/{{paper.id}}'" style="cursor: pointer;">
-                        <td>{{pagination.start_record_number + loop.index0}}</td>
-                        <td id="readpage">{{paper.ques_title}}</td>
-                        <td>{{paper.date}}</td>
-                        <td>{{paper.content}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <!-- <nav aria-label="Page navigation">
+
+                <div class="col-8 row">
+                    <div class="container">
+                        <h2>news</h2>
+                        <div class="justify-content-center row">
+                            <div class="row col-7">
+                                <div class="col-3">
+                                    <select class="form-control" name="key_name">
+                                        <option value="thesis_name" {{ 'selected' if
+                                            request._query_params.key_name=='thesis_name' else '' }}>
+                                            제목
+                                        </option>
+                                        <option value="thesis_date" {{ 'selected' if
+                                            request._query_params.key_name=='thesis_date' else '' }}>
+                                            발행연도
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <input class="form-control" placeholder="Enter Search!" name="search_word"
+                                        value="{{request._query_params.word}}">
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit" class="btn btn-primary" formaction="/info/info_academicinfo"
+                                        formmethod="get">검색</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>제목</th>
+                                    <th>등록일자</th>
+                                    <th>분류</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for paper in papers %}
+                                <tr onclick="location.href='/info/info_academicinfo/{{paper.id}}'"
+                                    style="cursor: pointer;">
+                                    <td>{{pagination.start_record_number + loop.index0}}</td>
+                                    <td id="readpage">{{paper.ques_title}}</td>
+                                    <td>{{paper.date}}</td>
+                                    <td>{{paper.content}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <!-- <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center">
                     <li class="page-item {{ '' if pagination.has_previous_block else 'disabled' }}">
                         <button  style="border: none; background: none;" type="submit" class="page-link" formaction="/info/info_academicinfo/{{pagination.first_page}}">
@@ -101,21 +107,23 @@
                     </li>
                 </ul>
             </nav> -->
+                    </div>
+                </div>
+
+                <%@ include file="/WEB-INF/rarefield/views/commons/side_right_banner.jsp" %>
+
+
+        </main>
+        <hr>
+        <div class="side-banner-right">
+        <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
         </div>
-    </div>
 
-    <%@ include file="/WEB-INF/rarefield/views/commons/side_right_banner.jsp" %>
+            <script>
 
-      
-    </main>
-    <hr>
-    <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
 
-    <script>
-    
 
-      
-    </script>
-    
+            </script>
 
-    </html>
+
+            </html>

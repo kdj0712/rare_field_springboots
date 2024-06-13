@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.HashMap, java.util.List, com.yojulab.study_springboot.utils.Paginations" %>
 <%@ page import="java.util.Map" %>
-
 <%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
 
 <style>

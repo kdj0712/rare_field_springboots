@@ -1,6 +1,5 @@
 package com.yojulab.study_springboot.service.rarefield.empocommunity;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 

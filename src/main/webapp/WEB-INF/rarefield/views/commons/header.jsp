@@ -176,6 +176,3 @@
         </div>
     </div>
 </header>
-<script>
-    for (i of document.querySelectorAll("img[data-http='http']")) i.src = i.src.replace("https://", "http://");
-</script>
