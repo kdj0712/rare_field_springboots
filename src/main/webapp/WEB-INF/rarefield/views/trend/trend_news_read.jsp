@@ -85,13 +85,13 @@
                                             </c:choose>
                                         </div>
                                         
+                                        
                                         <div class="lead" style="text-align:justify; font-size: 18px;" id="editor">
                                             <c:out value="${updatedContents}" escapeXml="false" />
                                         </div>
                                         <hr>
                                         <div>뉴스 링크 :
-                                            <a href="<%= result.get(" news_url") %>" target="_blank"><%=
-                                                    result.get("news_url") %></a>
+                                            <a href="${result.news_url}" target="_blank"><%= result.get("news_url") %></a>
                                         </div>
                                         <hr>
                                         <div class="row">
