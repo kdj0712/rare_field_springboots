@@ -15,7 +15,7 @@ import com.yojulab.study_springboot.service.sample.UsersService;
 public class UserViewController {
     @RequestMapping(value = "/user_login", method = RequestMethod.GET)
     public ModelAndView userLogin(ModelAndView modelAndView){
-        String viewName = "/WEB-INF/rarefield/views/users/user_login.jsp";
+        String viewName = "users/user_login";
 
         modelAndView.setViewName(viewName);
         return modelAndView;
@@ -23,7 +23,7 @@ public class UserViewController {
 
     @RequestMapping(value = "/user_join", method = RequestMethod.GET)
     public ModelAndView userJoin(ModelAndView modelAndView){
-        String viewName = "/WEB-INF/rarefield/views/users/user_join.jsp";
+        String viewName = "users/user_join";
 
         modelAndView.setViewName(viewName);
         return modelAndView;
@@ -31,7 +31,7 @@ public class UserViewController {
 
     @RequestMapping(value = "/user_infosearch", method = RequestMethod.GET)
     public ModelAndView userInforsearch(ModelAndView modelAndView){
-        String viewName = "/WEB-INF/rarefield/views/users/user_infosearch.jsp";
+        String viewName = "users/user_infosearch";
 
         modelAndView.setViewName(viewName);
         return modelAndView;
@@ -39,7 +39,7 @@ public class UserViewController {
 
     @RequestMapping(value = "/user_mypage", method = RequestMethod.GET)
     public ModelAndView userMypage(ModelAndView modelAndView){
-        String viewName = "/WEB-INF/rarefield/views/users/user_mypage.jsp";
+        String viewName = "users/user_mypage";
         modelAndView.setViewName(viewName);
         return modelAndView;
     }

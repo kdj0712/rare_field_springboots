@@ -21,7 +21,7 @@ public class EmpoCommunity {
 
     @RequestMapping(value = "/empo_program", method = RequestMethod.GET)
     public ModelAndView empoProgram(ModelAndView modelAndView){
-        String viewName = "/WEB-INF/rarefield/views/empo/empo_program.jsp";
+        String viewName = "empo/empo_program";
 
         modelAndView.setViewName(viewName);
         return modelAndView;
@@ -29,7 +29,7 @@ public class EmpoCommunity {
 
     @RequestMapping(value = "/read", method = RequestMethod.GET)
     public ModelAndView empoCommunityRead(ModelAndView modelAndView){
-        String viewName = "/WEB-INF/rarefield/views/empo/empo_community_read.jsp";
+        String viewName = "empo/empo_community_read";
 
         modelAndView.setViewName(viewName);
         return modelAndView;

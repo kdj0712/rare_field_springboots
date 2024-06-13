@@ -105,7 +105,7 @@ public class RestTemplateController {
     @GetMapping(value = "/law")
       public ModelAndView law(ModelAndView modelAndView) {
         List<Map<String,Object>> result = restTemplateService.lawPostRequest();
-        String viewPath = "/WEB-INF/rarefield/views/trend/trend_law.jsp";
+        String viewPath = "trend/trend_law";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("result", result);
         return modelAndView;
@@ -114,7 +114,7 @@ public class RestTemplateController {
       @GetMapping(value = "/news")
         public ModelAndView news(ModelAndView modelAndView, @RequestParam int currentPage) {
         Map<String,Object> result = restTemplateService.newsPostRequest(currentPage);
-        String viewPath = "/WEB-INF/rarefield/views/trend/trend_news.jsp";
+        String viewPath = "trend/trend_news";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("result", result);
         return modelAndView;
@@ -123,7 +123,7 @@ public class RestTemplateController {
       @GetMapping(value = "/")
         public ModelAndView mainNews(ModelAndView modelAndView, @RequestParam int currentPage) {
         Map<String,Object> result = restTemplateService.newsPostRequest(currentPage);
-        String viewPath = "/WEB-INF/rarefield/views/mainpage.jsp";
+        String viewPath = "mainpage";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("result", result);
         return modelAndView;
@@ -134,7 +134,7 @@ public class RestTemplateController {
         public ModelAndView newsRead(ModelAndView modelAndView,@PathVariable String id, @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
         Map<String,Object> result = restTemplateService.newsReadGetRequest(id);
         // restTemplateService.newsReadPostRequest(result, "_id", id);
-        String viewPath = "/WEB-INF/rarefield/views/trend/trend_news_read.jsp";
+        String viewPath = "/trend/trend_news_read.jsp";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("result", result);
         modelAndView.addObject("_id", id);

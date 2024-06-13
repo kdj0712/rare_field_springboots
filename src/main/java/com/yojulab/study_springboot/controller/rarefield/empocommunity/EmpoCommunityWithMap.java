@@ -43,7 +43,7 @@ public class EmpoCommunityWithMap {
         }
         Object result = empoCommunity.selectSearchWithPaginationAndDeletes(dataMap);
 
-        String viewPath = "/WEB-INF/rarefield/views/empo/empo_community.jsp";
+        String viewPath = "/empo/empo_community.jsp";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("result", result);
         modelAndView.addObject("dataMap", dataMap);
@@ -55,7 +55,7 @@ public class EmpoCommunityWithMap {
     public ModelAndView selectSearch(@RequestParam HashMap<String, Object> dataMap , ModelAndView modelAndView) {
         
         Object result = empoCommunity.selectSearchWithPagination(dataMap);
-        modelAndView.setViewName("/WEB-INF/rarefield/views/empo/empo_community.jsp");
+        modelAndView.setViewName("empo/empo_community");
         modelAndView.addObject("dataMap", dataMap);
         modelAndView.addObject("result", result);
         
@@ -68,7 +68,7 @@ public class EmpoCommunityWithMap {
     public ModelAndView empoCommunityWrite(ModelAndView modelAndView, @RequestParam HashMap<String, Object> dataMap) {
         Object result = empoCommunity.read(dataMap);
 
-        String viewPath = "/WEB-INF/rarefield/views/empo/empo_community_write.jsp";
+        String viewPath = "empo/empo_community_write";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("result", result);
         modelAndView.addObject("dataMap", dataMap);
@@ -80,7 +80,7 @@ public class EmpoCommunityWithMap {
     public ModelAndView empoCommunityRead(ModelAndView modelAndView, @RequestParam HashMap<String, Object> dataMap) {
         Object result = empoCommunity.read(dataMap);
 
-        String viewPath = "/WEB-INF/rarefield/views/empo/empo_community_read.jsp";
+        String viewPath = "empo/empo_community_read";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("result", result);
         modelAndView.addObject("dataMap", dataMap);
@@ -97,7 +97,7 @@ public class EmpoCommunityWithMap {
         }
         Object result = empoCommunity.read(dataMap);
 
-        String viewPath = "/WEB-INF/rarefield/views/empo/empo_community_read.jsp";
+        String viewPath = "empo/empo_community_read";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("result", result);
         modelAndView.addObject("dataMap", dataMap);
@@ -109,7 +109,7 @@ public class EmpoCommunityWithMap {
     public ModelAndView empoCommunityUpdate(ModelAndView modelAndView, @RequestParam HashMap<String, Object> dataMap) {
         Object result = empoCommunity.read(dataMap);
 
-        String viewPath = "/WEB-INF/rarefield/views/empo/empo_community_update.jsp";
+        String viewPath = "empo/empo_community_update";
         modelAndView.setViewName(viewPath);
         modelAndView.addObject("result", result);
         modelAndView.addObject("dataMap", dataMap);
