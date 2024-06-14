@@ -306,7 +306,7 @@
 
             int startRecordNumber = 1;
             if (dataMap.containsKey("StartRecordNumber")) {
-            startRecordNumber = (int) dataMap.get("StartRecordNumber");
+              startRecordNumber = (int) dataMap.get("StartRecordNumber");
             }
 
             String keyName = request.getParameter("key_name");

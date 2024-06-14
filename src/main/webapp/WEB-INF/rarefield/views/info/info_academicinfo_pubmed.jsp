@@ -88,11 +88,11 @@
         <div class="row justify-content-center text-center">
             <div class="row col-7 justify-content-center">
                 <div class="col-2">
-                    <select class="form-control" id="keyNameSelect" name="key_name">
-                        <option value="thesis_name"  ${key_name eq 'thesis_name' ? 'selected' : '' }>
+                    <select class="form-control" name="key_name">
+                        <option value="thesis_name" ${key_name eq 'thesis_name' ? 'selected' : '' }>
                             제목
                         </option>
-                        <option value="thesis_date"  ${key_name eq'thesis_date' ? 'selected' : '' }>
+                        <option value="thesis_date" ${key_name eq 'thesis_date' ? 'selected' : '' }>
                             연도
                         </option>
                     </select>
@@ -101,7 +101,7 @@
                     <input id="searchWordInput" style="border-radius: 0px;" class="form-control" placeholder="검색할 내용을 입력하세요" name="search_word" value="${search_word != null ? search_word : ''}">
                 </div>
                 <div class="col-2">
-                    <button id="searchButton" style="border: none; background: none;" type="submit" style="border:none; background: none;" formaction="/info/info_academicinfo">
+                    <button id="searchButton" style="border: none; background: none;" type="submit" style="border:none; background: none;" formaction="/info/info_academicinfo_pub_med">
                         <svg width="32" height="32" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g filter="url(#filter0_d_7_45)">
                                 <path d="M5 40C5 20.67 20.67 5 40 5C59.33 5 75 20.67 75 40C75 59.33 59.33 75 40 75C20.67 75 5 59.33 5 40Z" fill="#04CBFC" fill-opacity="0.47" shape-rendering="crispEdges" />
@@ -144,27 +144,17 @@
             </c:if>
             <c:forEach var="record" items="${resultList}" varStatus="status">
                 <div class="tab-content container" style="width: 90%;" style="cursor: pointer;">
-                    <p class="tab-pane fade show active">
-                        <a href="${record.research_url}" style="color: #4b4b4b;" class="" target="_blank">
-                            원문출처
-                        </a>
-                    </p>
                     <div class="tit">
                         <p class="fw-bold">
                             <a style="color: #4b4b4b;" class="">
-                                ${record.research_title}
+                                ${record.title}
                             </a>
                         </p>
                     </div>
                     <div class="row justify-content-end text-end">
                         <p class="category col-2">
                             <a style="color: #4b4b4b;" class="">
-                                ${record.research_year}
-                            </a>
-                        </p>
-                        <p class="category col-6 text-end">
-                            <a style="color: #4b4b4b;" class="">
-                                ${record.research_institution}
+                                ${record.research_date}
                             </a>
                         </p>
                     </div>
@@ -228,6 +218,7 @@
 </main>
 <hr>
 <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
-<script src="${pageContext.request.contextPath}/js/info_academicinfo.js"></script>
+<script src="${pageContext.request.contextPath}/js/info_academicinfo_pubmed.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 

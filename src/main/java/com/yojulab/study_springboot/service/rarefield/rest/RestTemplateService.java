@@ -271,4 +271,132 @@ public class RestTemplateService {
         return result;
     }
 
+    public Map<String, Object> riss_search(Integer currentPage, String key_name, String search_word) throws JsonProcessingException {
+        // 기본 URL 설정
+        String baseUrl = "http://rare-field.shop/info/academicinfo?";
+        
+        // URL 디코딩
+        String decodedBaseUrl = URLDecoder.decode(baseUrl, StandardCharsets.UTF_8);
+
+        // UriComponentsBuilder 초기화
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(decodedBaseUrl);
+
+        // 조건에 따라 URL에 파라미터 추가
+        if (currentPage != null) {
+            builder.queryParam("page_number", currentPage);
+        }
+        if (key_name != null && !key_name.isEmpty()) {
+            builder.queryParam("key_name", key_name);
+        }
+        if (search_word != null && !search_word.isEmpty()) {
+            builder.queryParam("search_word", search_word);
+        }
+
+        // HttpHeaders 객체 생성 및 Content-Type 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Accept-Encoding", "gzip, deflate, br");
+        headers.set("Connection", "keep-alive");
+
+        // HttpEntity 객체 생성 (여기서는 본문을 비워둘 수 있습니다)
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        // RestTemplate 초기화
+        RestTemplate restTemplate = new RestTemplate();
+
+        // 결과를 저장할 Map 생성
+        Map<String, Object> result = new HashMap<>();
+        String encodedUrl = builder.toUriString();
+
+        try {
+            // 요청 및 응답
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(encodedUrl, entity, String.class);
+            String responseBody = responseEntity.getBody();
+
+            // ObjectMapper 초기화 및 설정
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+            Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
+
+            if (responseMap.containsKey("papers")) {
+                List<Map<String, Object>> resultList = (List<Map<String, Object>>) responseMap.get("papers");
+                result.put("results", resultList);
+            }
+            if (responseMap.containsKey("pagination")) {
+                Map<String, Object> paginationMap = (Map<String, Object>) responseMap.get("pagination");
+                result.put("pagination", paginationMap);
+            }
+        } catch (RestClientException e) {
+            // 예외 처리
+            result.put("error", "Failed to fetch data: " + e.getMessage());
+        }
+
+        return result;
+    }
+    public Map<String, Object> pubmed_search(Integer currentPage, String key_name, String search_word) throws JsonProcessingException {
+        // 기본 URL 설정
+        String baseUrl = "http://rare-field.shop/info/academicinfo_pub_med?";
+        
+        // URL 디코딩
+        String decodedBaseUrl = URLDecoder.decode(baseUrl, StandardCharsets.UTF_8);
+
+        // UriComponentsBuilder 초기화
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(decodedBaseUrl);
+
+        // 조건에 따라 URL에 파라미터 추가
+        if (currentPage != null) {
+            builder.queryParam("page_number", currentPage);
+        }
+        if (key_name != null && !key_name.isEmpty()) {
+            builder.queryParam("key_name", key_name);
+        }
+        if (search_word != null && !search_word.isEmpty()) {
+            builder.queryParam("search_word", search_word);
+        }
+
+        // HttpHeaders 객체 생성 및 Content-Type 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Accept-Encoding", "gzip, deflate, br");
+        headers.set("Connection", "keep-alive");
+
+        // HttpEntity 객체 생성 (여기서는 본문을 비워둘 수 있습니다)
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        // RestTemplate 초기화
+        RestTemplate restTemplate = new RestTemplate();
+
+        // 결과를 저장할 Map 생성
+        Map<String, Object> result = new HashMap<>();
+        String encodedUrl = builder.toUriString();
+
+        try {
+            // 요청 및 응답
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(encodedUrl, entity, String.class);
+            String responseBody = responseEntity.getBody();
+
+            // ObjectMapper 초기화 및 설정
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+            Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
+
+            if (responseMap.containsKey("papers")) {
+                List<Map<String, Object>> resultList = (List<Map<String, Object>>) responseMap.get("papers");
+                result.put("results", resultList);
+            }
+            if (responseMap.containsKey("pagination")) {
+                Map<String, Object> paginationMap = (Map<String, Object>) responseMap.get("pagination");
+                result.put("pagination", paginationMap);
+            }
+        } catch (RestClientException e) {
+            // 예외 처리
+            result.put("error", "Failed to fetch data: " + e.getMessage());
+        }
+
+        return result;
+    }
 }

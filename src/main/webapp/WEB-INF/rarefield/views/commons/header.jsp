@@ -127,7 +127,10 @@
                                     의료기관검색
                                 </li>
                                 <li class="th2_in dropdown-item" data-url="/info/info_academicinfo">
-                                    학술정보
+                                    국내 학술정보
+                                </li>
+                                <li class="th2_in dropdown-item" data-url="/info/info_academicinfo_pub_med">
+                                    해외 학술정보
                                 </li>
                             </ul>
                             <ul class="th1 col-2">

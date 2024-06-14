@@ -143,4 +143,112 @@ public class RarediseaseInfo {
         modelAndView.addObject("paginations", Paginations);
         return modelAndView;
     }
+
+    @GetMapping(value = "/info_academicinfo")
+    public ModelAndView aca_search(
+            @RequestParam(required = false) String key_name,
+            @RequestParam(required = false) String search_word,
+            @RequestParam(required = false) Integer currentPage,
+            ModelAndView modelAndView) {
+
+        Integer page = (currentPage != null) ? currentPage : 1;
+        Map<String, Object> result = null;
+
+        int startRecordNumber = 0;
+        try {
+            result = restTemplateService.riss_search(page, key_name, search_word);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            modelAndView.addObject("error", "데이터 처리 중 오류가 발생했습니다.");
+            modelAndView.setViewName("error");
+            return modelAndView;
+        }
+
+        if (result != null && result.containsKey("pagination")) {
+            Map<String, Object> pagination = (Map<String, Object>) result.get("pagination");
+            if (pagination != null && pagination.containsKey("start_record_number")) {
+                Object startRecordNumberObj = pagination.get("start_record_number");
+                if (startRecordNumberObj instanceof Number) {
+                    startRecordNumber = ((Number) startRecordNumberObj).intValue();
+                }
+            }
+        }
+
+        List<Map<String, Object>> results = (List<Map<String, Object>>) result.get("results");
+        int totalItems = 0;
+        if (result != null && result.containsKey("pagination")) {
+            Map<String, Object> pagination = (Map<String, Object>) result.get("pagination");
+            if (pagination != null && pagination.containsKey("total_records")) {
+                Object totalRecordsObj = pagination.get("total_records");
+                if (totalRecordsObj instanceof Number) {
+                    totalItems = ((Number) totalRecordsObj).intValue();
+                }
+            }
+        }
+
+        Paginations Paginations = new Paginations(totalItems, page);
+
+        String viewPath = "info/info_academicinfo";
+        modelAndView.setViewName(viewPath);
+        modelAndView.addObject("key_name", key_name);
+        modelAndView.addObject("search_word", search_word);
+        modelAndView.addObject("StartRecordNumber", startRecordNumber);
+        modelAndView.addObject("resultList", results);
+        modelAndView.addObject("paginations", Paginations);
+        return modelAndView;
+    }
+    
+    @GetMapping(value = "/info_academicinfo_pub_med")
+    public ModelAndView aca_pubmed_search(
+            @RequestParam(required = false) String key_name,
+            @RequestParam(required = false) String search_word,
+            @RequestParam(required = false) Integer currentPage,
+            ModelAndView modelAndView) {
+
+        Integer page = (currentPage != null) ? currentPage : 1;
+        Map<String, Object> result = null;
+
+        int startRecordNumber = 0;
+        try {
+            result = restTemplateService.pubmed_search(page, key_name, search_word);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            modelAndView.addObject("error", "데이터 처리 중 오류가 발생했습니다.");
+            modelAndView.setViewName("error");
+            return modelAndView;
+        }
+
+        if (result != null && result.containsKey("pagination")) {
+            Map<String, Object> pagination = (Map<String, Object>) result.get("pagination");
+            if (pagination != null && pagination.containsKey("start_record_number")) {
+                Object startRecordNumberObj = pagination.get("start_record_number");
+                if (startRecordNumberObj instanceof Number) {
+                    startRecordNumber = ((Number) startRecordNumberObj).intValue();
+                }
+            }
+        }
+
+        List<Map<String, Object>> results = (List<Map<String, Object>>) result.get("results");
+        int totalItems = 0;
+        if (result != null && result.containsKey("pagination")) {
+            Map<String, Object> pagination = (Map<String, Object>) result.get("pagination");
+            if (pagination != null && pagination.containsKey("total_records")) {
+                Object totalRecordsObj = pagination.get("total_records");
+                if (totalRecordsObj instanceof Number) {
+                    totalItems = ((Number) totalRecordsObj).intValue();
+                }
+            }
+        }
+
+        Paginations Paginations = new Paginations(totalItems, page);
+
+        String viewPath = "info/info_academicinfo_pubmed";
+        modelAndView.setViewName(viewPath);
+        modelAndView.addObject("key_name", key_name);
+        modelAndView.addObject("search_word", search_word);
+        modelAndView.addObject("StartRecordNumber", startRecordNumber);
+        modelAndView.addObject("resultList", results);
+        modelAndView.addObject("paginations", Paginations);
+        return modelAndView;
+    }
 }
