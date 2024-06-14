@@ -29,7 +29,7 @@
                     <label for="newsletter1" class="visually-hidden">Email address</label>
                     <input type="email" id="newsletter1" type="text" class="form-control"
                         placeholder="Email address">
-                    <button class="btn " type="button" style="background-color: #4b4b4b; color: white;">구독</button>
+                    <button class="btn" type="button" style="background-color: #4b4b4b; color: white;">구독</button>
                 </div>
             </form>
         </div>
@@ -49,11 +49,6 @@
                     </svg></a></li>
         </ul>
     </div>
-</footer>
-</div>
-
-
-
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>

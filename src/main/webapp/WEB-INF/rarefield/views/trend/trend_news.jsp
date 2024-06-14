@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.HashMap, java.util.List, com.yojulab.study_springboot.utils.Paginations" %>
-<%@ page import="java.util.Map, java.util.Date, java.util.Map" %>
+<%@ page import="java.util.Map, java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
@@ -128,7 +128,7 @@
                         </li>
                     </ul>
                     <!-- 탭 내용 -->
-                    <br>
+                    <hr>
                     <% 
                         Map<String, Object> result = (Map<String, Object>)request.getAttribute("result");
                         List<Map<String, Object>> records = (List<Map<String, Object>>)result.get("news");

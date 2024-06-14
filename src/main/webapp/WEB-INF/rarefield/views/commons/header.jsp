@@ -37,43 +37,48 @@
             color: black;
             text-decoration-line: none;
         }
-
-        /* #float_banner1 {
-            position: fixed;
-
-            overflow: hidden;
+        /* li 요소를 블록으로 처리하여 클릭 영역을 확장 */
+        .menu_li, .th2_in {
+            cursor: pointer;
         }
-        #float_banner2 {
-            position: fixed;
-            overflow: hidden;
-        } */
+
+        /* li 요소에 스타일을 추가하여 링크처럼 보이도록 설정 */
+        .menu_li:hover, .th2_in:hover {
+            background-color: #f0f0f0;
+        }
+
     </style>
 </head>
-
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    var menuItems = document.querySelectorAll('.menu_li, .th2_in');
+    menuItems.forEach(function (item) {
+        item.addEventListener('click', function () {
+            var url = item.getAttribute('data-url');
+            if (url) {
+                window.location.href = url;
+            }
+        });
+    });
+});
+</script>
 <header>
     <sec:authentication property="principal" var="userDetailsBean" />
     <div class="container-fluid">
-        <div
-            class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom navbar navbar-expand-lg bd-navbar sticky-top justify-content-center">
-
-            <a href="/"
-                class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <div class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom navbar navbar-expand-lg bd-navbar sticky-top justify-content-center">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
                 <svg class="bi me-2" width="40" height="32">
                     <use xlink:href="#bootstrap"></use>
                 </svg>
                 <span class="fs-4"><img width="200" src="${remoteServerUrl}/data/img/RDS_logo.png" alt=""></span>
             </a>
-
             <ul class="nav nav-pills">
-            
                 <%-- 로그인이 안된상태 --%>
                 <sec:authorize access="isAnonymous()">
-           
                     <li class="nav-item"><a href="/user_login" class="nav-link fw-bold text-secondary"
                         aria-current="page">로그인</a>
                     </li>
                 </sec:authorize>
-                
                 <%-- 로그인이 된 상태 --%>
                 <sec:authorize access="isAuthenticated()">
                     <li class="nav-link">
@@ -85,93 +90,72 @@
                         aria-current="page">로그아웃</a>
                     </li>
                 </sec:authorize>
-
-            
                 <div class="dropdown-start dropstart">
-                        <div class="btn  dropdown-toggle" role="button" id="dropdownMenuLink"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <svg width="30" height="20" viewBox="0 0 30 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0 1H30" stroke="#CCCCCC" />
-                                <path d="M0 10H30" stroke="#CCCCCC" />
-                                <path d="M0 19H30" stroke="#CCCCCC" />
-                            </svg>
-
-                        </div>
-                        <div class="aside in dropdown-menu container" aria-labelledby="dropdownMenuLink"
-                            id="m_menu_aside" style="width: 1920px;">
-                            <nav id="m_nav" role="navigation" class="row justify-content-center">
-                                <ul class="th1 col-2 text-decoration-none">
-                                    <div id="field">최신마당</div>
-                                    <li class="menu_li dropdown-item ">
-                                        <a href="/trend/news?currentPage=1" target="_self" title="" width="100px">
-                                            뉴스</a>
-                                    </li>
-                                    <li class=" th2_in dropdown-item">
-
-                                        <a href="/trend/law" target="_self" title="">
-                                            법, 시행령, 시행규칙</a>
-                                    </li>
-                                    <li class=" th2_in dropdown-item">
-
-                                        <a href="/trend/trend_guideline" target="_self" title="">
-                                            고시, 지침</a>
-                                    </li> 
-
-                                    <li class=" th2_in dropdown-item">
-
-                                        <a href="/trend/trend_site" target="_self" title="">
-                                            관련사이트</a>
-                                    </li>
-                                </ul>
-                                <ul class="th1 col-2">
-                                    <div id="field">정보마당</div>
-                                    <li class="menu_li dropdown-item">
-                                        <a href="/info/info_raredisease" target="_self" title="">
-                                            희귀질환정보검색</a>
-                                    </li>
-                                    <li class=" th2_in dropdown-item">
-
-                                        <a href="/info/info_institution" target="_self" title="">
-                                            의료기관검색</a>
-                                    </li>
-                                    <li class=" th2_in dropdown-item">
-
-                                        <a href="/info/info_academicinfo" target="_self" title="">
-                                            학술정보</a>
-                                    </li>
-                                </ul>
-                                <ul class="th1 col-2">
-                                    <div id="field">참여마당</div>
-
-                                    <li class="menu_li dropdown-item">
-                                        <a href="/empo_community/selectSearch" target="_self" title="">
-                                            커뮤니티</a>
-                                    </li>
-                                    <li class=" th2_in dropdown-item">
-
-                                        <a href="/empo_program" target="_self" title="">
-                                            프로그램</a>
-                                    </li>
-                                </ul>
-                                <ul class="th1 col-2">
-                                    <div id="field">공지마당</div>
-
-                                    <li class="menu_li dropdown-item">
-                                        <a href="/other_notice" target="_self" title="">
-                                            공지사항</a>
-                                    </li>
-                                    <li class=" th2_in dropdown-item">
-
-                                        <a href="/other_QnA_main" target="_self" title="">
-                                            QnA</a>
-                                    </li>
-                                </ul>
-                            
-                            </nav>
-                        </div>
+                    <div class="btn  dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg width="30" height="20" viewBox="0 0 30 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 1H30" stroke="#CCCCCC" />
+                            <path d="M0 10H30" stroke="#CCCCCC" />
+                            <path d="M0 19H30" stroke="#CCCCCC" />
+                        </svg>
+                    </div>
+                    <div class="aside in dropdown-menu container" aria-labelledby="dropdownMenuLink" id="m_menu_aside" style="width: 1920px;">
+                        <nav id="m_nav" role="navigation" class="row justify-content-center">
+                            <ul class="th1 col-2 text-decoration-none">
+                                <div id="field">
+                                    최신마당
+                                </div>
+                                <li class="menu_li dropdown-item" data-url="/trend/news?currentPage=1">
+                                    뉴스
+                                </li>
+                                <li class="th2_in dropdown-item" data-url="/trend/law">
+                                    법, 시행령, 시행규칙
+                                </li>
+                                <li class="th2_in dropdown-item" data-url="/trend/trend_guideline">
+                                    고시, 지침
+                                </li>
+                                <li class="th2_in dropdown-item" data-url="/trend/trend_site">
+                                    관련사이트
+                                </li>
+                            </ul>
+                            <ul class="th1 col-2">
+                                <div id="field">
+                                    정보마당
+                                </div>
+                                <li class="menu_li dropdown-item" data-url="/info/info_raredisease">
+                                    희귀질환정보검색
+                                </li>
+                                <li class="th2_in dropdown-item" data-url="/info/info_institution">
+                                    의료기관검색
+                                </li>
+                                <li class="th2_in dropdown-item" data-url="/info/info_academicinfo">
+                                    학술정보
+                                </li>
+                            </ul>
+                            <ul class="th1 col-2">
+                                <div id="field">
+                                    참여마당
+                                </div>
+                                <li class="menu_li dropdown-item" data-url="/empo_community/selectSearch">
+                                    커뮤니티
+                                </li>
+                                <li class="th2_in dropdown-item" data-url="/empo_program">
+                                    프로그램
+                                </li>
+                            </ul>
+                            <ul class="th1 col-2">
+                                <div id="field">
+                                    공지마당
+                                </div>
+                                <li class="menu_li dropdown-item" data-url="/other_notice">
+                                    공지사항
+                                </li>
+                                <li class="th2_in dropdown-item" data-url="/other_QnA_main">
+                                    QnA
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
-
             </ul>
         </div>
     </div>
