@@ -85,10 +85,11 @@
                 </div>
                 <div class="row justify-content-center">
                     <%
-                    List<Map<String,Object>> records = (List<Map<String,Object>>) session.getAttribute("newsRecords");
-                    if (records != null) {
-                        for(int i = 0 ; i < records.size() ; i++) {
-                            HashMap<String, Object> record = (HashMap<String, Object>) records.get(i);
+                        List<Map<String, Object>> records = (List<Map<String, Object>>) session.getAttribute("newsRecords");
+                            if (records == null) {
+                            } else {
+                                for (int i = 0; i < records.size(); i++) {
+                                    HashMap<String, Object> record = (HashMap<String, Object>) records.get(i);
                     %>
                     <div class=" col-2 card ms-2 me-2" style="width: 18rem;border-radius: 25px;  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);">
                         <div class="card-body">
