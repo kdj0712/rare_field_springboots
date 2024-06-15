@@ -132,6 +132,60 @@ public class RestTemplateService {
 
     }
 
+    public Map<String,Object> mainnewsPostRequest(String userhope) {
+    	// 요청을 보낼 URL
+        String category = null;
+        if (userhope.equals("관련 법 사항") || userhope.equals("관련 정책 사항")) {
+            category = "의료/법안";
+        } else if (userhope.equals("관련 뉴스") || userhope.equals("관련 학술정보")) {
+            category = "신약/개발";
+        } else if (userhope.equals("프로그램 정보") || userhope.equals("커뮤니티 소통")) {
+            category = "심포지엄/행사";
+        }
+
+        String apiUrl = "http://rare-field.shop/trend/trend_news_data?page_number=1&category=" + category;
+
+		// HTTP 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+		
+        // 요청 데이터 생성
+        MultiValueMap<String, String> requestData = new LinkedMultiValueMap<>();
+
+		requestData.add("key", "value");
+
+		// HTTP POST 요청 보내기
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(apiUrl, requestData, String.class);
+        
+        // 응답 값
+        String responseBody = responseEntity.getBody();
+        // System.out.println("POST Response: " + responseBody);
+
+        String jsonString = responseBody;
+       
+        JSONObject jObject = new JSONObject(jsonString);
+        JSONArray jArray = jObject.getJSONArray("news");
+    
+        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+
+        for (int i = 0; i < jArray.length(); i++) {
+            JSONObject obj = jArray.getJSONObject(i);
+            Map<String, Object> map = new HashMap<>();
+        
+            for(String key : obj.keySet()) {
+                Object value = obj.get(key);
+                map.put(key, value);
+            }
+        
+            list.add(map);
+        }
+
+        Map<String,Object> result = new HashMap<>();
+        result.put("news",list);
+        return result;
+    }
+
+
     public Map<String,Object> newsReadGetRequest(String id) {
     	// 요청을 보낼 URL
         String apiUrl = "http://rare-field.shop/trend/trend_news_data/" + id;

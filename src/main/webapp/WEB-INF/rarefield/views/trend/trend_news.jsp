@@ -151,11 +151,12 @@
                     %>
                     <input type="hidden" id="currentPage" name="currentPage" value="<%= currentPage %>">
 
-                    <% for (int i=0; i < records.size(); i++) {
-                        HashMap<String,Object> record = (HashMap<String, Object>)records.get(i);
-                        String newsDatetime = (String)record.get("news_datetime");
-                        Date date = inputFormat.parse(newsDatetime);
-                        String dateOnly = outputFormat.format(date);
+                    <% 
+                        for (int i=0; i < records.size(); i++) {
+                            HashMap<String,Object> record = (HashMap<String, Object>)records.get(i);
+                            String newsDatetime = (String)record.get("news_datetime");
+                            Date date = inputFormat.parse(newsDatetime);
+                            String dateOnly = outputFormat.format(date);
                     %>
 
                     <div class="tab-content container" style="width: 80%; cursor: pointer;" onclick="setCurrentPageAndNavigate('<%= record.get("_id") %>', '<%= currentPage %>')">

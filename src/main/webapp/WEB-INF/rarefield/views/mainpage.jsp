@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.HashMap, java.util.List, com.yojulab.study_springboot.utils.Paginations" %>
 <%@ page import="java.util.Map" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
 
 <style>
@@ -44,6 +45,7 @@
         <div class="container">
             <form class="">
                 <div class="row justify-content-center" style="align-items: center;">
+                    <div class="col-1.5"></div>
                     <div class="col-2">
                         <select class="form-select" style="border-radius: 45px;box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);" id="search_select" required="" name="key_name" height="50px">
                             <option value="">전체</option>
@@ -77,35 +79,58 @@
                         </button>
                         <br>
                     </div>
+                    <div class="col-1.5"></div>
                 </div>
             </form>
-            <div class="row justify-content-center  text-center container p-3" style="">
-                <div class="p-3 text-decoration-none " style="font-size:larger; font-weight: 700; ">
-                    📝(어떤어떤 희귀질환자의 보호자인)당신을 위한 추천 뉴스
-                </div>
-                <div class="row justify-content-center">
-                    <%
-                        List<Map<String, Object>> records = (List<Map<String, Object>>) session.getAttribute("newsRecords");
-                            if (records == null) {
-                            } else {
-                                for (int i = 0; i < records.size(); i++) {
-                                    HashMap<String, Object> record = (HashMap<String, Object>) records.get(i);
-                    %>
-                    <div class=" col-2 card ms-2 me-2" style="width: 18rem;border-radius: 25px;  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);">
-                        <div class="card-body">
-                            <a href="/trend/read/<%= record.get("_id") %>" class="card-link text-decoration-none">
-                                <h5 class="card-title"><%= record.get("news_title") %></h5>
-                            </a>
-                            <h6 class="card-subtitle mb-2 text-body-secondary"><%= record.get("news_paper") %></h6>
-                            <p class="card-text"></p>
-                        </div>
+            <sec:authorize access="isAuthenticated()">
+                <div class="row justify-content-center text-center container p-3">
+                    <div class="p-3 text-decoration-none " style="font-size:larger; font-weight: 700; ">
+                        📝 ${userDetailsBean.username}님을 위한 추천 뉴스
                     </div>
-                    <%
+                    <div class="row justify-content-center">
+                        <%
+                            Map<String, Object> result = (Map<String, Object>)request.getAttribute("result");
+                            List<Map<String, Object>> records = (List<Map<String, Object>>)result.get("news");
+                            session.setAttribute("newsRecords", records);
+                            
+                            if (records == null) {
+                        %>
+                            <p>No records found.</p>
+                        <%
+                            } else {
+                                int maxRecords = Math.min(records.size(), 8); // 최대 8개까지만 출력
+                                for (int i=0; i < maxRecords; i++) {
+                                    if (i % 4 == 0) { // 4개의 카드를 출력한 후 새로운 줄을 시작
+                        %>
+                            <div class="row">
+                        <%
+                                    }
+                                    Map<String,Object> record = records.get(i);
+                        %>
+                                    <div class="col-3 card ms-2 me-2" style="width: 18rem; border-radius: 25px; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);">
+                                        <div class="card-body">
+                                            <a href="/trend/read/<%= record.get("_id") %>" class="card-link text-decoration-none">
+                                                <h5 class="card-title"><%= record.get("news_title") %></h5>
+                                            </a>
+                                            <h6 class="card-subtitle mb-2 text-body-secondary"><%= record.get("news_paper") %></h6>
+                                            <p class="card-text"><%= record.get("news_topic") %></p>
+                                        </div>
+                                    </div>
+                        <%
+                                    if (i % 4 == 3 || i == maxRecords - 1) { // 4개의 카드를 출력한 후 줄을 닫음
+                        %>
+                            </div>
+                        <%
+                                    }
+                                }
                             }
-                        }
-                    %>
+                        %>
+                    </div>
+                    
+                    
+                    
                 </div>
-            </div>
+            </sec:authorize>
         </div>
     </div>
     <div class="col-2"></div>

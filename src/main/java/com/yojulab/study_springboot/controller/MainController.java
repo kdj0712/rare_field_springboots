@@ -1,16 +1,25 @@
 package com.yojulab.study_springboot.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.yojulab.study_springboot.service.rarefield.rest.RestTemplateService;
+import com.yojulab.study_springboot.service.rarefield.users.UserService;
+
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MainController {
+
     @Value("${remote.server.url}")
     private String remoteServerUrl;
 
@@ -21,6 +30,13 @@ public class MainController {
     public String index() {
         return "forward:/index.html";
     }
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RestTemplateService restTemplateService;
+
     @GetMapping({ "/", "/home", "/main" })
     public ModelAndView main(ModelAndView modelAndView) {
         // 현재 사용자 Authentication 객체 가져오기
@@ -35,12 +51,15 @@ public class MainController {
             if (userDetails != null) {
                 // 사용자 이름 가져오기
                 String username = userDetails.getUsername();
+                String authorities = authentication.getAuthorities().toString();
                 // authorities에서 권한 정보 가져오기
                 // StringBuilder authorities = new StringBuilder();
                 // for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
                 // authorities.append(grantedAuthority.getAuthority()).append(", ");
                 // }
-                String authorities = authentication.getAuthorities().toString();
+                // 사용자 ID로 뉴스 데이터 가져오기
+                Map<String, Object> result = userService.getApiResponseUsingUserHope(username);
+                modelAndView.addObject("result", result);
             }
         }
         // modelAndView.addObject("name", "Yojulab!");

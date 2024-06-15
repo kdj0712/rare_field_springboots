@@ -1,32 +1,35 @@
 package com.yojulab.study_springboot.security;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.yojulab.study_springboot.entity.User;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 public class PrincipalUser implements UserDetails {
 
-    private Map userInfo;
+    private User user;
+    private Map<String, Object> userInfo;
 
-    public String getMemberName() {
-        return (String) userInfo.get("user_ID");
+    public PrincipalUser(User user, Map<String, Object> userInfo) {
+        this.user = user;
+        this.userInfo = userInfo;
     }
 
-    public PrincipalUser(Map userInfo) {
-        this.userInfo = userInfo;
+    public String getMemberName() {
+        return user.getUsername();
     }
 
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
-        // 권한들
         Collection<GrantedAuthority> collections = new ArrayList<>();
-        List<Map<String, Object>> resultList = (List) userInfo.get("resultList");
-        for(Map item: resultList){
+        List<Map<String, Object>> resultList = (List<Map<String, Object>>) userInfo.get("resultList");
+        for (Map<String, Object> item : resultList) {
             collections.add(new SimpleGrantedAuthority((String) item.get("UNIQUE_ID")));
         }
         return collections;
@@ -34,38 +37,31 @@ public class PrincipalUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        // password
-        return (String) userInfo.get("user_pswd");
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        // ID
-        return (String) userInfo.get("user_ID");
+        return user.getUsername();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        // 계정 만료 여부
         return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        // 계정 잠길 여부
         return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        // 비밀번호 변경 기간 만료
         return true;
     }
 
     @Override
     public boolean isEnabled() {
-        // 휴먼 계정 여부
         return true;
     }
-
 }
