@@ -90,12 +90,11 @@
                     </li>
                 </sec:authorize>
                 <div class="dropdown-start dropstart">
-                    <div class="btn  dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        <svg width="30" height="20" viewBox="0 0 30 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 1H30" stroke="#CCCCCC" />
-                            <path d="M0 10H30" stroke="#CCCCCC" />
-                            <path d="M0 19H30" stroke="#CCCCCC" />
-                        </svg>
+
+                    <div class="btn dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="material-icons" style="font-size: 15px; color: #CCCCCC;">
+                            menu
+                        </span>
                     </div>
                     <div class="aside in dropdown-menu container" aria-labelledby="dropdownMenuLink" id="m_menu_aside" style="width: 1920px;">
                         <nav id="m_nav" role="navigation" class="row justify-content-center">
