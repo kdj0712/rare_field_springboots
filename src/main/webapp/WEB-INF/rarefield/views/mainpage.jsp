@@ -43,15 +43,15 @@
     <div class="col-12 row justify-content-center">
         <form class="">
             <div class="row justify-content-center" style="align-items: center;">
-                <div class="col-1.5"></div>
-                <div class="col-2">
+                <div class="col-4.5"></div>
+                <div class="col-1">
                     <select class="form-select" style="border-radius: 45px;box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);" id="search_select" required="" name="key_name" height="50px">
                         <option value="">전체</option>
                         <option value="dise_name_kr">희귀질환</option>
                         <option value="institution_name">의료기관</option>
                     </select>
                 </div>
-                <div class="col-5">
+                <div class="col-3">
                     <input class="form-control" style="border-radius: 45px;box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);" height="50px" placeholder="Enter Search!" name="search_word" id="search_word">
                 </div>
                 <div class="col-2">
@@ -77,7 +77,7 @@
                     </button>
                     <br>
                 </div>
-                <div class="col-1.5"></div>
+                <div class="col-1"></div>
             </div>
         </form>
         <sec:authorize access="isAuthenticated()">

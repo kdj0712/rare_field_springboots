@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.HashMap, java.util.List, com.yojulab.study_springboot.utils.Paginations" %>
-<%@ page import="java.util.Map, java.util.Date" %>
+<%@ page import="java.util.Map, java.util.ArrayList, java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="/WEB-INF/rarefield/views/commons/header.jsp" %>
 <style>
     table {
@@ -58,32 +60,35 @@
     }
 </style>
 
-
 <main class="row justify-content-between">
     <div class="side-banner-left col-2">
         <%@ include file="/WEB-INF/rarefield/views/commons/side_left_banner.jsp" %>
     </div>
     <div class="main-content col-8 row">
-        <form action="" method="get">
+        <form id="newsForm" action="">
             <div class="container">
                 <div>
-                    <h2 class="text-center  fw-bold"> <a href="/trend/news">news</a></h2>
+                    <h2 class="text-center fw-bold"> <a href="/trend/news">news</a></h2>
                 </div>
                 <div style="height: 20px;"></div>
 
                 <div class="row justify-content-center text-center">
                     <div class="row col-7 justify-content-center">
                         <div class="col-3">
-                            <select style="border-radius: 25px;" class="form-control" name="key_name">
-                                <option value=""> 제목 </option>
-                                <option value=""> 언론사명 </option>
+                            <select style="border-radius: 25px;" id="keyNameSelect" class="form-control" name="key_name">
+                                <option value="news_title" ${key_name eq 'news_title' ? 'selected' : '' }>
+                                    제목
+                                </option>
+                                <option value="news_paper" ${key_name eq 'news_paper' ? 'selected' : '' }>
+                                    언론사명
+                                </option>
                             </select>
                         </div>
                         <div class="col-6">
-                            <input style="border-radius: 0px;" class="form-control" placeholder="Enter Search!" name="search_word" value="{{request._query_params.word}}">
+                            <input id="searchWordInput" style="border-radius: 0px;" class="form-control" placeholder="Enter Search!" name="search_word" value="${search_word != null ? search_word : ''}">
                         </div>
                         <div class="col-2">
-                            <button style="border: none; background: none;" type="submit" style="border:none; background: none;" formaction="/trend/trend_news" formmethod="get">
+                            <button id="searchButton" type="submit" style="border:none; background: none;" formaction="/trend/news" formmethod="get">
                                 <svg width="32" height="32" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g filter="url(#filter0_d_7_45)">
                                         <path d="M5 40C5 20.67 20.67 5 40 5C59.33 5 75 20.67 75 40C75 59.33 59.33 75 40 75C20.67 75 5 59.33 5 40Z" fill="#04CBFC" fill-opacity="0.47" shape-rendering="crispEdges" />
@@ -111,199 +116,129 @@
                     <!-- 카테고리별 탭 -->
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#category1" data-toggle="tab"
-                                data-category="전체">전체</a>
+                            <a class="nav-link active" href="#category1" data-toggle="tab" data-category="전체">
+                                전체
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#category2" data-toggle="tab"
-                                data-category="의료/법안">의료/법안</a>
+                            <a class="nav-link" href="#category2" data-toggle="tab" data-category="의료/법안">
+                                의료/법안
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#category3" data-toggle="tab"
-                                data-category="신약/개발">신약/개발</a>
+                            <a class="nav-link" href="#category3" data-toggle="tab" data-category="신약/개발">
+                                신약/개발
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#category4" data-toggle="tab"
-                                data-category="심포지엄/행사">심포지엄/행사</a>
+                            <a class="nav-link" href="#category4" data-toggle="tab" data-category="심포지엄/행사">
+                                심포지엄/행사
+                            </a>
                         </li>
                     </ul>
                     <!-- 탭 내용 -->
                     <hr>
-                    <% 
-                        Map<String, Object> result = (Map<String, Object>)request.getAttribute("result");
-                        List<Map<String, Object>> records = (List<Map<String, Object>>)result.get("news");
-                        session.setAttribute("newsRecords", records);
-                        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-                        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    %>
-                    <%
-                        String currentPageParam = request.getParameter("currentPage");
-                        Integer currentPage = null;
-                        if (currentPageParam != null) {
-                            try {
-                                currentPage = Integer.parseInt(currentPageParam);
-                            } catch (NumberFormatException e) {
-                                currentPage = 1;
-                            }
-                        } else {
-                            currentPage = 1;
-                        }
-                    %>
-                    <input type="hidden" id="currentPage" name="currentPage" value="<%= currentPage %>">
-
-                    <% 
-                        for (int i=0; i < records.size(); i++) {
-                            HashMap<String,Object> record = (HashMap<String, Object>)records.get(i);
-                            String newsDatetime = (String)record.get("news_datetime");
-                            Date date = inputFormat.parse(newsDatetime);
-                            String dateOnly = outputFormat.format(date);
-                    %>
-
-                    <div class="tab-content container" style="width: 80%; cursor: pointer;" onclick="setCurrentPageAndNavigate('<%= record.get("_id") %>', '<%= currentPage %>')">
-                        <h7 class="tab-pane fade show active">
-                            <a href="javascript:void(0);" style="color: #4b4b4b;" class="">
-                                <%= record.get("news_paper") %>
-                            </a>
-                        </h7>
-                        <div class="tit">
-                            <h5 class="">
-                                <a href="javascript:void(0);" class="">
-                                    <%= record.get("news_title") %>
+                    <input type="hidden" id="currentPage" name="currentPage" value="${currentPage}">
+                    <c:if test="${not empty category}">
+                        <input type="hidden" id="category" name="category" value="${category}">
+                    </c:if>
+                    <c:forEach var="record" items="${result}" varStatus="status">
+                        <fmt:parseDate value="${record.news_datetime}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="date" />
+                        <fmt:formatDate value="${date}" pattern="yyyy-MM-dd" var="dateOnly" />
+                                    
+                        <div class="tab-content container" style="width: 80%; cursor: pointer;" 
+                            onclick="setCurrentPageAndNavigate('${record._id}', '${currentPage}', 
+                                '${key_name != null ? key_name : ""}', 
+                                '${search_word != null ? search_word : ""}', 
+                                '${category != null ? category : ""}')">
+                            <h7 class="tab-pane fade show active">
+                                <a href="javascript:void(0);" style="color: #4b4b4b;" class="">
+                                    ${record.news_paper}
                                 </a>
-                            </h5>
+                            </h7>
+                            <div class="tit">
+                                <h5 class="">
+                                    <a href="javascript:void(0);" class="">
+                                        ${record.news_title}
+                                    </a>
+                                </h5>
+                            </div>
+                            <div class="row justify-content-end">
+                                <h7 class="category col-2">
+                                    <a href="javascript:void(0);" style="color: #4b4b4b;" class="">
+                                        ${dateOnly}
+                                    </a>
+                                </h7>
+                                <h7 class="category col-2">
+                                    <a href="javascript:void(0);" style="color: #4b4b4b;" class="">
+                                        ${record.news_topic}
+                                    </a>
+                                </h7>
+                            </div>
                         </div>
-                        <div class="row justify-content-end">
-                            <h7 class="category col-2">
-                                <a href="javascript:void(0);" style="color: #4b4b4b;" class="">
-                                    <%= dateOnly %>
-                                </a>
-                            </h7>
-                            <h7 class="category col-2">
-                                <a href="javascript:void(0);" style="color: #4b4b4b;" class="">
-                                    <%= record.get("news_topic") %>
-                                </a>
-                            </h7>
-                            <h7 class="category col-2">
-                                <a href="javascript:void(0);" style="color: #4b4b4b;" class="">
-                                    조회수
-                                </a>
-                            </h7>
-                        </div>
-                    </div>
-                    <hr>
-                    <% } %>                    
+                        <hr>
+                    </c:forEach>
+                      
                 </div>
-                <% Paginations paginations=(Paginations)result.get("pagination"); %>
-                <div>
-                    총 갯수 : <%= paginations.getTotalCount() %>
+                <div>총 갯수 :
+                    <c:out value="${pagination.totalCount}" />
                 </div>
-                <div style="height: 20px;"></div>
-                <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item {{ '' if pagination.has_previous_block else 'disabled' }}">
-                            <a style="border: none; background: none;" class="page-link" href="/trend/news?currentPage=1">
-                                <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M18 3L12 9L18 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
-                                    <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
-                                </svg>
-                            </a>
-                        </li>
-                        <li class="page-item {{ '' if pagination.has_previous_page else 'disabled' }}">
-                            <a style="border: none; background: none;" class="page-link" href="/trend/news?currentPage=<%= paginations.getPreviousPage() %>">
-                                <svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
-                                </svg>
-                            </a>
-                        </li>
-                        <% for(int i=paginations.getBlockStart();i
-                            <=paginations.getBlockEnd(); i=i+1){ %>
-                            <li class=" page-item {{ 'active' if page_num == pagination.current_page else '' }}" id="pages">
-                                <a style="border: none; background: none; color: black;" class="page-link" href="/trend/news?currentPage=<%= i %>">
-                                    <%= i %>
+                <div class="pagination justify-content-center">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item {{ '' if pagination.has_previous_block else 'disabled' }}">
+                                <a style="border: none; background: none;" class="page-link" href="javascript:void(0);" onclick="goToPage(${pagination.blockStart}); return false;">
+                                    <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M18 3L12 9L18 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
+                                        <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
+                                    </svg>
                                 </a>
                             </li>
-                            <% } %>
-                        <li class=" page-item {{ '' if pagination.has_next_page else 'disabled' }}">
-                            <a style="border: none; background: none;" class="page-link" href="/trend/news?currentPage=<%= paginations.getNextPage() %>">
-                                <svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
-                                </svg>
-                                    <path d="M4 0V22" stroke="#EDEDED" stroke-width="7" />
-                                </svg>
-                            </a>
-                        </li>
-                        <li class=" page-item {{ '' if pagination.has_next_block else ' disabled' }}">
-                            <a style="border: none; background: none;" class="page-link" href="/trend/news?currentPage=<%= paginations.getTotalPage() %>">
-                                <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
-                                    <path d="M11 15L17 9L11 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div style="height: 20px;"></div>
+                            <li class="page-item {{ '' if pagination.has_previous_page else 'disabled' }}">
+                                <a style="border: none; background: none;" class="page-link" href="javascript:void(0);" onclick="goToPage(${currentPage}-1);return false;">
+                                    <svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M10 3L4 9L10 15" stroke="#696969" stroke-width="5" stroke-linecap="round" />
+                                    </svg>
+                                </a>
+                            </li>
+                            <c:forEach var="i" begin="${pagination.blockStart}" end="${pagination.blockEnd}">
+                                <li class="page-item ${i == paginations.currentPage ? 'active' : ''}">
+                                    <a style="border: none; background: none; color: black;" class="page-link" href="javascript:void(0);" onclick="goToPage(${i});return false;">
+                                        ${i}
+                                    </a>
+                                </li>
+                            </c:forEach>
+                            <li class=" page-item {{ '' if pagination.has_next_page else 'disabled' }}">
+                                <a style="border: none; background: none;" class="page-link" href="javascript:void(0);" onclick="goToPage(${pagination.nextPage});return false;">
+                                    <svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
+                                    </svg>
+                                        <path d="M4 0V22" stroke="#EDEDED" stroke-width="7" />
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class=" page-item {{ '' if pagination.has_next_block else ' disabled' }}">
+                                <a style="border: none; background: none;" class="page-link" href="javascript:void(0);" onclick="goToPage(${pagination.totalPage});return false;">
+                                    <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 15L9 9L3 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
+                                        <path d="M11 15L17 9L11 3" stroke="#696969" stroke-width="5" stroke-linecap="round" />
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </form>
     </div>
     <div class="side-banner-right col-2">
         <%@ include file="/WEB-INF/rarefield/views/commons/side_right_banner.jsp" %>
     </div>
-
 </main>
 
+<hr>
 <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
 
 <!-- jQuery를 불러오는 CDN -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-        // 카테고리별 탭을 클릭했을 때
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            // 선택된 탭의 href 속성값을 가져옴
-            var target = $(e.target).data('category');
-
-            // 해당 탭의 데이터를 동적으로 로드
-            if (target === "#category1") {
-                loadCategoryData("전체");
-            } else if (target === "#category2") {
-                loadCategoryData("의료/법안");
-            } else if (target === "#category3") {
-                loadCategoryData("신약/개발");
-            } else if (target === "#category4") {
-                loadCategoryData("심포지엄/행사");
-            }
-        });
-    });
-
-    function loadCategoryData(category) {
-        // 서버로 카테고리 정보를 전송하여 해당 카테고리의 데이터를 받아옴
-        $.ajax({
-            url: '/trend_news',  // 해당 API 엔드포인트로 설정
-            method: 'GET',
-            data: { category: category },
-            success: function (data) {
-                // 받아온 데이터를 화면에 출력하는 코드
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    }
-
-    function setCurrentPageAndNavigate(recordId, currentPage) {
-        // 세션에 currentPage 값을 저장하는 AJAX 요청
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/setCurrentPage", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.send("currentPage=" + currentPage);
-
-        // AJAX 요청 완료 후 페이지 이동
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                window.location.href = "/trend/read/" + recordId + "?page=" + currentPage;
-            }
-        }
-    }
-</script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/readnews.js"></script>

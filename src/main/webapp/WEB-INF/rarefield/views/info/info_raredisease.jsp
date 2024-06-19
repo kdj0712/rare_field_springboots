@@ -172,88 +172,88 @@
         <div class="row" style="justify-content: center;">
           <div class="col-10.5 row text-center" style="align-items: center;  border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); justify-content: center;">
             <ul class="row col list-unstyled justify-content-center">
-              <li class="col-3 btn mt-4" style=" height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchAllDiseases()">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchAllDiseases()">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   전체질환
                 </a>
               </li>
-              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('A00-B99')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchDataByRange('A00-B99')">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   특정감염성(A00-B99)
                 </a>
               </li>
-              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('C00-D48')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchDataByRange('C00-D48')">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   신생물(C00-D48)
                 </a>
               </li>
-              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('D50-D89')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchDataByRange('D50-D89')">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   혈액조혈기관(D50-D89)
                 </a>
               </li>
-              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('E00-E90')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchDataByRange('E00-E90')">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   내분비,영양(E00-E90)
                 </a>
               </li>
-              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('F00-F99')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchDataByRange('F00-F99')">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   정신및행동(F00-F99)
                 </a>
               </li>
-              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('G00-G99')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchDataByRange('G00-G99')">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   신경계통질환(G00-G99)
                 </a>
               </li>
-              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('H00-H59')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchDataByRange('H00-H59')">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   눈및부속기관(H00-H59)
                 </a>
               </li>
-              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('I00-I99')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchDataByRange('I00-I99')">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   순환기계통(I00-I99)
                 </a>
               </li>
-              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('J00-J99')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchDataByRange('J00-J99')">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   호흡기계통(J00-J99)
                 </a>
               </li>
-              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('K00-K93')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchDataByRange('K00-K93')">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   소화기계통(K00-K93)
                 </a>
               </li>
-              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('L00-L99')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchDataByRange('L00-L99')">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   피부및조직(L00-L99)
                 </a>
               </li>
-              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('M00-M99')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchDataByRange('M00-M99')">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   근육골격계통(M00-M99)
                 </a>
               </li>
-              <li class="col-3 btn mt-4"  style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('N00-N99')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchDataByRange('N00-N99')">
+                <a href="#" style="color: rgb(0, 0, 0); " >
                   비뇨생식(N00-N99)
                 </a>
               </li>
-              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('P00-P96')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchDataByRange('P00-P96')">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   출생전후기(P00-P96)
                 </a>
               </li>
-              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('Q00-Q99')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;" onclick="fetchDataByRange('Q00-Q99')">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   선천기형변형(Q00-Q99)
                 </a>
               </li>
-              <li class="col-3 btn mt-4" style="height: 20%; height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;">
-                <a href="#" style="color: rgb(0, 0, 0); " onclick="fetchDataByRange('코드없음')">
+              <li class="col-3 btn mt-4" style="height: 20%; border-radius: 45px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); color: black;"onclick=" fetchDataByRange('코드없음')">
+                <a href="#" style="color: rgb(0, 0, 0); ">
                   코드 없음
                 </a>
               </li>
@@ -284,10 +284,11 @@
           </div>
           <div class="col-3" style="padding: 5px; margin: 10px;"></div>
         </div>
-        <% HashMap<String, Object> dataMap = (HashMap<String, Object>) request.getAttribute("dataMap");
+        <% 
+          HashMap<String, Object> dataMap = (HashMap<String, Object>) request.getAttribute("dataMap");
             if (dataMap == null) {
-            dataMap = new HashMap<>();
-              }
+              dataMap = new HashMap<>();
+            }
             String searchStr = (String) dataMap.getOrDefault("search", "");
             HashMap<String, Object> result = (HashMap<String, Object>) request.getAttribute("results");
             List<Map<String, Object>> resultList = null;
@@ -311,7 +312,7 @@
 
             String keyName = request.getParameter("key_name");
             String searchWord = request.getParameter("search_word");
-          %>
+        %>
         <br>
         <br>
         <br>
@@ -498,4 +499,4 @@
   </div>
 </main>
 <%@ include file="/WEB-INF/rarefield/views/commons/footer.jsp" %>
-  <script src="${pageContext.request.contextPath}/js/info_raredisease.js"></script>
+<script src="${pageContext.request.contextPath}/js/info_raredisease.js"></script>

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,55 +82,162 @@ public class RestTemplateService {
 
     }
 
-    public Map<String,Object> newsPostRequest(int currentPage) {
+    // public Map<String,Object> newsPostRequest(String key_name, String search_word,Integer currentPage) throws JsonProcessingException {
+    // 	// 요청을 보낼 URL
+    //     String baseUrl = "http://rare-field.shop/trend/trend_news_data?";
+
+    //     // page_number=" + currentPage;
+    //     String decodedBaseUrl = URLDecoder.decode(baseUrl, StandardCharsets.UTF_8);
+
+    //     // UriComponentsBuilder 초기화
+    //     UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(decodedBaseUrl);
+        
+    //     // 조건에 따라 URL에 파라미터 추가
+    //     if (key_name != null && !key_name.isEmpty()) {
+    //         builder.queryParam("key_name", key_name);
+    //     }
+    //     if (search_word != null && !search_word.isEmpty()) {
+    //         builder.queryParam("search_word", search_word);
+    //     }
+    //     if (currentPage != null) {
+    //         builder.queryParam("page_number", currentPage);
+    //     }
+
+	// 	// HTTP 헤더 설정
+    //     HttpHeaders headers = new HttpHeaders();
+    //     headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+    //     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+    //     headers.set("Accept-Encoding", "gzip, deflate, br");
+    //     headers.set("Connection", "keep-alive");
+    //     // HttpEntity 객체 생성 (여기서는 본문을 비워둘 수 있습니다)
+    //     HttpEntity<String> entity = new HttpEntity<>(headers);
+
+    //     // RestTemplate 초기화
+    //     RestTemplate restTemplate = new RestTemplate();
+
+    //     // 결과를 저장할 Map 생성
+    //     // Map<String, Object> result = new HashMap<>();
+    //     String encodedUrl = builder.toUriString();
+        
+    //     // 요청 및 응답
+    //     ResponseEntity<String> responseEntity = restTemplate.postForEntity(encodedUrl, entity, String.class);
+    //     String responseBody = responseEntity.getBody();
+
+    //     String jsonString = responseBody;
+    
+    //     JSONObject jObject = new JSONObject(jsonString);
+    //     JSONArray jArray = jObject.getJSONArray("news");
+    
+    //     List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+    //     for (int i = 0; i < jArray.length(); i++) {
+    //         JSONObject obj = jArray.getJSONObject(i);
+    //         Map<String, Object> map = new HashMap<>();
+        
+    //         for(String key : obj.keySet()) {
+    //             Object value = obj.get(key);
+    //             map.put(key, value);
+    //         }
+        
+    //         list.add(map);
+    //     }
+
+    //     JSONObject paginationObject = jObject.getJSONObject("pagination");
+    //     Paginations paginations = new Paginations(paginationObject.getInt("total_records"), 
+    //                                             paginationObject.getInt("current_page"));
+
+    //     Map<String,Object> result = new HashMap<>();
+    //     result.put("news",list);
+    //     result.put("pagination",paginations);
+
+    //     return result;
+    // }
+
+    public Map<String,Object> newsPostRequest(String key_name, String search_word,Integer currentPage, String category) throws JsonProcessingException {
     	// 요청을 보낼 URL
-        String apiUrl = "http://rare-field.shop/trend/trend_news_data?page_number=" + currentPage;
+        String baseUrl = "http://rare-field.shop/trend/trend_news_data?";
+
+        // page_number=" + currentPage;
+        String decodedBaseUrl = URLDecoder.decode(baseUrl, StandardCharsets.UTF_8);
+
+        // UriComponentsBuilder 초기화
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(decodedBaseUrl);
+        
+        // 조건에 따라 URL에 파라미터 추가
+        if (key_name != null && !key_name.isEmpty()) {
+            builder.queryParam("key_name", key_name);
+        }
+        if (search_word != null && !search_word.isEmpty()) {
+            builder.queryParam("search_word", search_word);
+        }
+        if (currentPage != null) {
+            builder.queryParam("page_number", currentPage);
+        }
+        if (category != null) {
+            builder.queryParam("category", category);
+        }
 
 		// HTTP 헤더 설정
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-		
-        // 요청 데이터 생성
-        MultiValueMap<String, String> requestData = new LinkedMultiValueMap<>();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Accept-Encoding", "gzip, deflate, br");
+        headers.set("Connection", "keep-alive");
+        // HttpEntity 객체 생성 (여기서는 본문을 비워둘 수 있습니다)
+        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-		requestData.add("key", "value");
+        // RestTemplate 초기화
+        RestTemplate restTemplate = new RestTemplate();
 
-		// HTTP POST 요청 보내기
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(apiUrl, requestData, String.class);
+        // 결과를 저장할 Map 생성
+        Map<String, Object> result = new HashMap<>();
+        String encodedUrl = builder.toUriString();
         
-        // 응답 값
+        // 요청 및 응답
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(encodedUrl, entity, String.class);
         String responseBody = responseEntity.getBody();
-        // System.out.println("POST Response: " + responseBody);
 
-        String jsonString = responseBody;
-       
-        JSONObject jObject = new JSONObject(jsonString);
-        JSONArray jArray = jObject.getJSONArray("news");
-    
-        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+        // ObjectMapper 초기화 및 설정
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        for (int i = 0; i < jArray.length(); i++) {
-            JSONObject obj = jArray.getJSONObject(i);
-            Map<String, Object> map = new HashMap<>();
-        
-            for(String key : obj.keySet()) {
-                Object value = obj.get(key);
-                map.put(key, value);
+        Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
+
+        if (responseMap.containsKey("news")) {
+            List<Map<String, Object>> resultList = (List<Map<String, Object>>) responseMap.get("news");
+            result.put("newsresult", resultList);
+        }
+        if (responseMap.containsKey("pagination")) {
+            Map<String, Object> paginationMap = (Map<String, Object>) responseMap.get("pagination");
+            result.put("pagination", paginationMap);
+        }            
+        // selected_category와 search_word를 category와 search_word로 변환하여 처리
+        if (responseMap.containsKey("selected_category")) {
+            String selectedCategory = (String) responseMap.get("selected_category");
+            if (selectedCategory != null) {
+                result.put("category", selectedCategory);
+            } else {
+                // selected_category가 null인 경우의 처리
+                result.put("category", null);
             }
-        
-            list.add(map);
+        } else {
+            // 응답에 selected_category가 없는 경우의 처리
+            result.put("category", null);
         }
 
-        JSONObject paginationObject = jObject.getJSONObject("pagination");
-        Paginations paginations = new Paginations(paginationObject.getInt("total_records"), 
-                                                  paginationObject.getInt("current_page"));
-
-        Map<String,Object> result = new HashMap<>();
-        result.put("news",list);
-        result.put("pagination",paginations);
+        if (responseMap.containsKey("search_word")) {
+            String responseSearchWord = (String) responseMap.get("search_word");
+            if (responseSearchWord != null) {
+                result.put("search_word", responseSearchWord);
+            } else {
+                // search_word가 null인 경우의 처리
+                result.put("search_word", "No search word provided");
+            }
+        } else {
+            // 응답에 search_word가 없는 경우의 처리
+            result.put("search_word", "Search word not found in response");
+        }
 
         return result;
-
     }
 
     public Map<String,Object> mainnewsPostRequest(String userhope) {

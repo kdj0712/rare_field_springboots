@@ -12,12 +12,17 @@ import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yojulab.study_springboot.service.rarefield.rest.RestTemplateService;
+import com.yojulab.study_springboot.utils.Paginations;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -38,35 +43,103 @@ public class RestTemplateController {
     return modelAndView;
   }
 
+  // @GetMapping(value = "/news")
+  // public ModelAndView news(ModelAndView modelAndView,
+  // @RequestParam(value = "currentPage", required = false, defaultValue = "1")
+  // int currentPage) {
+  // Map<String, Object> result =
+  // restTemplateService.newsPostRequest(currentPage);
+  // String viewPath = "trend/trend_news";
+  // modelAndView.setViewName(viewPath);
+  // modelAndView.addObject("result", result);
+  // modelAndView.addObject("currentPage", currentPage);
+  // return modelAndView;
+  // }
+
   @GetMapping(value = "/news")
-  public ModelAndView news(ModelAndView modelAndView,
-  @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {
-    Map<String, Object> result = restTemplateService.newsPostRequest(currentPage);
+  public ModelAndView news(
+      @RequestParam(required = false) String key_name,
+      @RequestParam(required = false) String search_word,
+      @RequestParam(required = false) String category,
+      @RequestParam(required = false) Integer currentPage,
+      ModelAndView modelAndView) {
+
+    Integer page = (currentPage != null) ? currentPage : 1;
+    Map<String, Object> result = null;
+
+    try {
+      result = restTemplateService.newsPostRequest(key_name, search_word, page, category);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+      modelAndView.addObject("error", "데이터 처리 중 오류가 발생했습니다.");
+      modelAndView.setViewName("error");
+      return modelAndView;
+    }
+
+    List<Map<String, Object>> newsresults = (List<Map<String, Object>>) result.get("newsresult");
+    int totalItems = 0;
+    if (result != null && result.containsKey("pagination")) {
+      Map<String, Object> pagination = (Map<String, Object>) result.get("pagination");
+      if (pagination != null && pagination.containsKey("total_records")) {
+        Object totalRecordsObj = pagination.get("total_records");
+        if (totalRecordsObj instanceof Number) {
+          totalItems = ((Number) totalRecordsObj).intValue();
+        }
+      }
+    }
+
+    Paginations Paginations = new Paginations(totalItems, page);
+
     String viewPath = "trend/trend_news";
     modelAndView.setViewName(viewPath);
-    modelAndView.addObject("result", result);
+    modelAndView.addObject("key_name", key_name);
+    modelAndView.addObject("search_word", search_word);
+    modelAndView.addObject("result", newsresults);
     modelAndView.addObject("currentPage", currentPage);
+    modelAndView.addObject("pagination", Paginations);
+    modelAndView.addObject("category", category);
     return modelAndView;
   }
 
-  // @GetMapping(value = "/")
-  // public ModelAndView mainNews(ModelAndView modelAndView, @RequestParam int currentPage) {
-  //   Map<String, Object> result = restTemplateService.newsPostRequest(currentPage);
-  //   String viewPath = "mainpage";
-  //   modelAndView.setViewName(viewPath);
-  //   modelAndView.addObject("result", result);
-  //   return modelAndView;
-  // }
-
-  @GetMapping(value = "/read/{id}")
-  public ModelAndView newsRead(ModelAndView modelAndView, 
-                               @PathVariable String id,
-                               HttpSession session) throws Exception {
-  
-      Integer currentPage = (Integer) session.getAttribute("currentPage");
-      if (currentPage == null) {
-          currentPage = 1; // 기본값 설정
+  @PostMapping("/saveSessionData")
+  @ResponseBody
+  public void saveSessionData(HttpSession session, @RequestBody Map<String, Object> params) {
+      if (params.containsKey("currentPage")) {
+          try {
+              Integer currentPage = Integer.parseInt(params.get("currentPage").toString());
+              session.setAttribute("currentPage", currentPage);
+          } catch (NumberFormatException e) {
+              // 변환에 실패한 경우의 처리
+              System.err.println("Invalid currentPage format: " + params.get("currentPage"));
+          }
       }
+  
+      if (params.containsKey("keyName")) {
+          session.setAttribute("keyName", params.get("keyName"));
+      } else {
+          session.removeAttribute("keyName");
+      }
+  
+      if (params.containsKey("searchWord")) {
+          session.setAttribute("searchWord", params.get("searchWord"));
+      } else {
+          session.removeAttribute("searchWord");
+      }
+  
+      if (params.containsKey("category")) {
+          session.setAttribute("category", params.get("category"));
+      } else {
+          session.removeAttribute("category");
+      }
+  }
+  
+  @GetMapping("/read/{id}")
+  public ModelAndView newsRead(HttpSession session, @PathVariable String id) throws Exception {
+      Integer currentPage = (Integer) session.getAttribute("currentPage");
+  
+      String keyName = (String) session.getAttribute("keyName");
+      String searchWord = (String) session.getAttribute("searchWord");
+      String category = (String) session.getAttribute("category");
   
       Map<String, Object> result = restTemplateService.newsReadGetRequest(id);
   
@@ -74,13 +147,17 @@ public class RestTemplateController {
       String updatedContents = addSpacingToParagraphs(newsContents);
   
       String viewPath = "trend/trend_news_read";
-      modelAndView.setViewName(viewPath);
+      ModelAndView modelAndView = new ModelAndView(viewPath);
       modelAndView.addObject("result", result);
-      modelAndView.addObject("id", id);
+      modelAndView.addObject("_id", id);
       modelAndView.addObject("currentPage", currentPage);
+      modelAndView.addObject("keyName", keyName);
+      modelAndView.addObject("searchWord", searchWord);
+      modelAndView.addObject("category", category);
       modelAndView.addObject("updatedContents", updatedContents);
       return modelAndView;
   }
+  
 
   private String addSpacingToParagraphs(String contents) {
     // Jsoup을 사용하여 HTML을 파싱합니다.
