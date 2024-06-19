@@ -48,11 +48,11 @@
         <div class="container">
             <div class="row py-lg-5 justify-content-center">
                 <div>
-                    <div class="text-center" style="position: relative;">
-                        <img src="${remoteServerUrl}/data/img/RF_programmbanner.jpg" alt="">
-                        <a href="/rarefield" class="btn btn-outline-primary" style="position: absolute; top: 55%; left: 75%; transform: translate(-50%, -50%); opacity: 0.8;">
+                    <div class="text-center" style="justify-content: center">
+                        <img src="${remoteServerUrl}/data/img/RF_programmbanner.jpg" style="width: 100%; height: auto;">
+                        <!-- <a href="/rarefield" class="btn btn-outline-primary" style="position: absolute; top: 65%; left: 50%; transform: translate(-50%, -50%); opacity: 0.8;">
                             Rare Field 소개
-                        </a>                    
+                        </a>                     -->
                     </div>
                 </div>
             </div>
