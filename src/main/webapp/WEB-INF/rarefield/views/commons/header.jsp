@@ -16,14 +16,12 @@
             border-style: dotted 1px black;
         }
         * {
-            
             font-family: "Noto Sans KR", sans-serif;
             font-optical-sizing: auto;
             list-style-type: none;
             text-decoration: none;
             color: black;
             text-decoration-line: none;
-
         }
 
         #field {
@@ -108,7 +106,7 @@
                                 <li class="th2_in dropdown-item" data-url="/trend/law">
                                     법, 시행령, 시행규칙
                                 </li>
-                                <li class="th2_in dropdown-item" data-url="/trend/trend_guideline">
+                                <li class="th2_in dropdown-item" data-url="/trend/guideline">
                                     고시, 지침
                                 </li>
                                 <li class="th2_in dropdown-item" data-url="/trend/trend_site">

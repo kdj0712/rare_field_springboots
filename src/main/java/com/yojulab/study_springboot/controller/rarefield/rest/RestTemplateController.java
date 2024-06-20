@@ -43,18 +43,6 @@ public class RestTemplateController {
     return modelAndView;
   }
 
-  // @GetMapping(value = "/news")
-  // public ModelAndView news(ModelAndView modelAndView,
-  // @RequestParam(value = "currentPage", required = false, defaultValue = "1")
-  // int currentPage) {
-  // Map<String, Object> result =
-  // restTemplateService.newsPostRequest(currentPage);
-  // String viewPath = "trend/trend_news";
-  // modelAndView.setViewName(viewPath);
-  // modelAndView.addObject("result", result);
-  // modelAndView.addObject("currentPage", currentPage);
-  // return modelAndView;
-  // }
 
   @GetMapping(value = "/news")
   public ModelAndView news(
@@ -173,19 +161,28 @@ public class RestTemplateController {
     String updatedContents = doc.body().html();
     return updatedContents;
   }
-  // @GetMapping(value = "/guideline")
-  // public ModelAndView guideline(ModelAndView modelAndView) {
-  // List<Map<String,Object>> result = restTemplateService.guideLine();
-  // String viewPath = "/WEB-INF/rarefield/views/trend/trend_guideline.jsp";
-  // modelAndView.setViewName(viewPath);
-  // modelAndView.addObject("result", result);
-  // return modelAndView;
-  // }
 
-  // @GetMapping(value = "/site")
-  // public String site() {
-  // restTemplateService.newsPostRequest();
-  // return "hellow";
-  // }
+  @GetMapping(value = "/guideline")
+    public ModelAndView guideline(ModelAndView modelAndView) {
+    List<Map<String,Object>> result = restTemplateService.guideLine();
+    String viewPath = "trend/trend_guideline";
+    modelAndView.setViewName(viewPath);
+    modelAndView.addObject("result", result);
+    return modelAndView;
+  }
+
+  @GetMapping("/trend_guideline_read/{id}")
+  public ModelAndView guidelineRead(@PathVariable String id,
+                                    ModelAndView modelAndView) throws Exception {
+
+      Map<String, Object> result = restTemplateService.readguideline(id);
+  
+      String viewPath = "trend/trend_guideline_read";
+      modelAndView.setViewName(viewPath);
+      modelAndView.addObject("result", result);
+      modelAndView.addObject("_id", id);
+      return modelAndView;
+  }
+  
 
 }

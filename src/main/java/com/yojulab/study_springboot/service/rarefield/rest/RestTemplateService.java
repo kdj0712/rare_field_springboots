@@ -78,80 +78,9 @@ public class RestTemplateService {
             list.add(map);
         }
         return list;
-		
-
     }
 
-    // public Map<String,Object> newsPostRequest(String key_name, String search_word,Integer currentPage) throws JsonProcessingException {
-    // 	// 요청을 보낼 URL
-    //     String baseUrl = "http://rare-field.shop/trend/trend_news_data?";
-
-    //     // page_number=" + currentPage;
-    //     String decodedBaseUrl = URLDecoder.decode(baseUrl, StandardCharsets.UTF_8);
-
-    //     // UriComponentsBuilder 초기화
-    //     UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(decodedBaseUrl);
-        
-    //     // 조건에 따라 URL에 파라미터 추가
-    //     if (key_name != null && !key_name.isEmpty()) {
-    //         builder.queryParam("key_name", key_name);
-    //     }
-    //     if (search_word != null && !search_word.isEmpty()) {
-    //         builder.queryParam("search_word", search_word);
-    //     }
-    //     if (currentPage != null) {
-    //         builder.queryParam("page_number", currentPage);
-    //     }
-
-	// 	// HTTP 헤더 설정
-    //     HttpHeaders headers = new HttpHeaders();
-    //     headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-    //     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-    //     headers.set("Accept-Encoding", "gzip, deflate, br");
-    //     headers.set("Connection", "keep-alive");
-    //     // HttpEntity 객체 생성 (여기서는 본문을 비워둘 수 있습니다)
-    //     HttpEntity<String> entity = new HttpEntity<>(headers);
-
-    //     // RestTemplate 초기화
-    //     RestTemplate restTemplate = new RestTemplate();
-
-    //     // 결과를 저장할 Map 생성
-    //     // Map<String, Object> result = new HashMap<>();
-    //     String encodedUrl = builder.toUriString();
-        
-    //     // 요청 및 응답
-    //     ResponseEntity<String> responseEntity = restTemplate.postForEntity(encodedUrl, entity, String.class);
-    //     String responseBody = responseEntity.getBody();
-
-    //     String jsonString = responseBody;
     
-    //     JSONObject jObject = new JSONObject(jsonString);
-    //     JSONArray jArray = jObject.getJSONArray("news");
-    
-    //     List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
-    //     for (int i = 0; i < jArray.length(); i++) {
-    //         JSONObject obj = jArray.getJSONObject(i);
-    //         Map<String, Object> map = new HashMap<>();
-        
-    //         for(String key : obj.keySet()) {
-    //             Object value = obj.get(key);
-    //             map.put(key, value);
-    //         }
-        
-    //         list.add(map);
-    //     }
-
-    //     JSONObject paginationObject = jObject.getJSONObject("pagination");
-    //     Paginations paginations = new Paginations(paginationObject.getInt("total_records"), 
-    //                                             paginationObject.getInt("current_page"));
-
-    //     Map<String,Object> result = new HashMap<>();
-    //     result.put("news",list);
-    //     result.put("pagination",paginations);
-
-    //     return result;
-    // }
-
     public Map<String,Object> newsPostRequest(String key_name, String search_word,Integer currentPage, String category) throws JsonProcessingException {
     	// 요청을 보낼 URL
         String baseUrl = "http://rare-field.shop/trend/trend_news_data?";
@@ -323,6 +252,48 @@ public class RestTemplateService {
 
     }
     
+    public Map<String,Object> readguideline(String id) {
+    	// 요청을 보낼 URL
+        String apiUrl = "http://rare-field.shop/trend/guideline_read/" + id;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Accept-Encoding", "gzip, deflate, br");
+        headers.set("Connection", "keep-alive");
+
+        // HttpEntity 객체 생성 (여기서는 본문을 비워둘 수 있습니다)
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        // RestTemplate 초기화
+        RestTemplate restTemplate = new RestTemplate();
+
+        // 결과를 저장할 Map 생성
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(apiUrl, entity, String.class);
+        String responseBody = responseEntity.getBody();
+
+        String jsonString = responseBody;
+       
+        // 가장 큰 JSONObject를 가져옵니다.
+        JSONObject jObject = new JSONObject(jsonString);
+        JSONObject guideObject = jObject.getJSONObject("guidelines");
+
+        Map<String,Object> result = new HashMap<>();
+        result.put("id",guideObject.optString("_id"));
+        result.put("importance",guideObject.optString("importance"));
+        result.put("post_cate",guideObject.optString("post_cate"));
+        result.put("post_title", guideObject.optString("post_title"));
+        result.put("order_number",guideObject.optString("order_number"));
+        result.put("post_file_name",guideObject.optString("post_file_name"));
+        result.put("post_contents",guideObject.optString("post_contents"));
+        result.put("date_legislation",guideObject.optString("date_legislation"));
+        result.put("date_start",guideObject.optString("date_start"));
+
+        return result;
+
+    }
+    
+
 
     public Map<String, Object> institutionSearch(Integer currentPage, String keyword, String pos) throws Exception {
         String baseUrl = "http://rare-field.shop/info/institution?";
@@ -432,6 +403,49 @@ public class RestTemplateService {
 
         return result;
     }
+
+    public List<Map<String, Object>> guideLine() {
+        // 요청을 보낼 URL
+        String apiUrl = "http://rare-field.shop/trend/trend_guideline_data";
+
+        // HTTP 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // 요청 데이터 생성
+        MultiValueMap<String, String> requestData = new LinkedMultiValueMap<>();
+        requestData.add("key", "value");
+
+        // HTTP POST 요청 보내기
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(requestData, headers);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(apiUrl, request, String.class);
+
+        // 응답 값
+        String responseBody = responseEntity.getBody();
+
+        // 가장 큰 JSONObject를 가져옵니다.
+        JSONObject jObject = new JSONObject(responseBody);
+        // 배열을 가져옵니다.
+        JSONArray jArray = jObject.getJSONArray("trend_guideline");
+
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        for (int i = 0; i < jArray.length(); i++) {
+            JSONObject obj = jArray.getJSONObject(i);
+            Map<String, Object> map = new HashMap<>();
+
+            for (String key : obj.keySet()) {
+                Object value = obj.opt(key); // opt를 사용하여 key가 없을 경우 null 반환
+                if (value != JSONObject.NULL) { // null이 아닌 값만 추가
+                    map.put(key, value);
+                }
+            }
+
+            list.add(map);
+        }
+        return list;
+    }
+
 
     public Map<String, Object> riss_search(Integer currentPage, String key_name, String search_word) throws JsonProcessingException {
         // 기본 URL 설정
