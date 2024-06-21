@@ -176,7 +176,7 @@ public class RestTemplateService {
             category = "의료/법안";
         } else if (userhope.equals("관련 뉴스") || userhope.equals("관련 학술정보")) {
             category = "신약/개발";
-        } else if (userhope.equals("프로그램 정보") || userhope.equals("커뮤니티 소통")) {
+        } else if (userhope.equals("프로그램 참여") || userhope.equals("커뮤니티 소통")) {
             category = "심포지엄/행사";
         }
 
