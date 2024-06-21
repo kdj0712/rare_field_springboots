@@ -56,7 +56,6 @@
         <h2>고시·지침</h2>
         <table class="table table-hover">
             <thead>
-
                     <th>분류</th>
                     <th>제목</th>
                     <th>발령번호</th>
@@ -67,15 +66,10 @@
             <tbody>
                 <tr onclick="location.href='/trend/trend_guideline_read/${result.id}'" style="cursor: pointer;">
                     <td>
-                        <c:choose>
-                            <c:when test="${result.importance == '중요'}">
-                                ${result.importance}
-                            </c:when>
-                            <c:otherwise>
-                                ${pagination.start_record_number}
-                            </c:otherwise>
-                        </c:choose>
                         ${result.post_cate}
+                        <c:if test="${result.importance == '중요'}">
+                            (${result.importance})
+                        </c:if>
                     </td>
                     <td class="text-start">${result.post_title}</td>
                     <td>
