@@ -209,7 +209,7 @@
                     <div class="custom-control custom-checkbox">
         
                         <input type="checkbox" class="custom-control-input required-agreement" name="user_info_aggree" id="user_info_aggree">
-                        <label class="custom-control-label" for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
+                        <label class="custom-control-label" for="user_info_aggree">개인정보 수집 및 이용에 동의합니다.</label>
                     </div>
         
         
