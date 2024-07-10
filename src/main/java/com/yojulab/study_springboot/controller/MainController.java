@@ -7,14 +7,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yojulab.study_springboot.service.rarefield.rest.RestTemplateService;
 import com.yojulab.study_springboot.service.rarefield.users.UserService;
 
-import jakarta.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Map;
 
 @Controller
