@@ -53,7 +53,7 @@ public class User implements UserDetails {
     @Column(name = "user_who")
     private String userWho;
 
-    @Column(name = "ralated_diseases")
+    @Column(name = "related_diseases")
     private String relatedDiseases;
 
     @Column(name = "hope_info")

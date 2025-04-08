@@ -150,10 +150,10 @@
                 </div>
                 <div class="mb-3">
                     <div>
-                        <label for="ralated_diseases">관련 질환명을 선택해주세요.</label>
+                        <label for="related_diseases">관련 질환명을 선택해주세요.</label>
                     </div>
                     <div>
-                        <select name="ralated_diseases" id="ralated_diseases">
+                        <select name="related_diseases" id="related_diseases">
                             <option value="none" hidden>선택</option>
                             <option value="">선택1</option>
                             <option value="">선택2</option>
